@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fossgen.healthcare.AidXpert.enums.AuthenticationType;
 
@@ -43,7 +44,7 @@ public class User implements Serializable {
 	@Column(name = "name", columnDefinition = "bytea", nullable = false)
 	private String username;
 	
-	@Column(name = "user_type")
+	@Column(name = "user_type", nullable = false)
 	private String userType;
 
 	@ColumnTransformer(forColumn = "password", read = "pgp_sym_decrypt(password::BYTEA, 'secret-key-12345')", write = "pgp_sym_encrypt (?, 'secret-key-12345')")
@@ -83,8 +84,8 @@ public class User implements Serializable {
 
 	private String address;
 	
-	@OneToMany(mappedBy="user")
-    private Set<Dependent> dependents;
+//	@OneToMany(mappedBy="user")
+//    private Set<Dependent> dependents;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "city")
@@ -150,6 +151,9 @@ public class User implements Serializable {
 
 	@Transient
 	private String newPassword;
+	
+	@Transient
+	private MultipartFile profileImage;
 
 	public User() {
 		super();
@@ -458,12 +462,20 @@ public class User implements Serializable {
 		this.userType = userType;
 	}
 
-	public Set<Dependent> getDependents() {
-		return dependents;
+//	public Set<Dependent> getDependents() {
+//		return dependents;
+//	}
+//
+//	public void setDependents(Set<Dependent> dependents) {
+//		this.dependents = dependents;
+//	}
+
+	public MultipartFile getProfileImage() {
+		return profileImage;
 	}
 
-	public void setDependents(Set<Dependent> dependents) {
-		this.dependents = dependents;
+	public void setProfileImage(MultipartFile profileImage) {
+		this.profileImage = profileImage;
 	}
 
 }

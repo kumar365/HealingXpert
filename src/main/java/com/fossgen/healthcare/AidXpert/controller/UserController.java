@@ -1,11 +1,16 @@
 package com.fossgen.healthcare.AidXpert.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fossgen.healthcare.AidXpert.Util.AppUtils;
 import com.fossgen.healthcare.AidXpert.Util.GeneralUtils;
@@ -47,6 +54,9 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin()
 @RequestMapping("/api")
 public class UserController {
+
+	@Value("${file_upload_dir}")
+	private String uploadFilesFolderPath;
 
 	@Autowired
 	private UserService userService;
@@ -101,6 +111,29 @@ public class UserController {
 	@GetMapping("/getUserById/{id}")
 	public User getUserById(@PathVariable("id") Long id) {
 		return userService.findUserById(id);
+	}
+
+	@PostMapping(value = "/uploadFile")
+	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+		String filePath = "";
+		String fileName = "";
+		try {
+			if (null != file) {
+				//MultipartFile  file = multipartFile;
+				byte[] bytes = file.getBytes();
+				fileName = file.getOriginalFilename();
+				System.out.println("fileName::" + fileName);
+				filePath = uploadFilesFolderPath + fileName;
+				System.out.println("filePath::" + filePath);
+				Path path = Paths.get(filePath);
+				Files.write(path, bytes);
+			} else {
+				return ResponseEntity.ok().body("File updated failed!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok().body("File updated successfully!");
 	}
 
 	@PostMapping("/updateProfile")

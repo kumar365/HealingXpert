@@ -43,7 +43,6 @@ public class PatientController {
 		try {
 			appointment.setIpAddress(AppUtils.getClientIP(request));
 			appointment = appointmentService.save(appointment);
-
 		} catch (DependentAlreadyExistException e) {
 			log.error("Exception Ocurred", e);
 			return new ResponseEntity<>(new ApiResponse(false, "Appointment already exist!"), HttpStatus.BAD_REQUEST);
@@ -52,14 +51,25 @@ public class PatientController {
 	}
 
 	@GetMapping(path = "/patientAppointments/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Appointment>> doctorAppointments(@RequestHeader Map<String, String> headers,
+	public ResponseEntity<List<Appointment>> patientAppointments(@RequestHeader Map<String, String> headers,
 			@PathVariable("id") Long id) {
-		log.info("In side doctorAppointments()");
+		log.info("In side patientAppointments()");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String patientName = authentication.getName();
 		List<Appointment> listAppointments = appointmentService.findByPatientName(patientName);
 		return ResponseEntity.status(HttpStatus.OK).body(listAppointments);
 	}
+	
+	@GetMapping(path = "/doctorAppointments/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Appointment>> doctorAppointments(@RequestHeader Map<String, String> headers,
+			@PathVariable("id") Long id) {
+		log.info("In side doctorAppointments()");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String doctorName = authentication.getName();
+		List<Appointment> doctorAppointments = appointmentService.findByDoctorName(doctorName);
+		return ResponseEntity.status(HttpStatus.OK).body(doctorAppointments);
+	}
+
 
 	@PostMapping(value = "/cancelAppointment")
 	public ResponseEntity<?> cancelAppointment(@RequestBody Appointment appointment, HttpServletRequest request) {

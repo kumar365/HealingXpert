@@ -279,9 +279,18 @@ public class UserServiceImpl implements UserService {
 		List<Object[]> users = userRepository.getUsers();
 		for (Object[] value : users) {
 			User user = new User();
-			user.setDisplayName(value[0].toString());
-			user.setEmail(value[1].toString());
-			user.setUserType(value[2].toString());
+			if (null != value[0]) {
+				user.setDisplayName(value[0].toString());
+			}
+			if (null != value[1]) {
+				user.setEmail(value[1].toString());
+			}
+			if (null != value[2]) {
+				user.setUserType(value[2].toString());
+			}
+			if (null != value[3]) {
+				user.setId(Long.valueOf(value[3].toString()));
+			}
 			userList.add(user);
 		}
 		return userList;

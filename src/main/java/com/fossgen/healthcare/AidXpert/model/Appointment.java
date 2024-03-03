@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -15,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @Table(name = "appointment")
 @DynamicUpdate
-public class Appointment implements Serializable  {
+public class Appointment implements Serializable {
 
 	/**
 	 * 
@@ -26,11 +28,17 @@ public class Appointment implements Serializable  {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer appointmentId;
 
+	@Column(name = "appointment_for")
+	private String appointmentFor;
+
 	@Column(name = "patient_name")
 	private String patientName;
 
 	@Column(name = "doctor_name")
 	private String doctorName;
+
+	@Column(name = "consultation_type", nullable = false)
+	private String consultationType;
 
 	@Column(name = "appointment_date")
 	private String date;
@@ -40,7 +48,23 @@ public class Appointment implements Serializable  {
 
 	@Column(name = "confirmed")
 	private String confirmed;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
+
+	@Column(name = "payment_method", nullable = false)
+	private String paymentMethod;
+
+	@Column(name = "terms_conditions", nullable = false, length = 1)
+	private String termsAndConditions;
 	
+	private String insurance;
+	
+	private String reason;
+	
+	private String symtoms;
+
 	private String version;
 
 	@Column(name = "ip_address")
@@ -133,6 +157,70 @@ public class Appointment implements Serializable  {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getConsultationType() {
+		return consultationType;
+	}
+
+	public void setConsultationType(String consultationType) {
+		this.consultationType = consultationType;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getTermsAndConditions() {
+		return termsAndConditions;
+	}
+
+	public void setTermsAndConditions(String termsAndConditions) {
+		this.termsAndConditions = termsAndConditions;
+	}
+
+	public String getAppointmentFor() {
+		return appointmentFor;
+	}
+
+	public void setAppointmentFor(String appointmentFor) {
+		this.appointmentFor = appointmentFor;
+	}
+
+	public String getInsurance() {
+		return insurance;
+	}
+
+	public void setInsurance(String insurance) {
+		this.insurance = insurance;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getSymtoms() {
+		return symtoms;
+	}
+
+	public void setSymtoms(String symtoms) {
+		this.symtoms = symtoms;
 	}
 
 }

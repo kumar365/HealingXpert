@@ -24,6 +24,8 @@ import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorH
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 import com.fossgen.healthcare.AidXpert.security.jwt.TokenAuthenticationFilter;
 import com.fossgen.healthcare.AidXpert.security.oauth2.CustomOAuth2UserService;
@@ -60,37 +62,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.cors()
-				.and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-			.csrf().disable()
-			.formLogin().disable()
-			.httpBasic().disable()
-			.exceptionHandling()
-				.authenticationEntryPoint(new RestAuthenticationEntryPoint())
-				.and()
-			.authorizeRequests()
-				.antMatchers("/", "/error", "/api/all", "/api/auth/**", "login/oauth2/**","/oauth2/**","/common/**").permitAll()
-			.anyRequest()
-				.authenticated()
-				.and()
-			.oauth2Login()
-				.authorizationEndpoint()
-					.authorizationRequestRepository(cookieAuthorizationRequestRepository())
-					.and()
-				.redirectionEndpoint()
-					.and()
-				.userInfoEndpoint()
-					.oidcUserService(customOidcUserService)
-					.userService(customOAuth2UserService)
-					.and()
-				.tokenEndpoint()
-					.accessTokenResponseClient(authorizationCodeTokenResponseClient())
-					.and()
-				.successHandler(oAuth2AuthenticationSuccessHandler)
-				.failureHandler(oAuth2AuthenticationFailureHandler);
+		http.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf()
+				.disable().formLogin().disable().httpBasic().disable().exceptionHandling()
+				.authenticationEntryPoint(new RestAuthenticationEntryPoint()).and().authorizeRequests()
+				.antMatchers("/", "/error", "/api/all", "/api/auth/**", "login/oauth2/**", "/oauth2/**", "/common/**","/patient/**")
+				.permitAll().anyRequest().authenticated().and().oauth2Login().authorizationEndpoint()
+				.authorizationRequestRepository(cookieAuthorizationRequestRepository()).and().redirectionEndpoint()
+				.and().userInfoEndpoint().oidcUserService(customOidcUserService).userService(customOAuth2UserService)
+				.and().tokenEndpoint().accessTokenResponseClient(authorizationCodeTokenResponseClient()).and()
+				.successHandler(oAuth2AuthenticationSuccessHandler).failureHandler(oAuth2AuthenticationFailureHandler);
 
 		// Add our custom Token based authentication filter
 		http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -131,11 +111,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> authorizationCodeTokenResponseClient() {
 		OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
-		tokenResponseHttpMessageConverter.setTokenResponseConverter(new OAuth2AccessTokenResponseConverterWithDefaults());
-		RestTemplate restTemplate = new RestTemplate(Arrays.asList(new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
+		tokenResponseHttpMessageConverter
+				.setTokenResponseConverter(new OAuth2AccessTokenResponseConverterWithDefaults());
+		RestTemplate restTemplate = new RestTemplate(
+				Arrays.asList(new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
 		restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
 		DefaultAuthorizationCodeTokenResponseClient tokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
 		tokenResponseClient.setRestOperations(restTemplate);
 		return tokenResponseClient;
+	}
+
+//	@Bean(name = "filterMultipartResolver")
+//	public CommonsMultipartResolver getMultipartResolver() throws IOException {
+//		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+//		resolver.setDefaultEncoding("utf-8");
+//		resolver.setMaxUploadSizePerFile(524288000);// 500MB
+//		return resolver;
+//	}
+	@Bean
+	public MultipartResolver multipartResolver() {
+	    return new StandardServletMultipartResolver();
 	}
 }
