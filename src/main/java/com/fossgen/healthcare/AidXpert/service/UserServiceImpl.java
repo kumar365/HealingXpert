@@ -1,9 +1,13 @@
 package com.fossgen.healthcare.AidXpert.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -27,11 +31,13 @@ import com.fossgen.healthcare.AidXpert.exception.MedicalDetailsAlreadyExistExcep
 import com.fossgen.healthcare.AidXpert.exception.MedicalRecordsAlreadyExistException;
 import com.fossgen.healthcare.AidXpert.exception.OAuth2AuthenticationProcessingException;
 import com.fossgen.healthcare.AidXpert.exception.UserAlreadyExistAuthenticationException;
+import com.fossgen.healthcare.AidXpert.model.Ambulance;
 import com.fossgen.healthcare.AidXpert.model.Dependent;
 import com.fossgen.healthcare.AidXpert.model.MedicalDetails;
 import com.fossgen.healthcare.AidXpert.model.MedicalRecords;
 import com.fossgen.healthcare.AidXpert.model.Role;
 import com.fossgen.healthcare.AidXpert.model.User;
+import com.fossgen.healthcare.AidXpert.repository.AmbulanceRepository;
 import com.fossgen.healthcare.AidXpert.repository.DependentRepository;
 import com.fossgen.healthcare.AidXpert.repository.MedicalDetailsRepository;
 import com.fossgen.healthcare.AidXpert.repository.MedicalRecordsRepository;
@@ -65,6 +71,11 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private AmbulanceRepository ambulanceRepository;
+
+	private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 
 	@Override
 	@Transactional(value = "transactionManager")
@@ -294,5 +305,80 @@ public class UserServiceImpl implements UserService {
 			userList.add(user);
 		}
 		return userList;
+	}
+
+	@Override
+	public void registerAmbulance(Ambulance ambulance) {
+		ambulance.setVersion(AppUtils.VERSION);
+		ambulance.setCreatedBy(AppUtils.getName());
+		ambulance.setCreatedDate(AppUtils.getTimestamp());
+		ambulanceRepository.save(ambulance);
+	}
+
+	@Override
+	public boolean checkAmbulance(Ambulance ambulance) {
+		List<Ambulance> ambulanceList = ambulanceRepository
+				.getAmbulanceByMobileNumberPassword(ambulance.getMobileNumber(), ambulance.getPassword());
+		if (ambulanceList.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public String forgotPassword(String email) {
+		Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(email));
+
+		if (!userOptional.isPresent()) {
+			return "Invalid email id.";
+		}
+
+		User user = userOptional.get();
+		user.setToken(generateToken());
+		user.setTokenCreationDate(LocalDateTime.now());
+		user = userRepository.save(user);
+
+		return user.getToken();
+	}
+
+	@Override
+	public String resetPassword(String token, String password) {
+		Optional<User> userOptional = Optional.ofNullable(userRepository.findByToken(token));
+
+		if (!userOptional.isPresent()) {
+			return "Invalid token.";
+		}
+		LocalDateTime tokenCreationDate = userOptional.get().getTokenCreationDate();
+
+		if (isTokenExpired(tokenCreationDate)) {
+			return "Token expired.";
+
+		}
+		User user = userOptional.get();
+		user.setPassword(password);
+		user.setToken(null);
+		user.setTokenCreationDate(null);
+		userRepository.save(user);
+
+		return "Your password successfully updated.";
+	}
+
+	private String generateToken() {
+		StringBuilder token = new StringBuilder();
+		return token.append(UUID.randomUUID().toString()).append(UUID.randomUUID().toString()).toString();
+	}
+
+	private boolean isTokenExpired(final LocalDateTime tokenCreationDate) {
+
+		LocalDateTime now = LocalDateTime.now();
+		Duration diff = Duration.between(tokenCreationDate, now);
+
+		return diff.toMinutes() >= EXPIRE_TOKEN_AFTER_MINUTES;
+	}
+
+	@Override
+	public User getUserDataByToken(String token) {
+		return userRepository.findByToken(token);
 	}
 }

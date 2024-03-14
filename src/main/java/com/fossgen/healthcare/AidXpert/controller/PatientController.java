@@ -24,7 +24,9 @@ import com.fossgen.healthcare.AidXpert.Util.AppUtils;
 import com.fossgen.healthcare.AidXpert.dto.ApiResponse;
 import com.fossgen.healthcare.AidXpert.exception.DependentAlreadyExistException;
 import com.fossgen.healthcare.AidXpert.model.Appointment;
+import com.fossgen.healthcare.AidXpert.model.Product;
 import com.fossgen.healthcare.AidXpert.service.AppointmentService;
+import com.fossgen.healthcare.AidXpert.service.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +38,9 @@ public class PatientController {
 
 	@Autowired
 	private AppointmentService appointmentService;
+
+	@Autowired
+	private ProductService productService;
 
 	@PostMapping(value = "/addAppointment")
 	public ResponseEntity<?> addAppointment(@RequestBody Appointment appointment, HttpServletRequest request) {
@@ -59,7 +64,7 @@ public class PatientController {
 		List<Appointment> listAppointments = appointmentService.findByPatientName(patientName);
 		return ResponseEntity.status(HttpStatus.OK).body(listAppointments);
 	}
-	
+
 	@GetMapping(path = "/doctorAppointments/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Appointment>> doctorAppointments(@RequestHeader Map<String, String> headers,
 			@PathVariable("id") Long id) {
@@ -69,7 +74,6 @@ public class PatientController {
 		List<Appointment> doctorAppointments = appointmentService.findByDoctorName(doctorName);
 		return ResponseEntity.status(HttpStatus.OK).body(doctorAppointments);
 	}
-
 
 	@PostMapping(value = "/cancelAppointment")
 	public ResponseEntity<?> cancelAppointment(@RequestBody Appointment appointment, HttpServletRequest request) {
@@ -83,6 +87,27 @@ public class PatientController {
 			return new ResponseEntity<>(new ApiResponse(false, "Appointment does not exist!"), HttpStatus.BAD_REQUEST);
 		}
 		return ResponseEntity.ok().body(new ApiResponse(true, "Appointment canceled  successfully!"));
+	}
+
+	@PostMapping(value = "/addProduct")
+	public ResponseEntity<?> addProduct(@RequestBody Product product, HttpServletRequest request) {
+		log.info("In side addProduct()");
+		try {
+			product.setIpAddress(AppUtils.getClientIP(request));
+			product = productService.saveProduct(product);
+		} catch (DependentAlreadyExistException e) {
+			log.error("Exception Ocurred", e);
+			return new ResponseEntity<>(new ApiResponse(false, "Product already exist!"), HttpStatus.BAD_REQUEST);
+		}
+		return ResponseEntity.ok().body(new ApiResponse(true, "Product details added successfully!"));
+	}
+
+	@GetMapping(path = "/products/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Product>> getProductList(@RequestHeader Map<String, String> headers,
+			@PathVariable("id") Long id) {
+		log.info("In side getProductList()");
+		List<Product> productList = productService.getProductList(id);
+		return ResponseEntity.status(HttpStatus.OK).body(productList);
 	}
 
 }

@@ -32,7 +32,7 @@ public class OtpController {
 	public OtpServiceGAVA otpService;
 
 	@Autowired
-	public EmailServiceGAVA myEmailService;
+	public EmailServiceGAVA emailService;
 
 	@GetMapping("/generateOtp")
 	public String generateOtp() {
@@ -53,7 +53,7 @@ public class OtpController {
 
 		String message = template.getTemplate(replacements);
 
-		myEmailService.sendOtpMessage("krvspkumar@gmail.com", "OTP -Test", message);
+		emailService.sendOtpMessage("krvspkumar@gmail.com", "OTP -Test", message);
 
 		return "otppage";
 	}

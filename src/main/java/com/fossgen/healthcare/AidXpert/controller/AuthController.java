@@ -1,18 +1,28 @@
 package com.fossgen.healthcare.AidXpert.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fossgen.healthcare.AidXpert.Util.GeneralUtils;
@@ -23,7 +33,10 @@ import com.fossgen.healthcare.AidXpert.dto.LoginRequest;
 import com.fossgen.healthcare.AidXpert.dto.OtpRequest;
 import com.fossgen.healthcare.AidXpert.dto.SignUpRequest;
 import com.fossgen.healthcare.AidXpert.exception.UserAlreadyExistAuthenticationException;
+import com.fossgen.healthcare.AidXpert.model.Ambulance;
+import com.fossgen.healthcare.AidXpert.model.User;
 import com.fossgen.healthcare.AidXpert.security.jwt.TokenProvider;
+import com.fossgen.healthcare.AidXpert.service.EmailServiceGAVA;
 import com.fossgen.healthcare.AidXpert.service.OTPService;
 import com.fossgen.healthcare.AidXpert.service.UserService;
 
@@ -40,24 +53,15 @@ public class AuthController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	OTPService oTPService;
 
 	@Autowired
 	TokenProvider tokenProvider;
 
-	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		log.info("In side authenticateUser()");
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = tokenProvider.createToken(authentication);
-		LocalUser localUser = (LocalUser) authentication.getPrincipal();
-		localUser.getUser().setToken(jwt);
-		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, GeneralUtils.buildUserInfo(localUser)));
-	}
+	@Autowired
+	public EmailServiceGAVA emailService;
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
@@ -106,7 +110,42 @@ public class AuthController {
 		}
 		return ResponseEntity.ok().body(new ApiResponse(true, "Doctor registered successfully"));
 	}
-	
+
+	@PostMapping("/signupAmbulance")
+	public ResponseEntity<?> registerAmbulance(@RequestBody Ambulance ambulance) {
+		try {
+			userService.registerAmbulance(ambulance);
+		} catch (Exception e) {
+			log.error("Exception Ocurred", e);
+			return new ResponseEntity<>(new ApiResponse(false, "Ambulance details already in use!"),
+					HttpStatus.BAD_REQUEST);
+		}
+		return ResponseEntity.ok().body(new ApiResponse(true, "Ambulance registered successfully"));
+	}
+
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		log.info("In side authenticateUser()");
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = tokenProvider.createToken(authentication);
+		LocalUser localUser = (LocalUser) authentication.getPrincipal();
+		localUser.getUser().setToken(jwt);
+		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, GeneralUtils.buildUserInfo(localUser)));
+	}
+
+	@PostMapping("/signinAmbulance")
+	public ResponseEntity<?> signinAmbulance(@RequestBody Ambulance ambulance) {
+		log.info("In side signinAmbulance()");
+		boolean flag = userService.checkAmbulance(ambulance);
+		if (flag) {
+			return ResponseEntity.ok(new ApiResponse(true, "Ambulance login successfull"));
+		} else {
+			return ResponseEntity.ok(new ApiResponse(false, "Ambulance login failed"));
+		}
+	}
+
 	@PostMapping("/sendPhoneNumberVerificationCode")
 	public ResponseEntity<?> sendPhoneNumberVerificationCode(@RequestBody OtpRequest otpRequest) {
 		try {
@@ -118,7 +157,7 @@ public class AuthController {
 		}
 		return ResponseEntity.ok().body(new ApiResponse(true, "Phone Number Verification Code sent successfully!"));
 	}
-	
+
 	@PostMapping("/sendEmailVerificationCode")
 	public ResponseEntity<?> sendEmailVerificationCode(@RequestBody OtpRequest otpRequest) {
 		try {
@@ -129,5 +168,32 @@ public class AuthController {
 					HttpStatus.BAD_REQUEST);
 		}
 		return ResponseEntity.ok().body(new ApiResponse(true, "Email Verification Code sent successfully!"));
+	}
+
+	@PostMapping("/forgotPassword")
+	public ResponseEntity<?> forgotPassword(@RequestBody OtpRequest otpRequest) {
+
+		String token = userService.forgotPassword(otpRequest.getEmail());
+		String response = "";
+		if (!response.startsWith("Invalid")) {
+			response = "http://localhost:4200/resetPassword?token=" + token;
+			// emailService.sendOtpMessage(otpRequest.getEmail(), "Password Reset Link",
+			// response);
+		}
+		return ResponseEntity.ok().body(new ApiResponse(true, response));
+	}
+
+	@PostMapping("/resetPassword")
+	public ResponseEntity<?> resetPassword(@RequestBody User user) {
+		String response = userService.resetPassword(user.getToken(), user.getPassword());
+		return ResponseEntity.ok().body(new ApiResponse(true, response));
+	}
+
+	@GetMapping(path = "/getUserDataByToken/{token}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> getUserDataByToken(@RequestHeader Map<String, String> headers,
+			@PathVariable("token") String token) {
+		log.info("In side getUserDataByToken()");
+		User user = userService.getUserDataByToken(token);
+		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 }

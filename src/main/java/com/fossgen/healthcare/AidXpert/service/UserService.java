@@ -14,6 +14,7 @@ import com.fossgen.healthcare.AidXpert.exception.DependentAlreadyExistException;
 import com.fossgen.healthcare.AidXpert.exception.MedicalDetailsAlreadyExistException;
 import com.fossgen.healthcare.AidXpert.exception.MedicalRecordsAlreadyExistException;
 import com.fossgen.healthcare.AidXpert.exception.UserAlreadyExistAuthenticationException;
+import com.fossgen.healthcare.AidXpert.model.Ambulance;
 import com.fossgen.healthcare.AidXpert.model.Dependent;
 import com.fossgen.healthcare.AidXpert.model.MedicalDetails;
 import com.fossgen.healthcare.AidXpert.model.MedicalRecords;
@@ -59,5 +60,15 @@ public interface UserService {
 	public User registerNewStaff(@Valid SignUpRequest signUpRequest) throws UserAlreadyExistAuthenticationException;
 
 	public List<User> getUsers();
+
+	public void registerAmbulance(Ambulance ambulance);
+
+	public boolean checkAmbulance(Ambulance ambulance);
+
+	public String forgotPassword(String email);
+
+	public String resetPassword(String token, String password);
+
+	public User getUserDataByToken(String token);
 
 }

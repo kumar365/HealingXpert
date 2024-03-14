@@ -25,12 +25,16 @@ public class Product implements Serializable {
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	private int sku;
+
 	private String discription;
 
 	private String vendor;
 
 	@Column(name = "price", nullable = false)
-	private float price;
+	private double price;
+
+	private int quantity;
 
 	@Column(name = "product_type")
 	private String productType;
@@ -82,11 +86,11 @@ public class Product implements Serializable {
 		this.vendor = vendor;
 	}
 
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
@@ -128,5 +132,21 @@ public class Product implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public int getSku() {
+		return sku;
+	}
+
+	public void setSku(int sku) {
+		this.sku = sku;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

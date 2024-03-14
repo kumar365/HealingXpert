@@ -39,5 +39,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("SELECT U.username,U.email,U.userType,U.id FROM User U")
 	List<Object[]> getUsers();
+	
+	User findByToken(String token);
 
 }

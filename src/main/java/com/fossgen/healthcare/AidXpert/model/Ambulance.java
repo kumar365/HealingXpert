@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "ambulance")
@@ -25,32 +26,40 @@ public class Ambulance implements Serializable {
 
 	private String type;
 
-	@Column(name = "model_number", nullable = false)
+	@Column(name = "full_name")
+	private String fullName;
+
+	@Column(name = "mobile_number")
+	private String mobileNumber;
+
+	private String password;
+
+	@Column(name = "model_number")
 	private String modelNumber;
 
-	@Column(name = "registration_number", nullable = false)
+	@Column(name = "registration_number")
 	private String registrationNumber;
 
 	private String addons;
-	
+
 	private String location;
-	
-	@Column(name = "ambulance_rate", nullable = false)
+
+	@Column(name = "ambulance_rate")
 	private float ambulanceRate;
-	
+
 	private float rating;
 
 	@Column(name = "driver_email")
 	private String driverEmail;
 
-	@Column(name = "driver_name", nullable = false)
+	@Column(name = "driver_name")
 	private String driverName;
 
-	@Column(name = "driver_number", nullable = false)
+	@Column(name = "driver_number")
 	private String driverNumber;
 
 	private boolean availability;
-	
+
 	private String version;
 
 	@Column(name = "ip_address")
@@ -61,6 +70,9 @@ public class Ambulance implements Serializable {
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
+
+	@Transient
+	private String confirmPassword;
 
 	public Long getId() {
 		return id;
@@ -188,5 +200,37 @@ public class Ambulance implements Serializable {
 
 	public void setRating(float rating) {
 		this.rating = rating;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 }

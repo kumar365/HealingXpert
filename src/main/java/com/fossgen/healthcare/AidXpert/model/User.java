@@ -3,6 +3,7 @@ package com.fossgen.healthcare.AidXpert.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -43,7 +43,7 @@ public class User implements Serializable {
 	@ColumnTransformer(forColumn = "name", read = "pgp_sym_decrypt(name::BYTEA, 'secret-key-12345')", write = "pgp_sym_encrypt (?, 'secret-key-12345')")
 	@Column(name = "name", columnDefinition = "bytea", nullable = false)
 	private String username;
-	
+
 	@Column(name = "user_type", nullable = false)
 	private String userType;
 
@@ -68,13 +68,13 @@ public class User implements Serializable {
 	private String lastName;
 
 	private String gender;
-	
+
 	@Transient
 	private String dateOfBirthString;
-	
+
 	@Column(name = "date_of_birth")
 	private Date dateOfBirth;
-	
+
 	private String age;
 
 	private String biography;
@@ -83,7 +83,7 @@ public class User implements Serializable {
 	private String bloodGroup;
 
 	private String address;
-	
+
 //	@OneToMany(mappedBy="user")
 //    private Set<Dependent> dependents;
 
@@ -143,15 +143,17 @@ public class User implements Serializable {
 
 	private String provider;
 
-	@Transient
 	private String token;
 
+	@Column(columnDefinition = "TIMESTAMP")
+	private LocalDateTime tokenCreationDate;
+	
 	@Transient
 	private String oldPassword;
 
 	@Transient
 	private String newPassword;
-	
+
 	@Transient
 	private MultipartFile profileImage;
 
@@ -476,6 +478,14 @@ public class User implements Serializable {
 
 	public void setProfileImage(MultipartFile profileImage) {
 		this.profileImage = profileImage;
+	}
+
+	public LocalDateTime getTokenCreationDate() {
+		return tokenCreationDate;
+	}
+
+	public void setTokenCreationDate(LocalDateTime tokenCreationDate) {
+		this.tokenCreationDate = tokenCreationDate;
 	}
 
 }
