@@ -122,6 +122,16 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmail(final String email) {
 		return userRepository.findByEmail(email);
 	}
+	
+	@Override
+	public User findUserByPhoneNumber(final String phoneNumber) {
+		return userRepository.findByPhoneNumber(phoneNumber);
+	}
+
+	@Override
+	public User findUserByPhoneNumberAndPassword(final String phoneNumber, final String password) {
+		return userRepository.findByPhoneNumber(phoneNumber,password);
+	}
 
 	@Override
 	@Transactional
@@ -135,7 +145,7 @@ public class UserServiceImpl implements UserService {
 		}
 		SignUpRequest userDetails = toUserRegistrationObject(registrationId, oAuth2UserInfo);
 		User user = findUserByEmail(oAuth2UserInfo.getEmail());
-		if (user != null) {
+		if (null != user) {
 			if (!user.getProvider().equals(registrationId)
 					&& !user.getProvider().equals(SocialProvider.LOCAL.getProviderType())) {
 				throw new OAuth2AuthenticationProcessingException(
@@ -150,7 +160,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-		// existingUser.setDisplayName(oAuth2UserInfo.getName());
+		existingUser.setDisplayName(oAuth2UserInfo.getName());
 		return userRepository.save(existingUser);
 	}
 

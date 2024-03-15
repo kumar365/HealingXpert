@@ -1,14 +1,14 @@
 package com.fossgen.healthcare.AidXpert.dto;
 
-import javax.validation.constraints.NotBlank;
-
 import lombok.Data;
 
 @Data
 public class LoginRequest {
-	@NotBlank
+	
 	private String email;
+	
+	private String phoneNumber;
 
-	@NotBlank
+	//@NotBlank
 	private String password;
 }

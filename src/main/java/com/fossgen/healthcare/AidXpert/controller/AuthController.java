@@ -1,7 +1,5 @@
 package com.fossgen.healthcare.AidXpert.controller;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -18,11 +16,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fossgen.healthcare.AidXpert.Util.GeneralUtils;
@@ -128,6 +124,19 @@ public class AuthController {
 		log.info("In side authenticateUser()");
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = tokenProvider.createToken(authentication);
+		LocalUser localUser = (LocalUser) authentication.getPrincipal();
+		localUser.getUser().setToken(jwt);
+		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, GeneralUtils.buildUserInfo(localUser)));
+	}
+	
+	@PostMapping("/signinMobile")
+	public ResponseEntity<?> authenticateUserMobile(@Valid @RequestBody LoginRequest loginRequest) {
+		log.info("In side authenticateUserMobile()");
+		User user = userService.findUserByPhoneNumber(loginRequest.getPhoneNumber());
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(user.getEmail(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = tokenProvider.createToken(authentication);
 		LocalUser localUser = (LocalUser) authentication.getPrincipal();
