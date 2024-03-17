@@ -36,10 +36,15 @@ public class GeneralUtils {
 	}
 
 	public static UserInfo buildUserInfo(LocalUser localUser) {
-		List<String> roles = localUser.getAuthorities().stream().map(item -> item.getAuthority())
-				.collect(Collectors.toList());
-		User user = localUser.getUser();
-		return new UserInfo(user.getId(), user.getUsername().toString(), user.getEmail(), user.getPassword(), roles,
-				null, null);
+		List<String> roles = new ArrayList<String>();
+		User user = null;
+		UserInfo userInfo = null;
+		if (null != localUser) {
+			roles = localUser.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
+			user = localUser.getUser();
+			userInfo = new UserInfo(user.getId(), user.getUsername().toString(), user.getEmail(), user.getPassword(),
+					roles, null, null);
+		}
+		return userInfo;
 	}
 }

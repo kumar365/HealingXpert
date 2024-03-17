@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmail(final String email) {
 		return userRepository.findByEmail(email);
 	}
-	
+
 	@Override
 	public User findUserByPhoneNumber(final String phoneNumber) {
 		return userRepository.findByPhoneNumber(phoneNumber);
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findUserByPhoneNumberAndPassword(final String phoneNumber, final String password) {
-		return userRepository.findByPhoneNumber(phoneNumber,password);
+		return userRepository.findByPhoneNumber(phoneNumber, password);
 	}
 
 	@Override
@@ -390,5 +390,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserDataByToken(String token) {
 		return userRepository.findByToken(token);
+	}
+
+	@Override
+	public List<User> getPatientList() {
+		return userRepository.getUserByUserType(CommonConstants.PATIENT);
+	}
+
+	@Override
+	public User getPatientById(Long id) {
+		return userRepository.findUserByIdAandUserType(id, CommonConstants.PATIENT);
 	}
 }

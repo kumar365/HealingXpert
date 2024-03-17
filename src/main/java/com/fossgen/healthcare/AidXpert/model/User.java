@@ -85,7 +85,7 @@ public class User implements Serializable {
 	private String address;
 
 //	@OneToMany(mappedBy="user")
-//    private Set<Dependent> dependents;
+//  private Set<Dependent> dependents;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "city")
@@ -147,7 +147,7 @@ public class User implements Serializable {
 
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime tokenCreationDate;
-	
+
 	@Transient
 	private String oldPassword;
 

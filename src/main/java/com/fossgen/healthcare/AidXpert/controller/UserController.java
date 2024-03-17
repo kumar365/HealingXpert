@@ -258,4 +258,17 @@ public class UserController {
 		List<User> userList = userService.getUsers();
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
+	
+	@GetMapping(path = "/patientList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<User>> getPatientList() {
+		log.info("Inside getPatientList start");
+		List<User> userList = userService.getPatientList();
+		return ResponseEntity.status(HttpStatus.OK).body(userList);
+	}
+	
+
+	@GetMapping("/getPatientById/{id}")
+	public User getPatientById(@PathVariable("id") Long id) {
+		return userService.getPatientById(id);
+	}
 }

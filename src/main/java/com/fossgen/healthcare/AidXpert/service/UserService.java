@@ -75,4 +75,8 @@ public interface UserService {
 
 	public User getUserDataByToken(String token);
 
+	public List<User> getPatientList();
+
+	public User getPatientById(Long id);
+
 }

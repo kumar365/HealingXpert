@@ -39,13 +39,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("SELECT U.username,U.email,U.userType,U.id FROM User U")
 	List<Object[]> getUsers();
-	
+
 	User findByToken(String token);
-	
+
 	@Query("SELECT U FROM User U WHERE U.phoneNumber = ?1")
-	User findByPhoneNumber(String phoneNumber );
-	
+	User findByPhoneNumber(String phoneNumber);
+
 	@Query("SELECT U FROM User U WHERE U.phoneNumber = ?1 AND U.password=?2")
-	User findByPhoneNumber(String phoneNumber,String password );
+	User findByPhoneNumber(String phoneNumber, String password);
+
+	@Query("SELECT U FROM User U WHERE U.userType = ?1")
+	List<User> getUserByUserType(String userType);
+
+	@Query("SELECT U FROM User U WHERE U.id = ?1 AND U.userType = ?2")
+	User findUserByIdAandUserType(Long id, String userType);
 
 }

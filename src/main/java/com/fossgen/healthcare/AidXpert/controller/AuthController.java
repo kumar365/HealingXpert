@@ -130,17 +130,26 @@ public class AuthController {
 		localUser.getUser().setToken(jwt);
 		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, GeneralUtils.buildUserInfo(localUser)));
 	}
-	
+
 	@PostMapping("/signinMobile")
-	public ResponseEntity<?> authenticateUserMobile(@Valid @RequestBody LoginRequest loginRequest) {
-		log.info("In side authenticateUserMobile()");
+	public ResponseEntity<?> authenticateUserByMobile(@Valid @RequestBody LoginRequest loginRequest) {
+		log.info("In side authenticateUserByMobile()");
 		User user = userService.findUserByPhoneNumber(loginRequest.getPhoneNumber());
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(user.getEmail(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = tokenProvider.createToken(authentication);
-		LocalUser localUser = (LocalUser) authentication.getPrincipal();
-		localUser.getUser().setToken(jwt);
+		Authentication authentication = null;
+		if (null != user) {
+			authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), loginRequest.getPassword()));
+		}
+		LocalUser localUser = null;
+		String jwt = "";
+		if (null != authentication) {
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			jwt = tokenProvider.createToken(authentication);
+			localUser = (LocalUser) authentication.getPrincipal();
+		}
+		if (null != localUser && null != localUser.getUser()) {
+			localUser.getUser().setToken(jwt);
+		}
 		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, GeneralUtils.buildUserInfo(localUser)));
 	}
 
