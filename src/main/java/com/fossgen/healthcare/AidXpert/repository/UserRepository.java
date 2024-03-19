@@ -49,7 +49,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	User findByPhoneNumber(String phoneNumber, String password);
 
 	@Query("SELECT U FROM User U WHERE U.userType = ?1")
-	List<User> getUserByUserType(String userType);
+	List<User> getUsersByUserType(String userType);
 
 	@Query("SELECT U FROM User U WHERE U.id = ?1 AND U.userType = ?2")
 	User findUserByIdAandUserType(Long id, String userType);

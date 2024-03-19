@@ -35,12 +35,14 @@ import com.fossgen.healthcare.AidXpert.model.Ambulance;
 import com.fossgen.healthcare.AidXpert.model.Dependent;
 import com.fossgen.healthcare.AidXpert.model.MedicalDetails;
 import com.fossgen.healthcare.AidXpert.model.MedicalRecords;
+import com.fossgen.healthcare.AidXpert.model.Orders;
 import com.fossgen.healthcare.AidXpert.model.Role;
 import com.fossgen.healthcare.AidXpert.model.User;
 import com.fossgen.healthcare.AidXpert.repository.AmbulanceRepository;
 import com.fossgen.healthcare.AidXpert.repository.DependentRepository;
 import com.fossgen.healthcare.AidXpert.repository.MedicalDetailsRepository;
 import com.fossgen.healthcare.AidXpert.repository.MedicalRecordsRepository;
+import com.fossgen.healthcare.AidXpert.repository.OrdersRepository;
 import com.fossgen.healthcare.AidXpert.repository.RoleRepository;
 import com.fossgen.healthcare.AidXpert.repository.UserRepository;
 import com.fossgen.healthcare.AidXpert.security.oauth2.user.OAuth2UserInfo;
@@ -68,6 +70,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private MedicalRecordsRepository medicalRecordsRepository;
+
+	@Autowired
+	private OrdersRepository ordersRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -394,11 +399,26 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getPatientList() {
-		return userRepository.getUserByUserType(CommonConstants.PATIENT);
+		return userRepository.getUsersByUserType(CommonConstants.PATIENT);
 	}
 
 	@Override
 	public User getPatientById(Long id) {
 		return userRepository.findUserByIdAandUserType(id, CommonConstants.PATIENT);
+	}
+
+	@Override
+	public List<User> getDoctorList() {
+		return userRepository.getUsersByUserType(CommonConstants.DOCTOR);
+	}
+
+	@Override
+	public User getDoctorById(Long id) {
+		return userRepository.findUserByIdAandUserType(id, CommonConstants.DOCTOR);
+	}
+
+	@Override
+	public List<Orders> getOrdersList(Long id) {
+		return ordersRepository.findOrdersByUserId(id);
 	}
 }

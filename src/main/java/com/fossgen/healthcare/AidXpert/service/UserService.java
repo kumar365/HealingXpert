@@ -18,6 +18,7 @@ import com.fossgen.healthcare.AidXpert.model.Ambulance;
 import com.fossgen.healthcare.AidXpert.model.Dependent;
 import com.fossgen.healthcare.AidXpert.model.MedicalDetails;
 import com.fossgen.healthcare.AidXpert.model.MedicalRecords;
+import com.fossgen.healthcare.AidXpert.model.Orders;
 import com.fossgen.healthcare.AidXpert.model.User;
 
 /**
@@ -78,5 +79,11 @@ public interface UserService {
 	public List<User> getPatientList();
 
 	public User getPatientById(Long id);
+
+	public List<User> getDoctorList();
+
+	public User getDoctorById(Long id);
+
+	public List<Orders> getOrdersList(Long id);
 
 }
