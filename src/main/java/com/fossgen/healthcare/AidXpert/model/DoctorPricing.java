@@ -8,11 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "product")
-public class Product implements Serializable {
+@Table(name = "doctor_pricing")
+public class DoctorPricing implements Serializable {
 	/**
 	 * 
 	 */
@@ -20,24 +22,21 @@ public class Product implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+	@ManyToOne
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private User doctorUser;
 
-	private int sku;
+	@Column(name = "consultation_type", nullable = false)
+	private String consultationType;
 
-	private String discription;
-
-	private String vendor;
-
-	@Column(name = "price", nullable = false)
+	@Column(name = "price")
 	private double price;
 
-	private int quantity;
-
-	@Column(name = "product_type")
-	private String productType;
+	@Column(name = "discount")
+	private double discount;
 
 	private String version;
 
@@ -50,7 +49,7 @@ public class Product implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public Product() {
+	public DoctorPricing() {
 		super();
 	}
 
@@ -62,28 +61,20 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public User getDoctorUser() {
+		return doctorUser;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDoctorUser(User doctorUser) {
+		this.doctorUser = doctorUser;
 	}
 
-	public String getDiscription() {
-		return discription;
+	public String getConsultationType() {
+		return consultationType;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
-	}
-
-	public String getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(String vendor) {
-		this.vendor = vendor;
+	public void setConsultationType(String consultationType) {
+		this.consultationType = consultationType;
 	}
 
 	public double getPrice() {
@@ -94,12 +85,12 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public String getProductType() {
-		return productType;
+	public double getDiscount() {
+		return discount;
 	}
 
-	public void setProductType(String productType) {
-		this.productType = productType;
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
 
 	public String getVersion() {
@@ -134,19 +125,4 @@ public class Product implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getSku() {
-		return sku;
-	}
-
-	public void setSku(int sku) {
-		this.sku = sku;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 }

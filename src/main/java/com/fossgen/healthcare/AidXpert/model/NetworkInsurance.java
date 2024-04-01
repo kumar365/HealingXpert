@@ -8,12 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "card_details", uniqueConstraints = { @UniqueConstraint(name = "CARD_NUMBER_UK", columnNames = "card_number") })
-public class CardDetails implements Serializable {
+@Table(name = "network_insurance", uniqueConstraints = { @UniqueConstraint(name = "NI_UK", columnNames = "insurance_name") })
+public class NetworkInsurance implements Serializable {
 
 	/**
 	 * 
@@ -24,21 +26,14 @@ public class CardDetails implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "name_on_card", length = 255, nullable = false)
-	private String nameOnCard;
+	@Column(name = "insurance_name", length = 200)
+	private String insuranceName;
 
-	@Column(name = "card_number", length = 25, nullable = false)
-	private String cardNumber;
+	@ManyToOne
+	@JoinColumn(name = "office_id")
+	private DoctorOffice doctorOffice;
 
-	@Column(name = "expiry_month", length = 2, nullable = false)
-	private String expiryMonth;
-
-	@Column(name = "expiry_year", length = 25, nullable = false)
-	private String expiryYear;
-
-	@Column(name = "cvv", length = 4, nullable = false)
-	private String cvv;
-
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -58,44 +53,20 @@ public class CardDetails implements Serializable {
 		this.id = id;
 	}
 
-	public String getNameOnCard() {
-		return nameOnCard;
+	public String getInsuranceName() {
+		return insuranceName;
 	}
 
-	public void setNameOnCard(String nameOnCard) {
-		this.nameOnCard = nameOnCard;
+	public void setInsuranceName(String insuranceName) {
+		this.insuranceName = insuranceName;
 	}
 
-	public String getCardNumber() {
-		return cardNumber;
+	public DoctorOffice getDoctorOffice() {
+		return doctorOffice;
 	}
 
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
-	}
-
-	public String getExpiryMonth() {
-		return expiryMonth;
-	}
-
-	public void setExpiryMonth(String expiryMonth) {
-		this.expiryMonth = expiryMonth;
-	}
-
-	public String getExpiryYear() {
-		return expiryYear;
-	}
-
-	public void setExpiryYear(String expiryYear) {
-		this.expiryYear = expiryYear;
-	}
-
-	public String getCvv() {
-		return cvv;
-	}
-
-	public void setCvv(String cvv) {
-		this.cvv = cvv;
+	public void setDoctorOffice(DoctorOffice doctorOffice) {
+		this.doctorOffice = doctorOffice;
 	}
 
 	public String getVersion() {

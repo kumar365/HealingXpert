@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -84,9 +85,6 @@ public class User implements Serializable {
 
 	private String address;
 
-//	@OneToMany(mappedBy="user")
-//  private Set<Dependent> dependents;
-
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "city")
 	private City city;
@@ -102,15 +100,15 @@ public class User implements Serializable {
 	@Column(name = "profile_image_name")
 	private String profileImageName;
 
-	@Column(name = "pin_code")
+	@Column(name = "pin_code", length = 10)
 	private String pinCode;
 
 	private String version;
 
-	@Column(name = "ip_address")
+	@Column(name = "ip_address", length = 50)
 	private String ipAddress;
 
-	@Column(name = "modified_by")
+	@Column(name = "modified_by", length = 100)
 	private String modifiedBy;
 
 	@Column(name = "modified_date")
@@ -119,7 +117,7 @@ public class User implements Serializable {
 	@Column(name = "lost_login")
 	private Timestamp lostLogin;
 
-	@Column(name = "created_by")
+	@Column(name = "created_by", length = 100)
 	private String createdBy;
 
 	@Column(name = "created_date")
@@ -135,7 +133,7 @@ public class User implements Serializable {
 
 	private boolean enabled;
 
-	@Column(name = "provider_user_id")
+	@Column(name = "provider_user_id", length = 100)
 	private String providerUserId;
 
 	@Column(name = "display_name")
@@ -147,6 +145,15 @@ public class User implements Serializable {
 
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime tokenCreationDate;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Dependent> dependents = new HashSet<Dependent>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "doctorUser")
+	private Set<DoctorSpecialization> doctorSpecializations = new HashSet<DoctorSpecialization>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "doctorUser")
+	private Set<Qualification> qualifications = new HashSet<Qualification>(0);
 
 	@Transient
 	private String oldPassword;
@@ -464,14 +471,6 @@ public class User implements Serializable {
 		this.userType = userType;
 	}
 
-//	public Set<Dependent> getDependents() {
-//		return dependents;
-//	}
-//
-//	public void setDependents(Set<Dependent> dependents) {
-//		this.dependents = dependents;
-//	}
-
 	public MultipartFile getProfileImage() {
 		return profileImage;
 	}
@@ -486,6 +485,30 @@ public class User implements Serializable {
 
 	public void setTokenCreationDate(LocalDateTime tokenCreationDate) {
 		this.tokenCreationDate = tokenCreationDate;
+	}
+
+	public Set<Dependent> getDependents() {
+		return dependents;
+	}
+
+	public void setDependents(Set<Dependent> dependents) {
+		this.dependents = dependents;
+	}
+
+	public Set<DoctorSpecialization> getDoctorSpecializations() {
+		return doctorSpecializations;
+	}
+
+	public void setDoctorSpecializations(Set<DoctorSpecialization> doctorSpecializations) {
+		this.doctorSpecializations = doctorSpecializations;
+	}
+
+	public Set<Qualification> getQualifications() {
+		return qualifications;
+	}
+
+	public void setQualifications(Set<Qualification> qualifications) {
+		this.qualifications = qualifications;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.fossgen.healthcare.AidXpert.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -8,11 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "product")
-public class Product implements Serializable {
+@Table(name = "qualification")
+public class Qualification implements Serializable {
 	/**
 	 * 
 	 */
@@ -20,25 +23,23 @@ public class Product implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+	@ManyToOne
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private User doctorUser;
 
-	private int sku;
+	@Column(name = "qualification_name", length = 200)
+	private String qualificationName;
 
-	private String discription;
+	@Column(name = "institute_name", length = 200)
+	private String instituteName;
 
-	private String vendor;
+	@Column(name = "procurement_date")
+	private Date procurementDate;
 
-	@Column(name = "price", nullable = false)
-	private double price;
-
-	private int quantity;
-
-	@Column(name = "product_type")
-	private String productType;
-
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -50,7 +51,7 @@ public class Product implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public Product() {
+	public Qualification() {
 		super();
 	}
 
@@ -62,44 +63,36 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public User getDoctorUser() {
+		return doctorUser;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDoctorUser(User doctorUser) {
+		this.doctorUser = doctorUser;
 	}
 
-	public String getDiscription() {
-		return discription;
+	public String getQualificationName() {
+		return qualificationName;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setQualificationName(String qualificationName) {
+		this.qualificationName = qualificationName;
 	}
 
-	public String getVendor() {
-		return vendor;
+	public String getInstituteName() {
+		return instituteName;
 	}
 
-	public void setVendor(String vendor) {
-		this.vendor = vendor;
+	public void setInstituteName(String instituteName) {
+		this.instituteName = instituteName;
 	}
 
-	public double getPrice() {
-		return price;
+	public Date getProcurementDate() {
+		return procurementDate;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public String getProductType() {
-		return productType;
-	}
-
-	public void setProductType(String productType) {
-		this.productType = productType;
+	public void setProcurementDate(Date procurementDate) {
+		this.procurementDate = procurementDate;
 	}
 
 	public String getVersion() {
@@ -134,19 +127,4 @@ public class Product implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getSku() {
-		return sku;
-	}
-
-	public void setSku(int sku) {
-		this.sku = sku;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 }

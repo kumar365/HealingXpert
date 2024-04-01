@@ -62,10 +62,10 @@ public class MedicalRecords implements Serializable {
 
 	private String version;
 
-	@Column(name = "ip_address")
+	@Column(name = "ip_address", length = 50)
 	private String ipAddress;
 
-	@Column(name = "created_by")
+	@Column(name = "created_by", length = 100)
 	private String createdBy;
 
 	@Column(name = "created_date")

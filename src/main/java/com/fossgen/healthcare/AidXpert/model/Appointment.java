@@ -25,8 +25,31 @@ public class Appointment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer appointmentId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@ManyToOne
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private User doctorUser;
+
+	@Column(name = "doctor_name")
+	private String doctorName;
+
+	@Column(name = "appointment_date", nullable = false)
+	private String appointmentDate;
+
+	@Column(name = "start_time", nullable = false)
+	private Timestamp startTime;
+
+	@Column(name = "end_time", nullable = false)
+	private Timestamp endTime;
+
+	@Column(name = "status", length = 10, nullable = false)
+	private String status;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@Column(name = "appointment_for")
 	private String appointmentFor;
@@ -34,57 +57,126 @@ public class Appointment implements Serializable {
 	@Column(name = "patient_name")
 	private String patientName;
 
-	@Column(name = "doctor_name")
-	private String doctorName;
-
 	@Column(name = "consultation_type", nullable = false)
 	private String consultationType;
 
-	@Column(name = "appointment_date")
-	private String date;
+	@Column(name = "price", nullable = false)
+	private String price;
 
 	@Column(name = "prescription")
 	private String prescription;
-
-	@Column(name = "confirmed")
-	private String confirmed;
-
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
 
 	@Column(name = "payment_method", nullable = false)
 	private String paymentMethod;
 
 	@Column(name = "terms_conditions", nullable = false, length = 1)
 	private String termsAndConditions;
-	
+
+	@Column(name = "insurance", length = 200)
 	private String insurance;
-	
+
+	@Column(name = "reason", length = 100)
 	private String reason;
-	
+
+	@Column(name = "symtoms", length = 200)
 	private String symtoms;
 
+	@Column(name = "version", length = 50)
 	private String version;
 
-	@Column(name = "ip_address")
+	@Column(name = "ip_address", length = 50)
 	private String ipAddress;
 
-	@Column(name = "created_by")
+	@Column(name = "created_by", length = 100)
 	private String createdBy;
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
+	
+	@Column(name = "confirmed", length = 1)
+	private String confirmed;
 
 	public Appointment() {
 	}
 
-	public Integer getAppointmentId() {
-		return appointmentId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setAppointmentId(Integer appointmentId) {
-		this.appointmentId = appointmentId;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getDoctorUser() {
+		return doctorUser;
+	}
+
+	public void setDoctorUser(User doctorUser) {
+		this.doctorUser = doctorUser;
+	}
+
+	public String getAppointmentDate() {
+		return appointmentDate;
+	}
+
+	public void setAppointmentDate(String appointmentDate) {
+		this.appointmentDate = appointmentDate;
+	}
+
+	public Timestamp getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Timestamp startTime) {
+		this.startTime = startTime;
+	}
+
+	public Timestamp getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Timestamp endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getConsultationType() {
+		return consultationType;
+	}
+
+	public void setConsultationType(String consultationType) {
+		this.consultationType = consultationType;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public String getAppointmentFor() {
+		return appointmentFor;
+	}
+
+	public void setAppointmentFor(String appointmentFor) {
+		this.appointmentFor = appointmentFor;
 	}
 
 	public String getPatientName() {
@@ -103,14 +195,6 @@ public class Appointment implements Serializable {
 		this.doctorName = doctorName;
 	}
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
 	public String getPrescription() {
 		return prescription;
 	}
@@ -119,12 +203,44 @@ public class Appointment implements Serializable {
 		this.prescription = prescription;
 	}
 
-	public String getConfirmed() {
-		return confirmed;
+	public String getPaymentMethod() {
+		return paymentMethod;
 	}
 
-	public void setConfirmed(String confirmed) {
-		this.confirmed = confirmed;
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getTermsAndConditions() {
+		return termsAndConditions;
+	}
+
+	public void setTermsAndConditions(String termsAndConditions) {
+		this.termsAndConditions = termsAndConditions;
+	}
+
+	public String getInsurance() {
+		return insurance;
+	}
+
+	public void setInsurance(String insurance) {
+		this.insurance = insurance;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getSymtoms() {
+		return symtoms;
+	}
+
+	public void setSymtoms(String symtoms) {
+		this.symtoms = symtoms;
 	}
 
 	public String getVersion() {
@@ -159,68 +275,12 @@ public class Appointment implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getConsultationType() {
-		return consultationType;
+	public String getConfirmed() {
+		return confirmed;
 	}
 
-	public void setConsultationType(String consultationType) {
-		this.consultationType = consultationType;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-
-	public String getTermsAndConditions() {
-		return termsAndConditions;
-	}
-
-	public void setTermsAndConditions(String termsAndConditions) {
-		this.termsAndConditions = termsAndConditions;
-	}
-
-	public String getAppointmentFor() {
-		return appointmentFor;
-	}
-
-	public void setAppointmentFor(String appointmentFor) {
-		this.appointmentFor = appointmentFor;
-	}
-
-	public String getInsurance() {
-		return insurance;
-	}
-
-	public void setInsurance(String insurance) {
-		this.insurance = insurance;
-	}
-
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
-	public String getSymtoms() {
-		return symtoms;
-	}
-
-	public void setSymtoms(String symtoms) {
-		this.symtoms = symtoms;
+	public void setConfirmed(String confirmed) {
+		this.confirmed = confirmed;
 	}
 
 }

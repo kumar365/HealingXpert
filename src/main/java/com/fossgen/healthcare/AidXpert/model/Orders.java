@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "orders")
@@ -37,28 +38,39 @@ public class Orders implements Serializable {
 	@Column(name = "amount", nullable = false)
 	private double amount;
 
+	@Column(name = "currency", length = 100)
+	private String currency;
+
 	@Column(name = "payment_gateway", nullable = false)
 	private String paymentGateway;
 
 	@Column(name = "track_order")
 	private String trackOrder;
 
+	@Column(name = "status", length = 20)
 	private String status;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
-	
+
+	@Column(name = "description", length = 255)
+	private String description;
+
+	@Column(name = "version", length = 20)
 	private String version;
 
-	@Column(name = "ip_address")
+	@Column(name = "ip_address", length = 50)
 	private String ipAddress;
 
-	@Column(name = "created_by")
+	@Column(name = "created_by", length = 100)
 	private String createdBy;
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
+
+	@Column(name = "intent", length = 100)
+	private String intent;
 
 	public Orders() {
 		super();
@@ -166,6 +178,30 @@ public class Orders implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	public String getIntent() {
+		return intent;
+	}
+
+	public void setIntent(String intent) {
+		this.intent = intent;
 	}
 
 }

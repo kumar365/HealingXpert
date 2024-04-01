@@ -54,16 +54,16 @@ public class Madicine implements Serializable {
 
 	private String version;
 
-	@Column(name = "ip_address")
+	@Column(name = "ip_address", length = 50)
 	private String ipAddress;
 
-	@Column(name = "modified_by")
+	@Column(name = "modified_by", length = 50)
 	private String modifiedBy;
 
 	@Column(name = "modified_date")
 	private Timestamp modified_date;
 
-	@Column(name = "created_by")
+	@Column(name = "created_by", length = 100)
 	private String createdBy;
 
 	@Column(name = "created_date")
