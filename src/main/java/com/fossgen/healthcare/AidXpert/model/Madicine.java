@@ -15,31 +15,29 @@ import javax.persistence.Table;
 @Table(name = "medicine")
 public class Madicine implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "name")
+	@Column(name = "name", length = 100, nullable = false)
 	private String name;
 
-	@Column(name = "medicine_type")
+	@Column(name = "medicine_type", length = 50)
 	private String medicineType;
 
-	@Column(name = "medicine_no")
-	private String medicineNumber;
+	@Column(name = "medicine_reg_no", length = 100)
+	private String medicineRegNumber;
 
 	@Column(name = "medicine_price")
 	private float medicinePrice;
 
-	@Column(name = "expiry_date")
+	@Column(name = "expiry_date", nullable = false)
 	private Date expiryDate;
 
-	private String units;
+	@Column(name = "units")
+	private int units;
 
 	@Column(name = "qty_per_unit")
 	private int quantityPerUnit;
@@ -50,8 +48,10 @@ public class Madicine implements Serializable {
 	@Column(name = "total_qty")
 	private int totalQuantity;
 
+	@Column(name = "is_prescription_required", length = 1)
 	private String isPrescriptionRequired;
 
+	@Column(name = "version", length = 50)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -93,12 +93,12 @@ public class Madicine implements Serializable {
 		this.medicineType = medicineType;
 	}
 
-	public String getMedicineNumber() {
-		return medicineNumber;
+	public String getMedicineRegNumber() {
+		return medicineRegNumber;
 	}
 
-	public void setMedicineNumber(String medicineNumber) {
-		this.medicineNumber = medicineNumber;
+	public void setMedicineRegNumber(String medicineRegNumber) {
+		this.medicineRegNumber = medicineRegNumber;
 	}
 
 	public float getMedicinePrice() {
@@ -117,11 +117,11 @@ public class Madicine implements Serializable {
 		this.expiryDate = expiryDate;
 	}
 
-	public String getUnits() {
+	public int getUnits() {
 		return units;
 	}
 
-	public void setUnits(String units) {
+	public void setUnits(int units) {
 		this.units = units;
 	}
 

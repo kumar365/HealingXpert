@@ -14,7 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "network_insurance", uniqueConstraints = { @UniqueConstraint(name = "NI_UK", columnNames = "insurance_name") })
+@Table(name = "network_insurance", uniqueConstraints = {
+		@UniqueConstraint(name = "NI_UK", columnNames = "insurance_name") })
 public class NetworkInsurance implements Serializable {
 
 	/**
@@ -30,8 +31,8 @@ public class NetworkInsurance implements Serializable {
 	private String insuranceName;
 
 	@ManyToOne
-	@JoinColumn(name = "office_id")
-	private DoctorOffice doctorOffice;
+	@JoinColumn(name = "hospital_id")
+	private DoctorHospital doctorHospital;
 
 	@Column(name = "version", length = 10)
 	private String version;
@@ -59,14 +60,6 @@ public class NetworkInsurance implements Serializable {
 
 	public void setInsuranceName(String insuranceName) {
 		this.insuranceName = insuranceName;
-	}
-
-	public DoctorOffice getDoctorOffice() {
-		return doctorOffice;
-	}
-
-	public void setDoctorOffice(DoctorOffice doctorOffice) {
-		this.doctorOffice = doctorOffice;
 	}
 
 	public String getVersion() {
@@ -99,6 +92,14 @@ public class NetworkInsurance implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public DoctorHospital getDoctorHospital() {
+		return doctorHospital;
+	}
+
+	public void setDoctorHospital(DoctorHospital doctorHospital) {
+		this.doctorHospital = doctorHospital;
 	}
 
 }

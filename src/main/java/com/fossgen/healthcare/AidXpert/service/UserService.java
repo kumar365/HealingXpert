@@ -30,13 +30,13 @@ public interface UserService {
 	public User registerNewUser(SignUpRequest signUpRequest) throws UserAlreadyExistAuthenticationException;
 
 	User findUserByEmail(String email);
-	
+
 	User findUserByPhoneNumber(String phoneNumber);
-	
+
 	User findUserByPhoneNumberAndPassword(String phoneNumber, String password);
 
 	User findUserById(Long id);
-
+	
 	LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken,
 			OidcUserInfo userInfo);
 

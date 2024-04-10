@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "doctor_office")
-public class DoctorOffice implements Serializable {
+@Table(name = "doctor_hospital")
+public class DoctorHospital implements Serializable {
 	/**
 	 * 
 	 */
@@ -28,6 +28,10 @@ public class DoctorOffice implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private User doctorUser;
+	
+	@ManyToOne
+	@JoinColumn(name = "hospital_id", nullable = false)
+	private Hospital hospital;
 
 	@ManyToOne
 	@JoinColumn(name = "hospital_affiliation_id")
@@ -69,7 +73,7 @@ public class DoctorOffice implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public DoctorOffice() {
+	public DoctorHospital() {
 		super();
 	}
 
@@ -191,6 +195,14 @@ public class DoctorOffice implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
 	}
 
 }

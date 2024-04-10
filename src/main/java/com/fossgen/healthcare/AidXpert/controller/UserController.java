@@ -120,7 +120,7 @@ public class UserController {
 		String fileName = "";
 		try {
 			if (null != file) {
-				//MultipartFile  file = multipartFile;
+				// MultipartFile file = multipartFile;
 				byte[] bytes = file.getBytes();
 				fileName = file.getOriginalFilename();
 				System.out.println("fileName::" + fileName);
@@ -259,36 +259,36 @@ public class UserController {
 		List<User> userList = userService.getUsers();
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
-	
+
 	@GetMapping(path = "/patientList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> getPatientList() {
 		log.info("Inside getPatientList start");
 		List<User> userList = userService.getPatientList();
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
-	
 
 	@GetMapping("/getPatientById/{id}")
 	public User getPatientById(@PathVariable("id") Long id) {
 		return userService.getPatientById(id);
 	}
-	
+
 	@GetMapping(path = "/doctorList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> getDoctorList() {
 		log.info("Inside getDoctorList start");
 		List<User> userList = userService.getDoctorList();
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
-	
+
 	@GetMapping("/getDoctorById/{id}")
 	public User getDoctorById(@PathVariable("id") Long id) {
 		return userService.getDoctorById(id);
 	}
-	
+
 	@GetMapping(path = "/ordersList/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Orders>> getOrderList(@PathVariable("id") Long id) {
 		log.info("Inside getOrderList start");
 		List<Orders> ordersList = userService.getOrdersList(id);
 		return ResponseEntity.status(HttpStatus.OK).body(ordersList);
 	}
+
 }

@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "doctor_office_availability")
-public class DoctorOfficeAvailability implements Serializable {
+@Table(name = "doctor_hospital_availability")
+public class DoctorHospitalAvailability implements Serializable {
 	/**
 	 * 
 	 */
@@ -26,8 +26,8 @@ public class DoctorOfficeAvailability implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "office_id")
-	private DoctorOffice doctorOffice;
+	@JoinColumn(name = "hospital_id")
+	private DoctorHospital doctorHospital;
 
 	@Column(name = "day_of_week", length = 10)
 	private String dayOfWeek;
@@ -56,7 +56,7 @@ public class DoctorOfficeAvailability implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public DoctorOfficeAvailability() {
+	public DoctorHospitalAvailability() {
 		super();
 	}
 
@@ -66,14 +66,6 @@ public class DoctorOfficeAvailability implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public DoctorOffice getDoctorOffice() {
-		return doctorOffice;
-	}
-
-	public void setDoctorOffice(DoctorOffice doctorOffice) {
-		this.doctorOffice = doctorOffice;
 	}
 
 	public String getDayOfWeek() {
