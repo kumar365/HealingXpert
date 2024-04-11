@@ -12,14 +12,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "invoice")
 @DynamicUpdate
-public class Invoice  implements Serializable  {
+public class Invoice implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

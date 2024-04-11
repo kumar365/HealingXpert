@@ -16,18 +16,19 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "medical_records")
 public class MedicalRecords implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "mr_id")
 	private String mrId;
 
@@ -51,13 +52,13 @@ public class MedicalRecords implements Serializable {
 
 	@Column(name = "record_date")
 	private Timestamp recordDate;
-	
+
 	@Transient
 	private String recordDateString;
-	
+
 	@Transient
 	private MultipartFile attachmentFile;
-	
+
 	private String attachment;
 
 	private String version;

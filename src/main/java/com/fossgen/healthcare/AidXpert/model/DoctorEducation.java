@@ -8,38 +8,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  * @author KUMAR
  */
 @Entity
-@Table(name = "product")
-public class Product implements Serializable {
+@Table(name = "doctor_education")
+public class DoctorEducation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+	@ManyToOne
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private User doctorUser;
 
-	private int sku;
+	@ManyToOne
+	@JoinColumn(name = "education_id", nullable = false)
+	private Education education;
 
-	private String discription;
+	@Column(name = "from_year", length = 5)
+	private String fromYear;
 
-	private String vendor;
+	@Column(name = "to_year", length = 5)
+	private String toYear;
 
-	@Column(name = "price", nullable = false)
-	private double price;
-
-	private int quantity;
-
-	@Column(name = "product_type")
-	private String productType;
-
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -51,7 +52,7 @@ public class Product implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public Product() {
+	public DoctorEducation() {
 		super();
 	}
 
@@ -63,44 +64,36 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public User getDoctorUser() {
+		return doctorUser;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDoctorUser(User doctorUser) {
+		this.doctorUser = doctorUser;
 	}
 
-	public String getDiscription() {
-		return discription;
+	public Education getEducation() {
+		return education;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setEducation(Education education) {
+		this.education = education;
 	}
 
-	public String getVendor() {
-		return vendor;
+	public String getFromYear() {
+		return fromYear;
 	}
 
-	public void setVendor(String vendor) {
-		this.vendor = vendor;
+	public void setFromYear(String fromYear) {
+		this.fromYear = fromYear;
 	}
 
-	public double getPrice() {
-		return price;
+	public String getToYear() {
+		return toYear;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public String getProductType() {
-		return productType;
-	}
-
-	public void setProductType(String productType) {
-		this.productType = productType;
+	public void setToYear(String toYear) {
+		this.toYear = toYear;
 	}
 
 	public String getVersion() {
@@ -135,19 +128,4 @@ public class Product implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getSku() {
-		return sku;
-	}
-
-	public void setSku(int sku) {
-		this.sku = sku;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 }

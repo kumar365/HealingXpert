@@ -29,12 +29,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fossgen.healthcare.AidXpert.enums.AuthenticationType;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

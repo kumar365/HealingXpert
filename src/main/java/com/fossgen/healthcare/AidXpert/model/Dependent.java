@@ -16,6 +16,9 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "dependent")
 public class Dependent implements Serializable {
@@ -31,10 +34,10 @@ public class Dependent implements Serializable {
 	@ColumnTransformer(forColumn = "name", read = "pgp_sym_decrypt(name::BYTEA, 'secret-key-12345')", write = "pgp_sym_encrypt (?, 'secret-key-12345')")
 	@Column(name = "name", columnDefinition = "bytea", nullable = false)
 	private String name;
-	
+
 	@ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@Column(name = "relationship")
 	private String relationship;
@@ -43,7 +46,7 @@ public class Dependent implements Serializable {
 	private String phoneNumber;
 
 	private String gender;
-	
+
 	@Transient
 	private String dateOfBirthString;
 

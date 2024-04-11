@@ -10,6 +10,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "file_upload_download")
 public class FileModel implements Serializable {

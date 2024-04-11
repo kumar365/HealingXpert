@@ -10,14 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "states", uniqueConstraints = {
 		@UniqueConstraint(name = "STATE_UK", columnNames = { "name", "country_id" }) })
 public class State implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -14,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "hospital")
 public class Hospital implements Serializable {
@@ -50,7 +53,7 @@ public class Hospital implements Serializable {
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "hospital")
 	private Set<DoctorHospital> doctorHospitals = new HashSet<DoctorHospital>(0);
 

@@ -11,7 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "doctor_hospital_availability")
 public class DoctorHospitalAvailability implements Serializable {
@@ -138,6 +140,14 @@ public class DoctorHospitalAvailability implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public DoctorHospital getDoctorHospital() {
+		return doctorHospital;
+	}
+
+	public void setDoctorHospital(DoctorHospital doctorHospital) {
+		this.doctorHospital = doctorHospital;
 	}
 
 }

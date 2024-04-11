@@ -12,12 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "doctor_hospital")
 public class DoctorHospital implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -28,7 +29,7 @@ public class DoctorHospital implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private User doctorUser;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "hospital_id", nullable = false)
 	private Hospital hospital;

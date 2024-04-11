@@ -15,13 +15,13 @@ import javax.persistence.UniqueConstraint;
 
 import com.fossgen.healthcare.AidXpert.enums.ERole;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "roles", uniqueConstraints = { @UniqueConstraint(name = "ROLE_UK", columnNames = "name") })
 public class Role implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

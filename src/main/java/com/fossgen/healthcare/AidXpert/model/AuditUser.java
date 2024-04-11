@@ -9,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "audit_user_login")
 public class AuditUser implements Serializable {

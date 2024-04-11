@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "network_insurance", uniqueConstraints = {
 		@UniqueConstraint(name = "NI_UK", columnNames = "insurance_name") })

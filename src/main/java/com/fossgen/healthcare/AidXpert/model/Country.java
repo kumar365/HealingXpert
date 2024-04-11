@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "countries", uniqueConstraints = { @UniqueConstraint(name = "COUNTRY_UK", columnNames = "name") })
 public class Country implements Serializable {
@@ -25,7 +28,7 @@ public class Country implements Serializable {
 
 	@Column(name = "countrycode", length = 2)
 	private String countryCode;
-	
+
 	@Column(name = "name", length = 45)
 	private String name;
 
@@ -52,5 +55,5 @@ public class Country implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

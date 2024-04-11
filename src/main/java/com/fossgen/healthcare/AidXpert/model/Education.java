@@ -2,44 +2,44 @@ package com.fossgen.healthcare.AidXpert.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  * @author KUMAR
  */
 @Entity
-@Table(name = "product")
-public class Product implements Serializable {
+@Table(name = "education")
+public class Education implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private int id;
 
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", length = 100, nullable = false)
 	private String name;
 
-	private int sku;
+	@Column(name = "university", length = 100)
+	private String university;
 
-	private String discription;
+	@Column(name = "address", length = 100)
+	private String address;
 
-	private String vendor;
+	@Column(name = "country", length = 100)
+	private String country;
 
-	@Column(name = "price", nullable = false)
-	private double price;
-
-	private int quantity;
-
-	@Column(name = "product_type")
-	private String productType;
-
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -51,15 +51,14 @@ public class Product implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public Product() {
-		super();
-	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "education")
+	private Set<DoctorEducation> doctorEducations = new HashSet<DoctorEducation>(0);
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -71,36 +70,28 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public String getDiscription() {
-		return discription;
+	public String getUniversity() {
+		return university;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setUniversity(String university) {
+		this.university = university;
 	}
 
-	public String getVendor() {
-		return vendor;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setVendor(String vendor) {
-		this.vendor = vendor;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public double getPrice() {
-		return price;
+	public String getCountry() {
+		return country;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public String getProductType() {
-		return productType;
-	}
-
-	public void setProductType(String productType) {
-		this.productType = productType;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	public String getVersion() {
@@ -135,19 +126,12 @@ public class Product implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getSku() {
-		return sku;
+	public Set<DoctorEducation> getDoctorEducations() {
+		return doctorEducations;
 	}
 
-	public void setSku(int sku) {
-		this.sku = sku;
+	public void setDoctorEducations(Set<DoctorEducation> doctorEducations) {
+		this.doctorEducations = doctorEducations;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 }

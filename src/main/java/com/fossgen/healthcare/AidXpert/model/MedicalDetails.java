@@ -16,12 +16,13 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "medical_details")
 public class MedicalDetails implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -45,7 +46,7 @@ public class MedicalDetails implements Serializable {
 	private String fbcStatus;
 
 	private String weight;
-	
+
 	@Transient
 	private String orderDateString;
 
