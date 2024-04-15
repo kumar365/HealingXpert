@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import com.fossgen.healthcare.AidXpert.dto.LocalUser;
 import com.fossgen.healthcare.AidXpert.dto.UserInfo;
@@ -16,6 +17,7 @@ import com.fossgen.healthcare.AidXpert.model.User;
 /**
  * @author KUMAR
  */
+@Component
 public class GeneralUtils {
 
 	public static List<SimpleGrantedAuthority> buildSimpleGrantedAuthorities(final Set<Role> roles) {

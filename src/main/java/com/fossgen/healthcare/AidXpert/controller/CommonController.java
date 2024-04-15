@@ -1,5 +1,6 @@
 package com.fossgen.healthcare.AidXpert.controller;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fossgen.healthcare.AidXpert.Util.FileUtils;
 import com.fossgen.healthcare.AidXpert.dto.ApiResponse;
 import com.fossgen.healthcare.AidXpert.dto.UserQuestion;
 import com.fossgen.healthcare.AidXpert.model.City;
@@ -49,7 +51,7 @@ public class CommonController {
 
 	@Autowired
 	private EmailServiceGAVA emailService;
-	
+
 	@Value("${file_upload_dir}")
 	private String fileUploadDir;
 
@@ -130,17 +132,40 @@ public class CommonController {
 	}
 
 	@PostMapping(value = "/fileUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> proceessFile(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<?> fileUpload(@RequestParam("file") MultipartFile file) {
 		String message = "";
 		String filePath = "";
 		String fileName = "";
 		try {
 			if (null != file) {
 				fileName = file.getOriginalFilename();
+				FileUtils.createDirectory(fileUploadDir);
 				filePath = fileUploadDir + fileName;
-				Path path = Paths.get(filePath);
-				byte[] bytes = file.getBytes();
-				Files.write(path, bytes);
+				FileUtils.writeFile(filePath, file.getBytes());
+				message = "Uploaded the file successfully: " + file.getOriginalFilename();
+				return ResponseEntity.status(HttpStatus.OK).body(new ResponseEntity<Object>(message, HttpStatus.OK));
+			} else {
+				message = "Could not upload the file: ";
+				return ResponseEntity.ok().body(message);
+			}
+		} catch (Exception e) {
+			message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseEntity<Object>(message, HttpStatus.OK));
+		}
+	}
+
+	@PostMapping(value = "/prescriptionUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> prescriptionUpload(@RequestParam("file") MultipartFile file) {
+		String message = "";
+		String filePath = "";
+		String fileName = "";
+		try {
+			if (null != file) {
+				fileName = file.getOriginalFilename();
+				FileUtils.createDirectory(fileUploadDir + "/prescriptions/");
+				filePath = fileUploadDir + "/prescriptions/" + fileName;
+				FileUtils.writeFile(filePath, file.getBytes());
 				message = "Uploaded the file successfully: " + file.getOriginalFilename();
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseEntity<Object>(message, HttpStatus.OK));
 			} else {

@@ -9,11 +9,14 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.stereotype.Component;
+
 /**
  * 
  * @author KUMAR
  *
  */
+@Component
 public class EncryptionDecryptionUtil {
 	private static SecretKeySpec secretKey;
 	private static byte[] key;
