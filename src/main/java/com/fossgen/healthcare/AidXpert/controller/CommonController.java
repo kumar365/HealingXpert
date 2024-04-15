@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @CrossOrigin()
 @RequestMapping("/common")
-public class CommonApiController {
+public class CommonController {
 
 	@Autowired
 	private CommonService commonService;
