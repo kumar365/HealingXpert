@@ -18,9 +18,6 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(name = "CITY_UK", columnNames = { "name", "state_id" }) })
 public class City implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

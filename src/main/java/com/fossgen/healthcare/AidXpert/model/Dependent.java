@@ -22,9 +22,7 @@ import org.hibernate.annotations.ColumnTransformer;
 @Entity
 @Table(name = "dependent")
 public class Dependent implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -1,6 +1,7 @@
 package com.fossgen.healthcare.AidXpert.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -16,8 +17,8 @@ import javax.persistence.Table;
  * @author KUMAR
  */
 @Entity
-@Table(name = "doctor_education")
-public class DoctorEducation implements Serializable {
+@Table(name = "patient_review")
+public class PatientReview implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,27 +28,30 @@ public class DoctorEducation implements Serializable {
 	private Long id;
 
 	@ManyToOne
+	@JoinColumn(name = "patient_id", nullable = false)
+	private User patientUser;
+
+	@ManyToOne
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private User doctorUser;
 
-	@ManyToOne
-	@JoinColumn(name = "education_id", nullable = false)
-	private Education education;
+	@Column(name = "is_review_anonymous", length = 1)
+	private String isReviewAnonymous;
 
-	@Column(name = "university", length = 100)
-	private String university;
+	@Column(name = "wait_time_rating")
+	private int waitTimeRating;
 
-	@Column(name = "from_year", length = 5)
-	private String fromYear;
+	@Column(name = "overall_rating")
+	private int overallRating;
 
-	@Column(name = "to_year", length = 5)
-	private String toYear;
+	@Column(name = "review", length = 255)
+	private String review;
 
-	@Column(name = "address", length = 100)
-	private String address;
+	@Column(name = "is_doctor_recommended", length = 1)
+	private String isDoctorRecommended;
 
-	@Column(name = "country", length = 100)
-	private String country;
+	@Column(name = "review_date")
+	private Date reviewDate;
 
 	@Column(name = "version", length = 10)
 	private String version;
@@ -61,7 +65,7 @@ public class DoctorEducation implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public DoctorEducation() {
+	public PatientReview() {
 		super();
 	}
 
@@ -73,6 +77,14 @@ public class DoctorEducation implements Serializable {
 		this.id = id;
 	}
 
+	public User getPatientUser() {
+		return patientUser;
+	}
+
+	public void setPatientUser(User patientUser) {
+		this.patientUser = patientUser;
+	}
+
 	public User getDoctorUser() {
 		return doctorUser;
 	}
@@ -81,52 +93,52 @@ public class DoctorEducation implements Serializable {
 		this.doctorUser = doctorUser;
 	}
 
-	public Education getEducation() {
-		return education;
+	public String getIsReviewAnonymous() {
+		return isReviewAnonymous;
 	}
 
-	public void setEducation(Education education) {
-		this.education = education;
+	public void setIsReviewAnonymous(String isReviewAnonymous) {
+		this.isReviewAnonymous = isReviewAnonymous;
 	}
 
-	public String getUniversity() {
-		return university;
+	public int getWaitTimeRating() {
+		return waitTimeRating;
 	}
 
-	public void setUniversity(String university) {
-		this.university = university;
+	public void setWaitTimeRating(int waitTimeRating) {
+		this.waitTimeRating = waitTimeRating;
 	}
 
-	public String getFromYear() {
-		return fromYear;
+	public int getOverallRating() {
+		return overallRating;
 	}
 
-	public void setFromYear(String fromYear) {
-		this.fromYear = fromYear;
+	public void setOverallRating(int overallRating) {
+		this.overallRating = overallRating;
 	}
 
-	public String getToYear() {
-		return toYear;
+	public String getReview() {
+		return review;
 	}
 
-	public void setToYear(String toYear) {
-		this.toYear = toYear;
+	public void setReview(String review) {
+		this.review = review;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getIsDoctorRecommended() {
+		return isDoctorRecommended;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setIsDoctorRecommended(String isDoctorRecommended) {
+		this.isDoctorRecommended = isDoctorRecommended;
 	}
 
-	public String getCountry() {
-		return country;
+	public Date getReviewDate() {
+		return reviewDate;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setReviewDate(Date reviewDate) {
+		this.reviewDate = reviewDate;
 	}
 
 	public String getVersion() {

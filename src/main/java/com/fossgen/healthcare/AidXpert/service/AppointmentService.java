@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fossgen.healthcare.AidXpert.Util.AppUtils;
+import com.fossgen.healthcare.AidXpert.Util.DateUtils;
 import com.fossgen.healthcare.AidXpert.constants.CommonConstants;
 import com.fossgen.healthcare.AidXpert.model.Appointment;
 import com.fossgen.healthcare.AidXpert.repository.AppointmentRepository;
@@ -19,7 +20,7 @@ public class AppointmentService {
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -30,13 +31,26 @@ public class AppointmentService {
 	public Appointment save(Appointment appointment) {
 		appointment.getUser().setUsername(appointment.getUser().getFirstName());
 		appointment.getUser().setDisplayName(appointment.getUser().getFirstName());
-		appointment.getUser().setPassword(appointment.getUser().getLastName());
+		appointment.getUser().setPassword(appointment.getUser().getEmail());
 		appointment.getUser().setUserType(CommonConstants.PATIENT);
 		appointment.getUser().setVersion(AppUtils.VERSION);
 		appointment.getUser().setLostLogin(AppUtils.getTimestamp());
 		appointment.getUser().setCreatedBy(AppUtils.getName());
 		appointment.getUser().setCreatedDate(AppUtils.getTimestamp());
 		userRepository.save(appointment.getUser());
+		if (null == appointment.getAppointmentDate()) {
+			appointment.setAppointmentDate(DateUtils.getSqlDate());
+		}
+		if (null == appointment.getStartTime()) {
+			appointment.setStartTime(DateUtils.getSqlTimestamp());
+		}
+		if (null == appointment.getEndTime()) {
+			appointment.setEndTime(DateUtils.getSqlTimestamp());
+		}
+		if (appointment.getPrice() < 0) {
+			appointment.setPrice(0);
+		}
+		appointment.setStatus("Created");
 		appointment.setVersion(AppUtils.VERSION);
 		appointment.setCreatedBy(AppUtils.getName());
 		appointment.setCreatedDate(AppUtils.getTimestamp());

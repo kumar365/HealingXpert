@@ -21,9 +21,6 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(name = "NI_UK", columnNames = "insurance_name") })
 public class NetworkInsurance implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

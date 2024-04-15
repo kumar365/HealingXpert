@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 /**
  * @author KUMAR
  */
@@ -16,15 +17,12 @@ import javax.persistence.Table;
 @Table(name = "audit_user_login")
 public class AuditUser implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@Column(name = "user_name")
 	private String username;
 
@@ -68,7 +66,6 @@ public class AuditUser implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
 
 	public String getPhoneNumber() {
 		return phoneNumber;

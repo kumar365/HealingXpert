@@ -19,4 +19,6 @@ public interface CommonService {
 
 	public TestDetails getTestDetails(Integer id);
 
+	List<TestDetails> getTestDetailsList();
+
 }

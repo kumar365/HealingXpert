@@ -11,13 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * @author KUMAR
+ */
 @Entity
 @Table(name = "ambulance")
 public class Ambulance implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

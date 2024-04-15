@@ -1,6 +1,7 @@
 package com.fossgen.healthcare.AidXpert.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -29,14 +30,14 @@ public class Appointment implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "doctor_id", nullable = false)
+	@JoinColumn(name = "doctor_id")
 	private User doctorUser;
 
 	@Column(name = "doctor_name")
 	private String doctorName;
 
 	@Column(name = "appointment_date", nullable = false)
-	private String appointmentDate;
+	private Date appointmentDate;
 
 	@Column(name = "start_time", nullable = false)
 	private Timestamp startTime;
@@ -46,6 +47,9 @@ public class Appointment implements Serializable {
 
 	@Column(name = "status", length = 10, nullable = false)
 	private String status;
+
+	@Column(name = "app_booking_channel", length = 25)
+	private String appBookingChannel;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -61,7 +65,7 @@ public class Appointment implements Serializable {
 	private String consultationType;
 
 	@Column(name = "price", nullable = false)
-	private String price;
+	private double price;
 
 	@Column(name = "prescription")
 	private String prescription;
@@ -115,11 +119,11 @@ public class Appointment implements Serializable {
 		this.doctorUser = doctorUser;
 	}
 
-	public String getAppointmentDate() {
+	public Date getAppointmentDate() {
 		return appointmentDate;
 	}
 
-	public void setAppointmentDate(String appointmentDate) {
+	public void setAppointmentDate(Date appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 
@@ -163,11 +167,11 @@ public class Appointment implements Serializable {
 		this.consultationType = consultationType;
 	}
 
-	public String getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
@@ -281,6 +285,14 @@ public class Appointment implements Serializable {
 
 	public void setConfirmed(String confirmed) {
 		this.confirmed = confirmed;
+	}
+
+	public String getAppBookingChannel() {
+		return appBookingChannel;
+	}
+
+	public void setAppBookingChannel(String appBookingChannel) {
+		this.appBookingChannel = appBookingChannel;
 	}
 
 }

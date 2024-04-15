@@ -10,16 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 /**
  * @author KUMAR
  */
 @Entity
-@Table(name = "card_details", uniqueConstraints = { @UniqueConstraint(name = "CARD_NUMBER_UK", columnNames = "card_number") })
+@Table(name = "card_details", uniqueConstraints = {
+		@UniqueConstraint(name = "CARD_NUMBER_UK", columnNames = "card_number") })
 public class CardDetails implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

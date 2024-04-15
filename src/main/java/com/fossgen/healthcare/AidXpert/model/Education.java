@@ -30,14 +30,14 @@ public class Education implements Serializable {
 	@Column(name = "name", length = 100, nullable = false)
 	private String name;
 
-	@Column(name = "university", length = 100)
-	private String university;
+	@Column(name = "abbreviation", length = 10, nullable = false)
+	private String abbreviation;
 
-	@Column(name = "address", length = 100)
-	private String address;
+	@Column(name = "graduate_type", length = 2, nullable = false)
+	private String graduateType;
 
-	@Column(name = "country", length = 100)
-	private String country;
+	@Column(name = "speciality", length = 100)
+	private String speciality;
 
 	@Column(name = "version", length = 10)
 	private String version;
@@ -68,30 +68,6 @@ public class Education implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getUniversity() {
-		return university;
-	}
-
-	public void setUniversity(String university) {
-		this.university = university;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
 	}
 
 	public String getVersion() {
@@ -132,6 +108,30 @@ public class Education implements Serializable {
 
 	public void setDoctorEducations(Set<DoctorEducation> doctorEducations) {
 		this.doctorEducations = doctorEducations;
+	}
+
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
+
+	public String getGraduateType() {
+		return graduateType;
+	}
+
+	public void setGraduateType(String graduateType) {
+		this.graduateType = graduateType;
+	}
+
+	public String getSpeciality() {
+		return speciality;
+	}
+
+	public void setSpeciality(String speciality) {
+		this.speciality = speciality;
 	}
 
 }

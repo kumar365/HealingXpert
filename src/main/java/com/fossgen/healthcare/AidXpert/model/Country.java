@@ -17,9 +17,6 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "countries", uniqueConstraints = { @UniqueConstraint(name = "COUNTRY_UK", columnNames = "name") })
 public class Country implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

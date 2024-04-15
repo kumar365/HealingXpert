@@ -17,9 +17,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "file_upload_download")
 public class FileModel implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

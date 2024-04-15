@@ -16,8 +16,8 @@ import javax.persistence.Table;
  * @author KUMAR
  */
 @Entity
-@Table(name = "doctor_hospital_availability")
-public class DoctorHospitalAvailability implements Serializable {
+@Table(name = "doctor_qualification")
+public class DoctorQualification implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,23 +27,27 @@ public class DoctorHospitalAvailability implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "hospital_id")
-	private DoctorHospital doctorHospital;
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private User doctorUser;
 
-	@Column(name = "day_of_week", length = 10)
-	private String dayOfWeek;
+	@ManyToOne
+	@JoinColumn(name = "qualification_id", nullable = false)
+	private Qualification qualification;
 
-	@Column(name = "start_time")
-	private Timestamp startTime;
+	@Column(name = "university", length = 100)
+	private String university;
 
-	@Column(name = "end_time")
-	private Timestamp endTime;
+	@Column(name = "from_year", length = 5)
+	private String fromYear;
 
-	@Column(name = "is_available", length = 1)
-	private String isAvailable;
+	@Column(name = "to_year", length = 5)
+	private String toYear;
 
-	@Column(name = "reason_of_unavailability", length = 500)
-	private String reasonOfUnavailability;
+	@Column(name = "address", length = 100)
+	private String address;
+
+	@Column(name = "country", length = 100)
+	private String country;
 
 	@Column(name = "version", length = 10)
 	private String version;
@@ -57,7 +61,7 @@ public class DoctorHospitalAvailability implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public DoctorHospitalAvailability() {
+	public DoctorQualification() {
 		super();
 	}
 
@@ -69,44 +73,52 @@ public class DoctorHospitalAvailability implements Serializable {
 		this.id = id;
 	}
 
-	public String getDayOfWeek() {
-		return dayOfWeek;
+	public User getDoctorUser() {
+		return doctorUser;
 	}
 
-	public void setDayOfWeek(String dayOfWeek) {
-		this.dayOfWeek = dayOfWeek;
+	public void setDoctorUser(User doctorUser) {
+		this.doctorUser = doctorUser;
 	}
 
-	public Timestamp getStartTime() {
-		return startTime;
+	public String getUniversity() {
+		return university;
 	}
 
-	public void setStartTime(Timestamp startTime) {
-		this.startTime = startTime;
+	public void setUniversity(String university) {
+		this.university = university;
 	}
 
-	public Timestamp getEndTime() {
-		return endTime;
+	public String getFromYear() {
+		return fromYear;
 	}
 
-	public void setEndTime(Timestamp endTime) {
-		this.endTime = endTime;
+	public void setFromYear(String fromYear) {
+		this.fromYear = fromYear;
 	}
 
-	public String getIsAvailable() {
-		return isAvailable;
+	public String getToYear() {
+		return toYear;
 	}
 
-	public void setIsAvailable(String isAvailable) {
-		this.isAvailable = isAvailable;
+	public void setToYear(String toYear) {
+		this.toYear = toYear;
 	}
 
-	public String getReasonOfUnavailability() {
-		return reasonOfUnavailability;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setReasonOfUnavailability(String reasonOfUnavailability) {
-		this.reasonOfUnavailability = reasonOfUnavailability;
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	public String getVersion() {
@@ -141,12 +153,12 @@ public class DoctorHospitalAvailability implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public DoctorHospital getDoctorHospital() {
-		return doctorHospital;
+	public Qualification getQualification() {
+		return qualification;
 	}
 
-	public void setDoctorHospital(DoctorHospital doctorHospital) {
-		this.doctorHospital = doctorHospital;
+	public void setQualification(Qualification qualification) {
+		this.qualification = qualification;
 	}
 
 }

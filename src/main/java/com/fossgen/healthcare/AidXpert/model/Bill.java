@@ -15,15 +15,14 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
+
 /**
  * @author KUMAR
  */
 @Entity
 @Table(name = "bill")
 public class Bill implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

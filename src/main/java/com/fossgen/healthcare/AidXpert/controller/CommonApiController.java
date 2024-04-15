@@ -1,6 +1,5 @@
 package com.fossgen.healthcare.AidXpert.controller;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +49,9 @@ public class CommonApiController {
 
 	@Autowired
 	private EmailServiceGAVA emailService;
+	
+	@Value("${file_upload_dir}")
+	private String fileUploadDir;
 
 	@PostMapping(path = "/generateToken", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> generateToken() {
@@ -85,33 +88,18 @@ public class CommonApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(cityList);
 	}
 
-	@PostMapping(value = "/uploadFile")
-	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-		String filePath = "";
-		String fileName = "";
-		try {
-			if (null != file) {
-				// MultipartFile file = multipartFile;
-				byte[] bytes = file.getBytes();
-				fileName = file.getOriginalFilename();
-				System.out.println("fileName::" + fileName);
-				// filePath = uploadFilesFolderPath + fileName;
-				System.out.println("filePath::" + filePath);
-				Path path = Paths.get(filePath);
-				Files.write(path, bytes);
-			} else {
-				return ResponseEntity.ok().body("File updated failed!");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ResponseEntity.ok().body("File updated successfully!");
+	@GetMapping(path = "/testDetailsList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<TestDetails>> testDetailsList() {
+		log.info("Inside testDetailsList start");
+		List<TestDetails> testDetailsList = commonService.getTestDetailsList();
+		return ResponseEntity.status(HttpStatus.OK).body(testDetailsList);
 	}
 
 	@GetMapping(path = "/testDetails/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TestDetails> testDetails(@PathVariable("id") Integer id) {
-		log.info("Inside getOrderList start");
+		log.info("Inside testDetails start");
 		TestDetails testDetails = commonService.getTestDetails(id);
+		log.info("Inside testDetails end");
 		return ResponseEntity.status(HttpStatus.OK).body(testDetails);
 	}
 
@@ -139,6 +127,31 @@ public class CommonApiController {
 		}
 		response = "Question sent successfully";
 		return ResponseEntity.ok().body(new ApiResponse(true, response));
+	}
+
+	@PostMapping(value = "/fileUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> proceessFile(@RequestParam("file") MultipartFile file) {
+		String message = "";
+		String filePath = "";
+		String fileName = "";
+		try {
+			if (null != file) {
+				fileName = file.getOriginalFilename();
+				filePath = fileUploadDir + fileName;
+				Path path = Paths.get(filePath);
+				byte[] bytes = file.getBytes();
+				Files.write(path, bytes);
+				message = "Uploaded the file successfully: " + file.getOriginalFilename();
+				return ResponseEntity.status(HttpStatus.OK).body(new ResponseEntity<Object>(message, HttpStatus.OK));
+			} else {
+				message = "Could not upload the file: ";
+				return ResponseEntity.ok().body(message);
+			}
+		} catch (Exception e) {
+			message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseEntity<Object>(message, HttpStatus.OK));
+		}
 	}
 
 }

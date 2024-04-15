@@ -62,4 +62,9 @@ public class CommonServiceImpl implements CommonService {
 		return testDetailsRepository.getTestDetailsByTestId(id);
 	}
 
+	@Override
+	public List<TestDetails> getTestDetailsList() {
+		return testDetailsRepository.findAll();
+	}
+
 }
