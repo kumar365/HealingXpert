@@ -1,9 +1,5 @@
 package com.fossgen.healthcare.AidXpert.controller;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +21,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fossgen.healthcare.AidXpert.Util.FileUtils;
 import com.fossgen.healthcare.AidXpert.dto.ApiResponse;
+import com.fossgen.healthcare.AidXpert.dto.Staffing;
 import com.fossgen.healthcare.AidXpert.dto.UserQuestion;
+import com.fossgen.healthcare.AidXpert.model.Ambulance;
 import com.fossgen.healthcare.AidXpert.model.City;
 import com.fossgen.healthcare.AidXpert.model.Country;
 import com.fossgen.healthcare.AidXpert.model.State;
 import com.fossgen.healthcare.AidXpert.model.TestDetails;
 import com.fossgen.healthcare.AidXpert.model.User;
+import com.fossgen.healthcare.AidXpert.service.AmbulanceService;
 import com.fossgen.healthcare.AidXpert.service.CommonService;
 import com.fossgen.healthcare.AidXpert.service.EmailServiceGAVA;
 import com.fossgen.healthcare.AidXpert.service.UserService;
@@ -48,6 +47,9 @@ public class CommonController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	AmbulanceService ambulanceService;
 
 	@Autowired
 	private EmailServiceGAVA emailService;
@@ -179,4 +181,24 @@ public class CommonController {
 		}
 	}
 
+	@GetMapping(path = "/getAmbulances", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Ambulance>> getAmbulances(@RequestHeader Map<String, String> headers) {
+		log.info("In side getAmbulances()");
+		List<Ambulance> ambulanceList = ambulanceService.getAmbulances();
+		return ResponseEntity.status(HttpStatus.OK).body(ambulanceList);
+	}
+
+	@PostMapping("/sendStaffingData")
+	public ResponseEntity<?> sendStaffingData(@RequestBody Staffing staffing) {
+		String response = "";
+		try {
+//			emailService.sendOtpMessage(staffing.getEmail(), "Staffing needs (" + staffing.getStaffingNeeds() + ")",
+//					staffing.getHospitalName());
+		} catch (Exception e) {
+			response = "Staffing needst failed";
+			return ResponseEntity.ok().body(new ApiResponse(false, response));
+		}
+		response = "Staffing needs sent successfully";
+		return ResponseEntity.ok().body(new ApiResponse(true, response));
+	}
 }
