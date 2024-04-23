@@ -164,11 +164,13 @@ public class CommonController {
 		String message = "";
 		String filePath = "";
 		String fileName = "";
+		String fileDir = "";
 		try {
 			if (null != file) {
 				fileName = file.getOriginalFilename();
-				FileUtils.createDirectory(fileUploadDir + "/prescriptions/");
-				filePath = fileUploadDir + "/prescriptions/" + fileName;
+				fileDir = fileUploadDir + "/Prescriptions/";
+				FileUtils.createDirectory(fileDir);
+				filePath = fileDir + fileName;
 				FileUtils.writeFile(filePath, file.getBytes());
 				message = "Uploaded the file successfully: " + file.getOriginalFilename();
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseEntity<Object>(message, HttpStatus.OK));
@@ -206,17 +208,30 @@ public class CommonController {
 
 	@RequestMapping(value = "/sendStaffingDataWithFile", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> sendStaffingDataWithFile(@RequestPart(name = "staffing") Staffing staffing,
-			@RequestPart("file") List<MultipartFile> file) {
+			@RequestParam("file") List<MultipartFile> fileList) {
 		String response = "";
+		String filePath = "";
+		String fileName = "";
+		String fileDir = "";
 		try {
-			if (null != file && file.size() > 0) {
-				System.out.println(file.get(0).getOriginalFilename());
+			if (null != fileList && fileList.size() > 0) {
+				for (MultipartFile file : fileList) {
+					fileName = file.getOriginalFilename();
+					fileDir = fileUploadDir + "/StaffingData/";
+					FileUtils.createDirectory(fileDir);
+					filePath = fileDir + fileName;
+					FileUtils.writeFile(filePath, file.getBytes());
+				}
+				// response = "Staffing needs related file uploaded successfully: " + fileName;
+			} else {
+				response = "Staffing needs related file uploaded failed";
+				return ResponseEntity.ok().body(new ApiResponse(false, response));
 			}
 
 //			emailService.sendOtpMessage(staffing.getEmail(), "Staffing needs (" + staffing.getStaffingNeeds() + ")",
 //					staffing.getHospitalName());
 		} catch (Exception e) {
-			response = "Staffing needst failed";
+			response = "Staffing needs sent failed";
 			return ResponseEntity.ok().body(new ApiResponse(false, response));
 		}
 		response = "Staffing needs sent successfully";
