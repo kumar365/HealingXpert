@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -192,6 +194,25 @@ public class CommonController {
 	public ResponseEntity<?> sendStaffingData(@RequestBody Staffing staffing) {
 		String response = "";
 		try {
+//			emailService.sendOtpMessage(staffing.getEmail(), "Staffing needs (" + staffing.getStaffingNeeds() + ")",
+//					staffing.getHospitalName());
+		} catch (Exception e) {
+			response = "Staffing needst failed";
+			return ResponseEntity.ok().body(new ApiResponse(false, response));
+		}
+		response = "Staffing needs sent successfully";
+		return ResponseEntity.ok().body(new ApiResponse(true, response));
+	}
+
+	@RequestMapping(value = "/sendStaffingDataWithFile", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> sendStaffingDataWithFile(@RequestPart(name = "staffing") Staffing staffing,
+			@RequestPart("file") List<MultipartFile> file) {
+		String response = "";
+		try {
+			if (null != file && file.size() > 0) {
+				System.out.println(file.get(0).getOriginalFilename());
+			}
+
 //			emailService.sendOtpMessage(staffing.getEmail(), "Staffing needs (" + staffing.getStaffingNeeds() + ")",
 //					staffing.getHospitalName());
 		} catch (Exception e) {

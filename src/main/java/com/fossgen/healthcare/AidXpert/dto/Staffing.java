@@ -9,4 +9,6 @@ public class Staffing {
 	private String phoneNumber;
 	private String hospitalName;
 	private String staffingNeeds;
+	private String address;
+	private String degree;
 }
