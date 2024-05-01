@@ -1,6 +1,7 @@
 package com.fossgen.healthcare.AidXpert.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -8,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -18,29 +17,27 @@ import org.hibernate.annotations.DynamicUpdate;
  * @author KUMAR
  */
 @Entity
-@Table(name = "invoice")
+@Table(name = "inventory")
 @DynamicUpdate
-public class Invoice implements Serializable {
+public class Inventory implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "invoice_id")
+	@Column(name = "inventory_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer invoiceID;
+	private Integer inventoryId;
 
-	@ManyToOne
-	@JoinColumn(name = "patient_id")
-	private User patientUser;
+	@Column(name = "item_name", length = 150, nullable = false)
+	private String itemName;
 
-	@Column(name = "patient_name")
-	private String patientName;
+	@Column(name = "quantity")
+	private Integer quantity;
 
-	@Column(name = "appointment_id")
-	private Integer appointmentID;
+	@Column(name = "expiration_date", nullable = false)
+	private Date expirationDate;
 
-	private String invoice;
-
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -52,48 +49,40 @@ public class Invoice implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public Invoice(Integer invoiceID, String patientName, Integer appointmentID, String invoice) {
-		super();
-		this.invoiceID = invoiceID;
-		this.patientName = patientName;
-		this.appointmentID = appointmentID;
-		this.invoice = invoice;
-	}
-
-	public Invoice() {
+	public Inventory() {
 
 	}
 
-	public Integer getInvoiceID() {
-		return invoiceID;
+	public Integer getInventoryId() {
+		return inventoryId;
 	}
 
-	public void setInvoiceID(Integer invoiceID) {
-		this.invoiceID = invoiceID;
+	public void setInventoryId(Integer inventoryId) {
+		this.inventoryId = inventoryId;
 	}
 
-	public String getPatientName() {
-		return patientName;
+	public String getItemName() {
+		return itemName;
 	}
 
-	public void setPatientName(String patientName) {
-		this.patientName = patientName;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 
-	public Integer getAppointmentID() {
-		return appointmentID;
+	public Integer getQuantity() {
+		return quantity;
 	}
 
-	public void setAppointmentID(Integer appointmentID) {
-		this.appointmentID = appointmentID;
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
-	public String getInvoice() {
-		return invoice;
+	public Date getExpirationDate() {
+		return expirationDate;
 	}
 
-	public void setInvoice(String invoice) {
-		this.invoice = invoice;
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	public String getVersion() {

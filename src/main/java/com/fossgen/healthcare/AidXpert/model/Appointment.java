@@ -52,14 +52,14 @@ public class Appointment implements Serializable {
 	private String appBookingChannel;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-
-	@Column(name = "appointment_for")
-	private String appointmentFor;
+	@JoinColumn(name = "patient_id")
+	private User patientUser;
 
 	@Column(name = "patient_name")
 	private String patientName;
+
+	@Column(name = "appointment_for")
+	private String appointmentFor;
 
 	@Column(name = "consultation_type", nullable = false)
 	private String consultationType;
@@ -149,14 +149,6 @@ public class Appointment implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public String getConsultationType() {

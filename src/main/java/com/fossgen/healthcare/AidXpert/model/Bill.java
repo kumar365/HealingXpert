@@ -42,23 +42,24 @@ public class Bill implements Serializable {
 	private Invoice invoiceId;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	@JoinColumn(name = "patient_id", nullable = false)
+	private User patientUser;
 
 	private String title;
 
 	@Column(name = "bill_amount", nullable = false)
-	private float amount;
+	private float billAmount;
 
 	@Column(name = "bill_type")
-	private String type;
-
-	@Transient
-	private String billingDateString;
+	private String billType;
 
 	@Column(name = "billing_date")
 	private Date billingDate;
 
+	@Column(name = "payment_status", length = 50)
+	private String paymentStatus;
+
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -69,6 +70,9 @@ public class Bill implements Serializable {
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
+
+	@Transient
+	private String billingDateString;
 
 	public Bill() {
 		super();
@@ -90,28 +94,12 @@ public class Bill implements Serializable {
 		this.orderId = orderId;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public float getAmount() {
-		return amount;
-	}
-
-	public void setAmount(float amount) {
-		this.amount = amount;
 	}
 
 	public String getBillingDateString() {
@@ -162,14 +150,6 @@ public class Bill implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public Long getBillId() {
 		return billId;
 	}
@@ -184,5 +164,37 @@ public class Bill implements Serializable {
 
 	public void setInvoiceId(Invoice invoiceId) {
 		this.invoiceId = invoiceId;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+
+	public float getBillAmount() {
+		return billAmount;
+	}
+
+	public void setBillAmount(float billAmount) {
+		this.billAmount = billAmount;
+	}
+
+	public User getPatientUser() {
+		return patientUser;
+	}
+
+	public void setPatientUser(User patientUser) {
+		this.patientUser = patientUser;
+	}
+
+	public String getBillType() {
+		return billType;
+	}
+
+	public void setBillType(String billType) {
+		this.billType = billType;
 	}
 }
