@@ -287,4 +287,12 @@ public class Appointment implements Serializable {
 		this.appBookingChannel = appBookingChannel;
 	}
 
+	public User getPatientUser() {
+		return patientUser;
+	}
+
+	public void setPatientUser(User patientUser) {
+		this.patientUser = patientUser;
+	}
+
 }

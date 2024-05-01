@@ -29,15 +29,15 @@ public class AppointmentService {
 	}
 
 	public Appointment save(Appointment appointment) {
-		appointment.getUser().setUsername(appointment.getUser().getFirstName());
-		appointment.getUser().setDisplayName(appointment.getUser().getFirstName());
-		appointment.getUser().setPassword(appointment.getUser().getEmail());
-		appointment.getUser().setUserType(CommonConstants.PATIENT);
-		appointment.getUser().setVersion(AppUtils.VERSION);
-		appointment.getUser().setLostLogin(AppUtils.getTimestamp());
-		appointment.getUser().setCreatedBy(AppUtils.getName());
-		appointment.getUser().setCreatedDate(AppUtils.getTimestamp());
-		userRepository.save(appointment.getUser());
+		appointment.getPatientUser().setUsername(appointment.getPatientUser().getFirstName());
+		appointment.getPatientUser().setDisplayName(appointment.getPatientUser().getFirstName());
+		appointment.getPatientUser().setPassword(appointment.getPatientUser().getEmail());
+		appointment.getPatientUser().setUserType(CommonConstants.PATIENT);
+		appointment.getPatientUser().setVersion(AppUtils.VERSION);
+		appointment.getPatientUser().setLostLogin(AppUtils.getTimestamp());
+		appointment.getPatientUser().setCreatedBy(AppUtils.getName());
+		appointment.getPatientUser().setCreatedDate(AppUtils.getTimestamp());
+		userRepository.save(appointment.getPatientUser());
 		if (null == appointment.getAppointmentDate()) {
 			appointment.setAppointmentDate(DateUtils.getSqlDate());
 		}
