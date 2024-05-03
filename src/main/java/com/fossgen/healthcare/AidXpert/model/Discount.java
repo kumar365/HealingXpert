@@ -14,35 +14,24 @@ import javax.persistence.Table;
  * @author KUMAR
  */
 @Entity
-@Table(name = "product")
-public class Product implements Serializable {
+@Table(name = "discount")
+public class Discount implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "discount_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long discountId;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+	@Column(name = "discount_name", nullable = false)
+	private String discountName;
 
-	@Column(name = "sku")
-	private int sku;
+	@Column(name = "discount_value")
+	private double discountValue;
 
 	@Column(name = "discription")
 	private String discription;
-
-	@Column(name = "vendor", length = 100)
-	private String vendor;
-
-	@Column(name = "price", nullable = false)
-	private double price;
-
-	@Column(name = "quantity")
-	private int quantity;
-
-	@Column(name = "product_type")
-	private String productType;
 
 	@Column(name = "version", length = 10)
 	private String version;
@@ -56,24 +45,24 @@ public class Product implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public Product() {
+	public Discount() {
 		super();
 	}
 
-	public Long getId() {
-		return id;
+	public String getDiscountName() {
+		return discountName;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setDiscountName(String discountName) {
+		this.discountName = discountName;
 	}
 
-	public String getName() {
-		return name;
+	public double getDiscountValue() {
+		return discountValue;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDiscountValue(double discountValue) {
+		this.discountValue = discountValue;
 	}
 
 	public String getDiscription() {
@@ -82,30 +71,6 @@ public class Product implements Serializable {
 
 	public void setDiscription(String discription) {
 		this.discription = discription;
-	}
-
-	public String getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(String vendor) {
-		this.vendor = vendor;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public String getProductType() {
-		return productType;
-	}
-
-	public void setProductType(String productType) {
-		this.productType = productType;
 	}
 
 	public String getVersion() {
@@ -140,19 +105,12 @@ public class Product implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getSku() {
-		return sku;
+	public Long getDiscountId() {
+		return discountId;
 	}
 
-	public void setSku(int sku) {
-		this.sku = sku;
+	public void setDiscountId(Long discountId) {
+		this.discountId = discountId;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 }

@@ -40,7 +40,20 @@ public class Invoice implements Serializable {
 	private Integer appointmentID;
 
 	private String invoice;
+	
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product product;
+	
+	@ManyToOne
+	@JoinColumn(name = "tax_id")
+	private Taxrates taxrates;
 
+	@ManyToOne
+	@JoinColumn(name = "discount_id")
+	private Discount discount;
+
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -126,6 +139,38 @@ public class Invoice implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public User getPatientUser() {
+		return patientUser;
+	}
+
+	public void setPatientUser(User patientUser) {
+		this.patientUser = patientUser;
+	}
+
+	public Discount getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Discount discount) {
+		this.discount = discount;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Taxrates getTaxrates() {
+		return taxrates;
+	}
+
+	public void setTaxrates(Taxrates taxrates) {
+		this.taxrates = taxrates;
 	}
 
 }
