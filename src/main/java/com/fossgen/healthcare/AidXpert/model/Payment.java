@@ -1,6 +1,7 @@
 package com.fossgen.healthcare.AidXpert.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -27,6 +28,9 @@ public class Payment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer paymentId;
 
+	@Column(name = "payment_amount")
+	private double paymentAmount;
+
 	@Column(name = "invoice_id")
 	private Integer invoiceId;
 
@@ -40,10 +44,15 @@ public class Payment implements Serializable {
 	private String paymentType;
 
 	@Column(name = "payment_date", nullable = false)
-	private Timestamp paymentDate;
+	private Date paymentDate;
 
-	private double amount;
+	@Column(name = "payment_method", length = 50, nullable = false)
+	private String paymentMethod;
 
+	@Column(name = "payment_status", length = 50, nullable = false)
+	private String paymentStatus;
+
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -101,20 +110,12 @@ public class Payment implements Serializable {
 		this.paymentType = paymentType;
 	}
 
-	public Timestamp getPaymentDate() {
+	public Date getPaymentDate() {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(Timestamp paymentDate) {
+	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 
 	public String getVersion() {
@@ -163,5 +164,29 @@ public class Payment implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public double getPaymentAmount() {
+		return paymentAmount;
+	}
+
+	public void setPaymentAmount(double paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 }

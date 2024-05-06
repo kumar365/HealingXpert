@@ -140,18 +140,12 @@ public class UserController {
 	@PostMapping("/updateProfile")
 	public ResponseEntity<?> updateProfile(@RequestBody User user, HttpServletRequest request) {
 		log.info("Inside updateProfile");
-		log.info("Inside updateProfile ::" + user.getEmail());
-		// if (userService.checkUser(user)) {
-		// User userDb = userService.findUserByEmail(user.getEmail());
-		// if (userService.checkUser(user)) {
-		// user.setUsername("krvspk");
 		if (null != user.getDateOfBirthString() && !user.getDateOfBirthString().isBlank()) {
 			user.setDateOfBirth(AppUtils.convertDateStringToDate(user.getDateOfBirthString()));
 			user.setAge(AppUtils.getAge(user.getDateOfBirth()));
 		}
 		user.setIpAddress(AppUtils.getClientIP(request));
 		userService.updateUser(user);
-		// }
 		return ResponseEntity.ok().body(new MessageResponse("Profile updated successfully!"));
 	}
 

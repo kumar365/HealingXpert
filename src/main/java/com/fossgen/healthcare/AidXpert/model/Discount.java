@@ -29,6 +29,9 @@ public class Discount implements Serializable {
 
 	@Column(name = "discount_value")
 	private double discountValue;
+	
+	@Column(name = "discount_percentage")
+	private double discountPercentage;
 
 	@Column(name = "discription")
 	private String discription;
@@ -111,6 +114,14 @@ public class Discount implements Serializable {
 
 	public void setDiscountId(Long discountId) {
 		this.discountId = discountId;
+	}
+
+	public double getDiscountPercentage() {
+		return discountPercentage;
+	}
+
+	public void setDiscountPercentage(double discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 }

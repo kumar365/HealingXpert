@@ -43,6 +43,12 @@ public class DoctorSlot implements Serializable {
 	@Column(name = "slot_date", nullable = false)
 	private Date slotDate;
 
+	@Column(name = "break_start")
+	private Timestamp breakStart;
+
+	@Column(name = "break_end")
+	private Timestamp breakEnd;
+
 	@Column(name = "status", nullable = false, length = 10)
 	private String status;
 
@@ -181,5 +187,21 @@ public class DoctorSlot implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public Timestamp getBreakStart() {
+		return breakStart;
+	}
+
+	public void setBreakStart(Timestamp breakStart) {
+		this.breakStart = breakStart;
+	}
+
+	public Timestamp getBreakEnd() {
+		return breakEnd;
+	}
+
+	public void setBreakEnd(Timestamp breakEnd) {
+		this.breakEnd = breakEnd;
 	}
 }

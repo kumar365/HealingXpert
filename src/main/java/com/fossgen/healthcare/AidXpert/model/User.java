@@ -68,35 +68,40 @@ public class User implements Serializable {
 
 	@Column(name = "last_name")
 	private String lastName;
-
+	
+	@Column(name = "gender", length=20)
 	private String gender;
-
-	@Transient
-	private String dateOfBirthString;
 
 	@Column(name = "date_of_birth")
 	private Date dateOfBirth;
 
+	@Column(name = "age", length=5)
 	private String age;
 
+	@Column(name = "biography", length=500)
 	private String biography;
 
 	@Column(name = "blood_group")
 	private String bloodGroup;
 
+	@Column(name = "address")
 	private String address;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "city")
-	private City city;
+	@JoinColumn(name = "country")
+	private Country country;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "state")
 	private State state;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "country")
-	private Country country;
+	@JoinColumn(name = "city")
+	private City city;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "hospital")
+	private Hospital hospital;
 
 	@Column(name = "profile_image_name")
 	private String profileImageName;
@@ -104,6 +109,7 @@ public class User implements Serializable {
 	@Column(name = "pin_code", length = 10)
 	private String pinCode;
 
+	@Column(name = "version", length = 10)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -124,10 +130,6 @@ public class User implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
-
 	@Enumerated(EnumType.STRING)
 	@Column(name = "auth_type", length = 20)
 	private AuthenticationType authType;
@@ -140,8 +142,10 @@ public class User implements Serializable {
 	@Column(name = "display_name")
 	private String displayName;
 
+	@Column(name = "provider", length = 100)
 	private String provider;
 
+	@Column(name = "token")
 	private String token;
 
 	@Column(columnDefinition = "TIMESTAMP")
@@ -155,6 +159,13 @@ public class User implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "doctorUser")
 	private Set<Qualification> qualifications = new HashSet<Qualification>(0);
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+
+	@Transient
+	private String dateOfBirthString;
 
 	@Transient
 	private String oldPassword;
@@ -510,6 +521,14 @@ public class User implements Serializable {
 
 	public void setQualifications(Set<Qualification> qualifications) {
 		this.qualifications = qualifications;
+	}
+
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
 	}
 
 }
