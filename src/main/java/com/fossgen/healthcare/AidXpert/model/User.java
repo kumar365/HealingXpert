@@ -18,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -25,6 +26,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.Type;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fossgen.healthcare.AidXpert.enums.AuthenticationType;
@@ -68,17 +70,17 @@ public class User implements Serializable {
 
 	@Column(name = "last_name")
 	private String lastName;
-	
-	@Column(name = "gender", length=20)
+
+	@Column(name = "gender", length = 20)
 	private String gender;
 
 	@Column(name = "date_of_birth")
 	private Date dateOfBirth;
 
-	@Column(name = "age", length=5)
+	@Column(name = "age", length = 5)
 	private String age;
 
-	@Column(name = "biography", length=500)
+	@Column(name = "biography", length = 500)
 	private String biography;
 
 	@Column(name = "blood_group")
@@ -98,13 +100,17 @@ public class User implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "city")
 	private City city;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "hospital")
 	private Hospital hospital;
 
 	@Column(name = "profile_image_name")
 	private String profileImageName;
+
+	@Lob
+	@Type(type = "org.hibernate.type.ImageType")
+	private byte[] imageData;
 
 	@Column(name = "pin_code", length = 10)
 	private String pinCode;
@@ -172,9 +178,6 @@ public class User implements Serializable {
 
 	@Transient
 	private String newPassword;
-
-	@Transient
-	private MultipartFile profileImage;
 
 	public User() {
 		super();
@@ -483,14 +486,6 @@ public class User implements Serializable {
 		this.userType = userType;
 	}
 
-	public MultipartFile getProfileImage() {
-		return profileImage;
-	}
-
-	public void setProfileImage(MultipartFile profileImage) {
-		this.profileImage = profileImage;
-	}
-
 	public LocalDateTime getTokenCreationDate() {
 		return tokenCreationDate;
 	}
@@ -529,6 +524,14 @@ public class User implements Serializable {
 
 	public void setHospital(Hospital hospital) {
 		this.hospital = hospital;
+	}
+
+	public byte[] getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
 	}
 
 }

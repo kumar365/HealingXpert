@@ -57,7 +57,7 @@ public class AppointmentService {
 		return appointmentRepository.save(appointment);
 	}
 
-	public void delete(Integer id) {
+	public void cancelAppointment(Integer id) {
 		appointmentRepository.deleteById(id);
 	}
 

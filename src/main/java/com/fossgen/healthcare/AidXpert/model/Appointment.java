@@ -85,6 +85,10 @@ public class Appointment implements Serializable {
 	@Column(name = "symtoms", length = 200)
 	private String symtoms;
 
+	@ManyToOne
+	@JoinColumn(name = "invoice_id")
+	private Invoice invoice;
+
 	@Column(name = "version", length = 50)
 	private String version;
 
@@ -293,6 +297,14 @@ public class Appointment implements Serializable {
 
 	public void setPatientUser(User patientUser) {
 		this.patientUser = patientUser;
+	}
+
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 
 }

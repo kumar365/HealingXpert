@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,15 +26,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fossgen.healthcare.AidXpert.Util.AppUtils;
 import com.fossgen.healthcare.AidXpert.Util.GeneralUtils;
+import com.fossgen.healthcare.AidXpert.Util.ImageUtils;
 import com.fossgen.healthcare.AidXpert.config.CurrentUser;
 import com.fossgen.healthcare.AidXpert.dto.ApiResponse;
 import com.fossgen.healthcare.AidXpert.dto.LocalUser;
+import com.fossgen.healthcare.AidXpert.dto.Staffing;
 import com.fossgen.healthcare.AidXpert.dto.UserInfo;
 import com.fossgen.healthcare.AidXpert.exception.DependentAlreadyExistException;
 import com.fossgen.healthcare.AidXpert.exception.MedicalDetailsAlreadyExistException;
@@ -111,7 +116,15 @@ public class UserController {
 
 	@GetMapping("/getUserById/{id}")
 	public User getUserById(@PathVariable("id") Long id) {
-		return userService.findUserById(id);
+		User user = userService.findUserById(id);
+		if (null != user && null != user.getImageData()) {
+			try {
+				user.setImageData(ImageUtils.decompressImage(user.getImageData()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
 	}
 
 	@PostMapping(value = "/uploadFile")
@@ -137,14 +150,26 @@ public class UserController {
 		return ResponseEntity.ok().body("File updated successfully!");
 	}
 
-	@PostMapping("/updateProfile")
-	public ResponseEntity<?> updateProfile(@RequestBody User user, HttpServletRequest request) {
+	// @PostMapping("/updateProfile")
+	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> updateProfile(@RequestPart(name = "user") User user,
+			@RequestParam("file") List<MultipartFile> fileList) {
 		log.info("Inside updateProfile");
 		if (null != user.getDateOfBirthString() && !user.getDateOfBirthString().isBlank()) {
 			user.setDateOfBirth(AppUtils.convertDateStringToDate(user.getDateOfBirthString()));
 			user.setAge(AppUtils.getAge(user.getDateOfBirth()));
 		}
-		user.setIpAddress(AppUtils.getClientIP(request));
+		if (null != fileList && fileList.size() > 0) {
+			for (MultipartFile file : fileList) {
+				try {
+					user.setImageData(ImageUtils.compressImage(file.getBytes()));
+					user.setProfileImageName(file.getOriginalFilename());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		user.setIpAddress("");
 		userService.updateUser(user);
 		return ResponseEntity.ok().body(new MessageResponse("Profile updated successfully!"));
 	}

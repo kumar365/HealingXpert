@@ -28,7 +28,7 @@ public class CommonServiceImpl implements CommonService {
 
 	@Autowired
 	CityRepository cityRepository;
-	
+
 	@Autowired
 	private TestDetailsRepository testDetailsRepository;
 
@@ -38,15 +38,24 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
+	public List<State> getStates() {
+		return stateRepository.findAll();
+	}
+
+	@Override
 	public List<State> getStates(int countryId) {
 		return stateRepository.findStatesByCountryId(countryId);
+	}
+
+	@Override
+	public List<City> getCities() {
+		return cityRepository.findAll();
 	}
 
 	@Override
 	public List<City> getCities(int stateId) {
 		return cityRepository.findCitiesByStateId(stateId);
 	}
-	
 
 	@Override
 	public TestDetails saveTestDetails(TestDetails testDetails) {

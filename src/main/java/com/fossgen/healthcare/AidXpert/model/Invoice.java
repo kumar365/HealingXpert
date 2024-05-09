@@ -2,6 +2,7 @@ package com.fossgen.healthcare.AidXpert.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -40,11 +42,11 @@ public class Invoice implements Serializable {
 	private Integer appointmentID;
 
 	private String invoice;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "tax_id")
 	private Taxrates taxrates;
@@ -64,6 +66,9 @@ public class Invoice implements Serializable {
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
+
+	@OneToMany(mappedBy = "invoice")
+	private List<Appointment> appointments;
 
 	public Invoice(Integer invoiceID, String patientName, Integer appointmentID, String invoice) {
 		super();
@@ -171,6 +176,14 @@ public class Invoice implements Serializable {
 
 	public void setTaxrates(Taxrates taxrates) {
 		this.taxrates = taxrates;
+	}
+
+	public List<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 
 }

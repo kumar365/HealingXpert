@@ -78,18 +78,32 @@ public class CommonController {
 		return ResponseEntity.status(HttpStatus.OK).body(countryList);
 	}
 
-	@GetMapping(path = "/states/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<State>> getStates(@RequestHeader Map<String, String> headers,
-			@PathVariable("id") int countryId) {
+	@GetMapping(path = "/states", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<State>> getStates(@RequestHeader Map<String, String> headers) {
 		log.info("In side getStates()");
-		List<State> stateList = commonService.getStates(countryId);
+		List<State> stateList = commonService.getStates();
 		return ResponseEntity.status(HttpStatus.OK).body(stateList);
 	}
 
-	@GetMapping(path = "/districts/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<City>> getDistricts(@RequestHeader Map<String, String> headers,
-			@PathVariable("id") int stateId) {
+	@GetMapping(path = "/states/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<State>> getStatesById(@RequestHeader Map<String, String> headers,
+			@PathVariable("id") int countryId) {
+		log.info("In side getStatesById()");
+		List<State> stateList = commonService.getStates(countryId);
+		return ResponseEntity.status(HttpStatus.OK).body(stateList);
+	}
+	
+	@GetMapping(path = "/districts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<City>> getDistricts(@RequestHeader Map<String, String> headers) {
 		log.info("In side getDistricts()");
+		List<City> cityList = commonService.getCities();
+		return ResponseEntity.status(HttpStatus.OK).body(cityList);
+	}
+
+	@GetMapping(path = "/districts/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<City>> getDistrictsById(@RequestHeader Map<String, String> headers,
+			@PathVariable("id") int stateId) {
+		log.info("In side getDistrictsById()");
 		List<City> cityList = commonService.getCities(stateId);
 		return ResponseEntity.status(HttpStatus.OK).body(cityList);
 	}
