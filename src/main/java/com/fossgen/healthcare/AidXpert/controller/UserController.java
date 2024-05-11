@@ -279,8 +279,14 @@ public class UserController {
 
 	@GetMapping(path = "/patientList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> getPatientList() {
-		log.info("Inside getPatientList start");
+		log.info("Inside getPatientList() start");
 		List<User> userList = userService.getPatientList();
+		return ResponseEntity.status(HttpStatus.OK).body(userList);
+	}
+	@GetMapping(path = "/patientListToday", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<User>> patientListToday() {
+		log.info("Inside patientListToday() start");
+		List<User> userList = userService.getTodayPatientList();
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
 	

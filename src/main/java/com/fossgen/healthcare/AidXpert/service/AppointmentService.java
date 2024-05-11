@@ -1,5 +1,6 @@
 package com.fossgen.healthcare.AidXpert.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,8 +93,12 @@ public class AppointmentService {
 		return appointmentRepository.findAppointmentsByDoctorId(doctorId);
 	}
 
-	public List<Appointment> findAppointmentsByDoctorIdDate(Long doctorId, String date) {
+	public List<Appointment> findAppointmentsByDoctorIdDate(Long doctorId, Date date) {
 		return appointmentRepository.findAppointmentsByDoctorIdDate(doctorId, date);
+	}
+
+	public List<Appointment> findTodayAppointmentsByDoctorId(Long id) {
+		return appointmentRepository.findAppointmentsByDoctorIdDate(id, DateUtils.getSqlDate());
 	}
 
 }

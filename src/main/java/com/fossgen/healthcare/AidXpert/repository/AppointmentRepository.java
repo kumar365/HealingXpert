@@ -1,5 +1,6 @@
 package com.fossgen.healthcare.AidXpert.repository;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +26,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	int setPrescription(String prescription, Integer id);
 
 	@Query(value = "select * from appointment a where a.doctor_id =?1 AND a.appointment_date =?2  ", nativeQuery = true)
-	List<Appointment> findAppointmentsByDoctorIdDate(Long doctorId, String date);
+	List<Appointment> findAppointmentsByDoctorIdDate(Long doctorId, Date date);
 
 }

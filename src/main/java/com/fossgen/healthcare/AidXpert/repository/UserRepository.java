@@ -1,5 +1,7 @@
 package com.fossgen.healthcare.AidXpert.repository;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,4 +58,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("SELECT U FROM User U WHERE U.refId = ?1 AND U.userType=?2")
 	List<User> findPatientListById(Long id, String userType);
+
+	@Query("SELECT U FROM User U WHERE U.userType = ?1 AND date(U.createdDate)=?2")
+	List<User> getUsersByUserTypeAndDate(String userType, Date createdDate);
+
 }

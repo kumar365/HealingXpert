@@ -88,4 +88,6 @@ public interface UserService {
 
 	public List<User> getPatientListById(Long id);
 
+	List<User> getTodayPatientList();
+
 }

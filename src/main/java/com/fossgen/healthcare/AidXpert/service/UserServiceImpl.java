@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.fossgen.healthcare.AidXpert.Util.AppUtils;
+import com.fossgen.healthcare.AidXpert.Util.DateUtils;
 import com.fossgen.healthcare.AidXpert.Util.GeneralUtils;
 import com.fossgen.healthcare.AidXpert.constants.CommonConstants;
 import com.fossgen.healthcare.AidXpert.dto.LocalUser;
@@ -403,6 +404,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<User> getTodayPatientList() {
+		return userRepository.getUsersByUserTypeAndDate(CommonConstants.PATIENT, DateUtils.getSqlDate());
+	}
+
+	@Override
 	public User getPatientById(Long id) {
 		return userRepository.findUserByIdAandUserType(id, CommonConstants.PATIENT);
 	}
@@ -424,7 +430,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getPatientListById(Long id) {
-		return userRepository.findPatientListById(id,CommonConstants.PATIENT);
+		return userRepository.findPatientListById(id, CommonConstants.PATIENT);
 	}
 
 }

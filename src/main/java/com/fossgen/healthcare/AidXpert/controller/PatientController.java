@@ -68,6 +68,13 @@ public class PatientController {
 		List<Appointment> doctorAppointments = appointmentService.findAppointmentsByDoctorId(id);
 		return ResponseEntity.status(HttpStatus.OK).body(doctorAppointments);
 	}
+	@GetMapping(path = "/doctorAppointmentsToday/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Appointment>> doctorAppointmentsToday(@RequestHeader Map<String, String> headers,
+			@PathVariable("id") Long id) {
+		log.info("In side doctorAppointmentsToday()");
+		List<Appointment> doctorAppointments = appointmentService.findTodayAppointmentsByDoctorId(id);
+		return ResponseEntity.status(HttpStatus.OK).body(doctorAppointments);
+	}
 
 	@PostMapping(value = "/cancelAppointment")
 	public ResponseEntity<?> cancelAppointment(@RequestBody Appointment appointment, HttpServletRequest request) {
