@@ -86,4 +86,6 @@ public interface UserService {
 
 	public List<Orders> getOrdersList(Long id);
 
+	public List<User> getPatientListById(Long id);
+
 }

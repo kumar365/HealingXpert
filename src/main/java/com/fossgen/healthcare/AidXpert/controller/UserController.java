@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.DataFormatException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,7 +37,6 @@ import com.fossgen.healthcare.AidXpert.Util.ImageUtils;
 import com.fossgen.healthcare.AidXpert.config.CurrentUser;
 import com.fossgen.healthcare.AidXpert.dto.ApiResponse;
 import com.fossgen.healthcare.AidXpert.dto.LocalUser;
-import com.fossgen.healthcare.AidXpert.dto.Staffing;
 import com.fossgen.healthcare.AidXpert.dto.UserInfo;
 import com.fossgen.healthcare.AidXpert.exception.DependentAlreadyExistException;
 import com.fossgen.healthcare.AidXpert.exception.MedicalDetailsAlreadyExistException;
@@ -283,6 +281,13 @@ public class UserController {
 	public ResponseEntity<List<User>> getPatientList() {
 		log.info("Inside getPatientList start");
 		List<User> userList = userService.getPatientList();
+		return ResponseEntity.status(HttpStatus.OK).body(userList);
+	}
+	
+	@GetMapping(path = "/patientList/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<User>> getPatientListById(@PathVariable("id") Long id) {
+		log.info("Inside getPatientListById start");
+		List<User> userList = userService.getPatientListById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
 

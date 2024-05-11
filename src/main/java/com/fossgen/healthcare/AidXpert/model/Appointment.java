@@ -30,10 +30,10 @@ public class Appointment implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "doctor_id")
+	@JoinColumn(name = "doctor_id", nullable = false)
 	private User doctorUser;
 
-	@Column(name = "doctor_name")
+	@Column(name = "doctor_name", nullable = false)
 	private String doctorName;
 
 	@Column(name = "appointment_date", nullable = false)
@@ -52,10 +52,10 @@ public class Appointment implements Serializable {
 	private String appBookingChannel;
 
 	@ManyToOne
-	@JoinColumn(name = "patient_id")
+	@JoinColumn(name = "patient_id", nullable = false)
 	private User patientUser;
 
-	@Column(name = "patient_name")
+	@Column(name = "patient_name", nullable = false)
 	private String patientName;
 
 	@Column(name = "appointment_for")
@@ -64,8 +64,8 @@ public class Appointment implements Serializable {
 	@Column(name = "consultation_type", nullable = false)
 	private String consultationType;
 
-	@Column(name = "price", nullable = false)
-	private double price;
+	@Column(name = "amount_paid", nullable = false)
+	private double amountPaid;
 
 	@Column(name = "prescription")
 	private String prescription;
@@ -163,14 +163,7 @@ public class Appointment implements Serializable {
 		this.consultationType = consultationType;
 	}
 
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
+	
 	public String getAppointmentFor() {
 		return appointmentFor;
 	}
@@ -305,6 +298,14 @@ public class Appointment implements Serializable {
 
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
+	}
+
+	public double getAmountPaid() {
+		return amountPaid;
+	}
+
+	public void setAmountPaid(double amountPaid) {
+		this.amountPaid = amountPaid;
 	}
 
 }

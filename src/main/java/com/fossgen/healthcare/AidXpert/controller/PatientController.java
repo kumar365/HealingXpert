@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,9 +57,7 @@ public class PatientController {
 	public ResponseEntity<List<Appointment>> patientAppointments(@RequestHeader Map<String, String> headers,
 			@PathVariable("id") Long id) {
 		log.info("In side patientAppointments()");
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String patientName = authentication.getName();
-		List<Appointment> listAppointments = appointmentService.findByPatientName(patientName);
+		List<Appointment> listAppointments = appointmentService.findAppointmentsByPatientId(id);
 		return ResponseEntity.status(HttpStatus.OK).body(listAppointments);
 	}
 
@@ -69,9 +65,7 @@ public class PatientController {
 	public ResponseEntity<List<Appointment>> doctorAppointments(@RequestHeader Map<String, String> headers,
 			@PathVariable("id") Long id) {
 		log.info("In side doctorAppointments()");
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String doctorName = authentication.getName();
-		List<Appointment> doctorAppointments = appointmentService.findByDoctorName(doctorName);
+		List<Appointment> doctorAppointments = appointmentService.findAppointmentsByDoctorId(id);
 		return ResponseEntity.status(HttpStatus.OK).body(doctorAppointments);
 	}
 
@@ -86,7 +80,7 @@ public class PatientController {
 			log.error("Exception Ocurred", e);
 			return new ResponseEntity<>(new ApiResponse(false, "Appointment does not exist!"), HttpStatus.BAD_REQUEST);
 		}
-		return ResponseEntity.ok().body(new ApiResponse(true, "Appointment canceled  successfully!"));
+		return ResponseEntity.ok().body(new ApiResponse(true, "Appointment "+ appointment.getStatus()+"  successfully!"));
 	}
 
 	@PostMapping(value = "/addProduct")

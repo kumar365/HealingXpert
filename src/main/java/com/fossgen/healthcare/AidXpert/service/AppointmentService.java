@@ -29,15 +29,23 @@ public class AppointmentService {
 	}
 
 	public Appointment save(Appointment appointment) {
-		appointment.getPatientUser().setUsername(appointment.getPatientUser().getFirstName());
-		appointment.getPatientUser().setDisplayName(appointment.getPatientUser().getFirstName());
-		appointment.getPatientUser().setPassword(appointment.getPatientUser().getEmail());
-		appointment.getPatientUser().setUserType(CommonConstants.PATIENT);
-		appointment.getPatientUser().setVersion(AppUtils.VERSION);
-		appointment.getPatientUser().setLostLogin(AppUtils.getTimestamp());
-		appointment.getPatientUser().setCreatedBy(AppUtils.getName());
-		appointment.getPatientUser().setCreatedDate(AppUtils.getTimestamp());
-		userRepository.save(appointment.getPatientUser());
+		if (null != appointment.getPatientUser()) {
+			if (null != appointment.getPatientUser().getFirstName()) {
+				appointment.getPatientUser().setUsername(appointment.getPatientUser().getFirstName());
+				appointment.getPatientUser().setDisplayName(appointment.getPatientUser().getFirstName());
+			} else {
+				appointment.getPatientUser().setUsername("new user");
+				appointment.getPatientUser().setDisplayName("new user");
+			}
+			appointment.getPatientUser().setPassword(appointment.getPatientUser().getEmail());
+			appointment.getPatientUser().setUserType(CommonConstants.PATIENT);
+			appointment.getPatientUser().setVersion(AppUtils.VERSION);
+			appointment.getPatientUser().setLostLogin(AppUtils.getTimestamp());
+			appointment.getPatientUser().setCreatedBy(AppUtils.getName());
+			appointment.getPatientUser().setCreatedDate(AppUtils.getTimestamp());
+			userRepository.save(appointment.getPatientUser());
+		}
+
 		if (null == appointment.getAppointmentDate()) {
 			appointment.setAppointmentDate(DateUtils.getSqlDate());
 		}
@@ -47,10 +55,12 @@ public class AppointmentService {
 		if (null == appointment.getEndTime()) {
 			appointment.setEndTime(DateUtils.getSqlTimestamp());
 		}
-		if (appointment.getPrice() < 0) {
-			appointment.setPrice(0);
+		if (appointment.getAmountPaid() < 0) {
+			appointment.setAmountPaid(0);
 		}
-		appointment.setStatus("Created");
+		if (null == appointment.getStatus() || appointment.getStatus().isEmpty()) {
+			appointment.setStatus("Created");
+		}
 		appointment.setVersion(AppUtils.VERSION);
 		appointment.setCreatedBy(AppUtils.getName());
 		appointment.setCreatedDate(AppUtils.getTimestamp());
@@ -74,16 +84,16 @@ public class AppointmentService {
 
 	}
 
-	public List<Appointment> findByPatientName(String patientName) {
-		return appointmentRepository.findByPatientName(patientName);
+	public List<Appointment> findAppointmentsByPatientId(Long patientId) {
+		return appointmentRepository.findAppointmentsByPatientId(patientId);
 	}
 
-	public List<Appointment> findByDoctorName(String doctorName) {
-		return appointmentRepository.findByDoctorName(doctorName);
+	public List<Appointment> findAppointmentsByDoctorId(Long doctorId) {
+		return appointmentRepository.findAppointmentsByDoctorId(doctorId);
 	}
 
-	public List<Appointment> findByDate(String date, String doctorName) {
-		return appointmentRepository.findByDate(date, doctorName);
+	public List<Appointment> findAppointmentsByDoctorIdDate(Long doctorId, String date) {
+		return appointmentRepository.findAppointmentsByDoctorIdDate(doctorId, date);
 	}
 
 }

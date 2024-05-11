@@ -27,7 +27,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.Type;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fossgen.healthcare.AidXpert.enums.AuthenticationType;
 
@@ -169,6 +168,9 @@ public class User implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	@Column(name = "ref_id")
+	private Long refId;
 
 	@Transient
 	private String dateOfBirthString;
@@ -532,6 +534,14 @@ public class User implements Serializable {
 
 	public void setImageData(byte[] imageData) {
 		this.imageData = imageData;
+	}
+
+	public Long getRefId() {
+		return refId;
+	}
+
+	public void setRefId(Long refId) {
+		this.refId = refId;
 	}
 
 }

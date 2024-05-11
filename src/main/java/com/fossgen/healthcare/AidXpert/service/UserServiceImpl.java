@@ -422,4 +422,9 @@ public class UserServiceImpl implements UserService {
 		return ordersRepository.findOrdersByUserId(id);
 	}
 
+	@Override
+	public List<User> getPatientListById(Long id) {
+		return userRepository.findPatientListById(id,CommonConstants.PATIENT);
+	}
+
 }
