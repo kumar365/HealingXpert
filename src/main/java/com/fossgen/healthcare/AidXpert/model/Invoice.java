@@ -34,6 +34,10 @@ public class Invoice implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "patient_id")
 	private User patientUser;
+	
+	@ManyToOne
+	@JoinColumn(name = "doctor_id")
+	private User doctorUser;
 
 	@Column(name = "patient_name")
 	private String patientName;
@@ -42,6 +46,9 @@ public class Invoice implements Serializable {
 	private Integer appointmentID;
 
 	private String invoice;
+
+	@Column(name = "amount", nullable = false)
+	private double amount;
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
@@ -184,6 +191,22 @@ public class Invoice implements Serializable {
 
 	public void setAppointments(List<Appointment> appointments) {
 		this.appointments = appointments;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public User getDoctorUser() {
+		return doctorUser;
+	}
+
+	public void setDoctorUser(User doctorUser) {
+		this.doctorUser = doctorUser;
 	}
 
 }

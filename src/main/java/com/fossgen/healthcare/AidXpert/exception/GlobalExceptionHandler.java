@@ -39,6 +39,7 @@ public class GlobalExceptionHandler {
 		return "response_redirect";
 	}
 
+	@SuppressWarnings({ "unused", "serial" })
 	@ExceptionHandler({ InvalidRequestException.class })
 	public ResponseEntity<Object> handleInvalidRequest(RuntimeException e, WebRequest request) {
 		InvalidRequestException ire = (InvalidRequestException) e;
@@ -51,6 +52,7 @@ public class GlobalExceptionHandler {
 		});
 	}
 
+	@SuppressWarnings("serial")
 	@ExceptionHandler(InvalidAuthenticationException.class)
 	public ResponseEntity<Object> handleInvalidAuthentication(InvalidAuthenticationException e, WebRequest request) {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new HashMap<String, Object>() {

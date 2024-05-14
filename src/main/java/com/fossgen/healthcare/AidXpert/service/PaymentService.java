@@ -1,6 +1,7 @@
 package com.fossgen.healthcare.AidXpert.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,12 @@ public class PaymentService {
 		return invoiceRepository.save(invoice);
 	}
 
-	public List<Invoice> findByPatientName(String name) {
-		return invoiceRepository.findByPatientName(name);
+	public List<Invoice> findInvoicesByDoctorId(Long id) {
+		return invoiceRepository.findInvoicesByDoctorId(id);
+	}
+
+	public Optional<Invoice> findInvoiceById(Integer id) {
+		return invoiceRepository.findById(id);
 	}
 
 	public Bill saveBill(Bill bill) {

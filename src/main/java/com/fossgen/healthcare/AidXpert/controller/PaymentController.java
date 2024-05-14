@@ -54,11 +54,16 @@ public class PaymentController {
 	@GetMapping(path = "/invoices/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Invoice>> getInvoices(@RequestHeader Map<String, String> headers,
 			@PathVariable("id") Long id) {
-		log.info("Inside getBills()");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String name = auth.getName();
-		List<Invoice> prescriptions = paymentService.findByPatientName(name);
-		return ResponseEntity.status(HttpStatus.OK).body(prescriptions);
+		log.info("Inside getInvoices()");
+		List<Invoice> invoices = paymentService.findInvoicesByDoctorId(id);
+		return ResponseEntity.status(HttpStatus.OK).body(invoices);
+	}
+
+	@GetMapping(path = "/invoiceById/{id}")
+	public Invoice getInvoiceById(@PathVariable("id") Integer id) {
+		log.info("Inside getInvoiceById()");
+		Invoice invoice = paymentService.findInvoiceById(id).get();
+		return invoice;
 	}
 
 	@PostMapping(value = "/addBill")
