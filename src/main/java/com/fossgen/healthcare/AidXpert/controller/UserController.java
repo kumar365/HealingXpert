@@ -148,7 +148,6 @@ public class UserController {
 		return ResponseEntity.ok().body("File updated successfully!");
 	}
 
-	// @PostMapping("/updateProfile")
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> updateProfile(@RequestPart(name = "user") User user,
 			@RequestParam("file") List<MultipartFile> fileList) {
@@ -283,13 +282,14 @@ public class UserController {
 		List<User> userList = userService.getPatientList();
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
+
 	@GetMapping(path = "/patientListToday", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> patientListToday() {
 		log.info("Inside patientListToday() start");
 		List<User> userList = userService.getTodayPatientList();
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
-	
+
 	@GetMapping(path = "/patientList/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> getPatientListById(@PathVariable("id") Long id) {
 		log.info("Inside getPatientListById start");

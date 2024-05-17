@@ -9,14 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Type;
 
 /**
  * @author KUMAR
  */
 @Entity
 @Table(name = "medicine")
-public class Madicine implements Serializable {
+public class Medicine implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,12 +28,19 @@ public class Madicine implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "name", length = 100, nullable = false)
+	@Column(name = "name", length = 150, nullable = false)
 	private String name;
 
-	@Column(name = "medicine_type", length = 50)
+	@Lob
+	@Type(type = "org.hibernate.type.ImageType")
+	private byte[] imageData;
+
+	@Column(name = "medicine_type", length = 100)
 	private String medicineType;
 
+	@Column(name = "medicine_category", length = 100)
+	private String medicineCategory;
+	
 	@Column(name = "medicine_reg_no", length = 100)
 	private String medicineRegNumber;
 
@@ -71,6 +82,9 @@ public class Madicine implements Serializable {
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
+	
+	@Transient
+	private String expiryDateString;
 
 	public int getId() {
 		return id;
@@ -206,6 +220,22 @@ public class Madicine implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public byte[] getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
+	}
+
+	public String getExpiryDateString() {
+		return expiryDateString;
+	}
+
+	public void setExpiryDateString(String expiryDateString) {
+		this.expiryDateString = expiryDateString;
 	}
 
 }
