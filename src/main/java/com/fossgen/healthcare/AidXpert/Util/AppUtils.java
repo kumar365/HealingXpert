@@ -1,6 +1,5 @@
 package com.fossgen.healthcare.AidXpert.Util;
 
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,16 +72,16 @@ public class AppUtils {
 	public static java.sql.Date convertDateStringToDate(String dateString) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsedDate = null;
-		java.sql.Date sqlDate= null;
+		java.sql.Date sqlDate = null;
 		try {
 			parsedDate = dateFormat.parse(dateString);
-			 sqlDate = new java.sql.Date(parsedDate.getTime());
+			sqlDate = new java.sql.Date(parsedDate.getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return sqlDate;
 	}
-	
+
 	public static String getAge(java.sql.Date dateOfBirth) {
 		String age = "";
 		LocalDate today = LocalDate.now();

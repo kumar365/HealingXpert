@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fossgen.healthcare.AidXpert.Util.AppUtils;
 import com.fossgen.healthcare.AidXpert.Util.ImageUtils;
 import com.fossgen.healthcare.AidXpert.model.Medicine;
 import com.fossgen.healthcare.AidXpert.model.MessageResponse;
@@ -38,24 +37,13 @@ public class MedicineController {
 	@GetMapping("/addMedicine")
 	public List<Medicine> getMedicines() {
 		log.info("Inside getMedicines start");
-		List<Medicine> medicineList = medicineService.getMedicines();
-		for (int i = 0; i < medicineList.size(); i++) {
-			try {
-				medicineList.get(i).setImageData(ImageUtils.decompressImage(medicineList.get(i).getImageData()));
-			} catch (Exception e) {
-				log.error("Inside getMedicines error::" + e);
-			}
-		}
-		return medicineList;
+		return medicineService.getMedicines();
 	}
 
 	@RequestMapping(value = "/addMedicine", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> addMedicine(@RequestPart(name = "medicine") Medicine medicine,
 			@RequestParam("file") List<MultipartFile> fileList) {
-		log.info("Inside updateProfile");
-		if (null != medicine.getExpiryDateString() && !medicine.getExpiryDateString().isBlank()) {
-			medicine.setExpiryDate(AppUtils.convertDateStringToDate(medicine.getExpiryDateString()));
-		}
+		log.info("Inside addMedicine start");
 		if (null != fileList && fileList.size() > 0) {
 			for (MultipartFile file : fileList) {
 				try {
@@ -66,12 +54,13 @@ public class MedicineController {
 			}
 		}
 		medicine.setIpAddress("");
-		medicineService.createMedicine(medicine);
+		medicineService.saveMedicine(medicine);
+		log.info("Inside addMedicine end");
 		return ResponseEntity.ok().body(new MessageResponse("Medicine added successfully!"));
 	}
 
-	@GetMapping("/getMedicineById")
-	public Medicine getMedicineById(@RequestParam int id) {
+	@GetMapping("/getMedicineById/{id}")
+	public Medicine getMedicineById(@PathVariable int id) {
 		log.info("Inside getMedicineById start");
 		log.debug("Inside getMedicineById id::" + id);
 		return medicineService.getMedicineById(id);
