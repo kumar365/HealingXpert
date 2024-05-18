@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.Inflater;
 
 /**
@@ -39,5 +40,14 @@ public class ImageUtils {
 		}
 		outputStream.close();
 		return outputStream.toByteArray();
+	}
+
+	public static boolean isCompressed(byte[] bytes) {
+		if ((bytes == null) || (bytes.length < 2)) {
+			return false;
+		} else {
+			return ((bytes[0] == (byte) (GZIPInputStream.GZIP_MAGIC))
+					&& (bytes[1] == (byte) (GZIPInputStream.GZIP_MAGIC >> 8)));
+		}
 	}
 }

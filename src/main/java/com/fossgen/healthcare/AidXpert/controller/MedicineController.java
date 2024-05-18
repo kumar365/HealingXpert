@@ -62,8 +62,20 @@ public class MedicineController {
 	@GetMapping("/getMedicineById/{id}")
 	public Medicine getMedicineById(@PathVariable int id) {
 		log.info("Inside getMedicineById start");
+		Medicine medicine = medicineService.getMedicineById(id);
+		try {
+			if (null != medicine && null != medicine.getImageData()
+					&& ImageUtils.isCompressed(medicine.getImageData())) {
+				medicine.setImageData(ImageUtils.decompressImage(medicine.getImageData()));
+			}
+			if (null != medicine && null != medicine.getExpiryDate()) {
+				medicine.setExpiryDateString(medicine.getExpiryDate().toString());
+			}
+		} catch (Exception e) {
+			log.error("Inside getMedicineById() error::" + e);
+		}
 		log.debug("Inside getMedicineById id::" + id);
-		return medicineService.getMedicineById(id);
+		return medicine;
 	}
 
 	@DeleteMapping("/deleteMedicineById/{id}")

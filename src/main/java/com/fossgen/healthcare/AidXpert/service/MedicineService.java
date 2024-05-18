@@ -38,7 +38,8 @@ public class MedicineService {
 		List<Medicine> medicineList = medicineRepository.findAll();
 		for (int i = 0; i < medicineList.size(); i++) {
 			try {
-				if (null != medicineList.get(i).getImageData()) {
+				if (null != medicineList.get(i) && null != medicineList.get(i).getImageData()
+						&& ImageUtils.isCompressed(medicineList.get(i).getImageData())) {
 					medicineList.get(i).setImageData(ImageUtils.decompressImage(medicineList.get(i).getImageData()));
 				}
 			} catch (Exception e) {
@@ -51,18 +52,7 @@ public class MedicineService {
 
 	public Medicine getMedicineById(int id) {
 		log.info("Inside getMedicineById() start");
-		Medicine medicine = medicineRepository.findById(id).get();
-		try {
-			if (null != medicine && null != medicine.getImageData()) {
-				medicine.setImageData(ImageUtils.decompressImage(medicine.getImageData()));
-			}
-			if (null != medicine && null != medicine.getExpiryDate()) {
-				medicine.setExpiryDateString(medicine.getExpiryDate().toString());
-			}
-		} catch (Exception e) {
-			log.error("Inside getMedicineById() error::" + e);
-		}
-		return medicine;
+		return medicineRepository.findById(id).get();
 	}
 
 	public void deleteMedicineById(int id) {
