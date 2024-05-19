@@ -20,6 +20,7 @@ public class OTPServiceImpl implements OTPService {
 	@Override
 	public void sendPhoneNumberVerificationCode(String phoneNumber) throws Exception {
 		String otp = generateOTP(phoneNumber);
+		System.out.println(otp);
 	}
 
 	@Override

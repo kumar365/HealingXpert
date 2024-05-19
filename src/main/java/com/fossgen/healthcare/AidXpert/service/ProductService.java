@@ -7,24 +7,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fossgen.healthcare.AidXpert.Util.AppUtils;
-import com.fossgen.healthcare.AidXpert.model.Product;
-import com.fossgen.healthcare.AidXpert.repository.ProductRepository;
+import com.fossgen.healthcare.AidXpert.model.ProductDetails;
+import com.fossgen.healthcare.AidXpert.repository.ProductDetailsRepository;
 
 @Service
 @Transactional
 public class ProductService {
 
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductDetailsRepository productDetailsRepository;
 
-	public Product saveProduct(Product product) {
+	public ProductDetails saveProduct(ProductDetails product) {
 		product.setVersion(AppUtils.VERSION);
 		product.setCreatedBy(AppUtils.getName());
 		product.setCreatedDate(AppUtils.getTimestamp());
-		return productRepository.save(product);
+		return productDetailsRepository.save(product);
 	}
 
-	public List<Product> getProductList(long id) {
-		return productRepository.findAll();
+	public List<ProductDetails> getProductList(long id) {
+		return productDetailsRepository.findAll();
 	}
 }

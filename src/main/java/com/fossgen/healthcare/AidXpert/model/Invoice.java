@@ -34,7 +34,7 @@ public class Invoice implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "patient_id")
 	private User patientUser;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "doctor_id")
 	private User doctorUser;
@@ -51,8 +51,8 @@ public class Invoice implements Serializable {
 	private double amount;
 
 	@ManyToOne
-	@JoinColumn(name = "product_id")
-	private Product product;
+	@JoinColumn(name = "medicine_id")
+	private Medicine medicine;
 
 	@ManyToOne
 	@JoinColumn(name = "tax_id")
@@ -169,14 +169,6 @@ public class Invoice implements Serializable {
 		this.discount = discount;
 	}
 
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
 	public Taxrates getTaxrates() {
 		return taxrates;
 	}
@@ -207,6 +199,14 @@ public class Invoice implements Serializable {
 
 	public void setDoctorUser(User doctorUser) {
 		this.doctorUser = doctorUser;
+	}
+
+	public Medicine getMedicine() {
+		return medicine;
+	}
+
+	public void setMedicine(Medicine medicine) {
+		this.medicine = medicine;
 	}
 
 }

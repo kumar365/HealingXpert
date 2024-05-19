@@ -14,8 +14,8 @@ import javax.persistence.Table;
  * @author KUMAR
  */
 @Entity
-@Table(name = "product")
-public class Product implements Serializable {
+@Table(name = "product_details")
+public class ProductDetails implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,21 +27,30 @@ public class Product implements Serializable {
 	private String name;
 
 	@Column(name = "sku")
-	private int sku;
+	private String sku;
 
-	@Column(name = "discription")
+	@Column(name = "discription", length = 500)
 	private String discription;
 
-	@Column(name = "vendor", length = 100)
-	private String vendor;
+	@Column(name = "highlights")
+	private String highlights;
 
-	@Column(name = "price", nullable = false)
-	private double price;
+	@Column(name = "directions_for_use")
+	private String directionsForUse;
 
-	@Column(name = "quantity")
-	private int quantity;
+	@Column(name = "storage")
+	private String storage;
 
-	@Column(name = "product_type")
+	@Column(name = "administration_instructions")
+	private String administrationInstructions;
+
+	@Column(name = "warning")
+	private String warning;
+
+	@Column(name = "precaution")
+	private String precaution;
+
+	@Column(name = "product_type", length = 50)
 	private String productType;
 
 	@Column(name = "version", length = 10)
@@ -56,7 +65,7 @@ public class Product implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	public Product() {
+	public ProductDetails() {
 		super();
 	}
 
@@ -76,6 +85,14 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
 	public String getDiscription() {
 		return discription;
 	}
@@ -84,20 +101,52 @@ public class Product implements Serializable {
 		this.discription = discription;
 	}
 
-	public String getVendor() {
-		return vendor;
+	public String getHighlights() {
+		return highlights;
 	}
 
-	public void setVendor(String vendor) {
-		this.vendor = vendor;
+	public void setHighlights(String highlights) {
+		this.highlights = highlights;
 	}
 
-	public double getPrice() {
-		return price;
+	public String getDirectionsForUse() {
+		return directionsForUse;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setDirectionsForUse(String directionsForUse) {
+		this.directionsForUse = directionsForUse;
+	}
+
+	public String getStorage() {
+		return storage;
+	}
+
+	public void setStorage(String storage) {
+		this.storage = storage;
+	}
+
+	public String getAdministrationInstructions() {
+		return administrationInstructions;
+	}
+
+	public void setAdministrationInstructions(String administrationInstructions) {
+		this.administrationInstructions = administrationInstructions;
+	}
+
+	public String getWarning() {
+		return warning;
+	}
+
+	public void setWarning(String warning) {
+		this.warning = warning;
+	}
+
+	public String getPrecaution() {
+		return precaution;
+	}
+
+	public void setPrecaution(String precaution) {
+		this.precaution = precaution;
 	}
 
 	public String getProductType() {
@@ -140,19 +189,4 @@ public class Product implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getSku() {
-		return sku;
-	}
-
-	public void setSku(int sku) {
-		this.sku = sku;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 }

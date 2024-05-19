@@ -22,7 +22,7 @@ import com.fossgen.healthcare.AidXpert.Util.AppUtils;
 import com.fossgen.healthcare.AidXpert.dto.ApiResponse;
 import com.fossgen.healthcare.AidXpert.exception.DependentAlreadyExistException;
 import com.fossgen.healthcare.AidXpert.model.Appointment;
-import com.fossgen.healthcare.AidXpert.model.Product;
+import com.fossgen.healthcare.AidXpert.model.ProductDetails;
 import com.fossgen.healthcare.AidXpert.service.AppointmentService;
 import com.fossgen.healthcare.AidXpert.service.ProductService;
 
@@ -91,7 +91,7 @@ public class PatientController {
 	}
 
 	@PostMapping(value = "/addProduct")
-	public ResponseEntity<?> addProduct(@RequestBody Product product, HttpServletRequest request) {
+	public ResponseEntity<?> addProduct(@RequestBody ProductDetails product, HttpServletRequest request) {
 		log.info("In side addProduct()");
 		try {
 			product.setIpAddress(AppUtils.getClientIP(request));
@@ -104,10 +104,10 @@ public class PatientController {
 	}
 
 	@GetMapping(path = "/products/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Product>> getProductList(@RequestHeader Map<String, String> headers,
+	public ResponseEntity<List<ProductDetails>> getProductList(@RequestHeader Map<String, String> headers,
 			@PathVariable("id") Long id) {
 		log.info("In side getProductList()");
-		List<Product> productList = productService.getProductList(id);
+		List<ProductDetails> productList = productService.getProductList(id);
 		return ResponseEntity.status(HttpStatus.OK).body(productList);
 	}
 

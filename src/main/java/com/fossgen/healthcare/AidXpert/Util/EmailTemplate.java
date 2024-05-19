@@ -10,10 +10,12 @@ import java.util.Map;
  */
 public class EmailTemplate {
 
+	@SuppressWarnings("unused")
 	private String templateId;
 
 	private String template;
 
+	@SuppressWarnings("unused")
 	private Map<String, String> replacementParams;
 
 	public EmailTemplate(String templateId) {

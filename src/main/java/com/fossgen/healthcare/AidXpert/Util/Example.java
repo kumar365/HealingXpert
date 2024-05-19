@@ -14,6 +14,7 @@ public class Example {
 	public static final String AUTH_TOKEN = "3c4172b6485079718bd299cbdbd0f6a1";// System.getenv("TWILIO_AUTH_TOKEN")
 
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		String phoneNumber = "+919096488159";
 		String email = "krvspkumar1@gmail.com";
 		// generateOTP(phoneNumber);

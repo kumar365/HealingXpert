@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -40,11 +43,11 @@ public class Medicine implements Serializable {
 
 	@Column(name = "medicine_category", length = 100)
 	private String medicineCategory;
-	
+
 	@Column(name = "medicine_reg_no", length = 100)
 	private String medicineRegNumber;
 
-	@Column(name = "medicine_price")
+	@Column(name = "medicine_price", nullable = false)
 	private float medicinePrice;
 
 	@Column(name = "expiry_date", nullable = false)
@@ -62,8 +65,18 @@ public class Medicine implements Serializable {
 	@Column(name = "total_qty")
 	private int totalQuantity;
 
-	@Column(name = "is_prescription_required", length = 1)
+	@Column(name = "is_prescription_required", length = 1, nullable = false)
 	private String isPrescriptionRequired;
+
+	@Column(name = "discount_percentage")
+	private int discountPercentage;
+
+	@Column(name = "vendor", length = 150)
+	private String vendor;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "product_details_id")
+	private ProductDetails productDetails;
 
 	@Column(name = "version", length = 50)
 	private String version;
@@ -82,7 +95,7 @@ public class Medicine implements Serializable {
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
-	
+
 	@Transient
 	private String expiryDateString;
 
@@ -236,6 +249,38 @@ public class Medicine implements Serializable {
 
 	public void setExpiryDateString(String expiryDateString) {
 		this.expiryDateString = expiryDateString;
+	}
+
+	public String getMedicineCategory() {
+		return medicineCategory;
+	}
+
+	public void setMedicineCategory(String medicineCategory) {
+		this.medicineCategory = medicineCategory;
+	}
+
+	public String getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+
+	public ProductDetails getProductDetails() {
+		return productDetails;
+	}
+
+	public void setProductDetails(ProductDetails productDetails) {
+		this.productDetails = productDetails;
+	}
+
+	public int getDiscountPercentage() {
+		return discountPercentage;
+	}
+
+	public void setDiscountPercentage(int discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 }
