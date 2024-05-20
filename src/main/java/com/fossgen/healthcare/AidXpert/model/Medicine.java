@@ -3,9 +3,12 @@ package com.fossgen.healthcare.AidXpert.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
+
+import com.fossgen.healthcare.AidXpert.converter.StringListConverter;
 
 /**
  * @author KUMAR
@@ -47,32 +52,36 @@ public class Medicine implements Serializable {
 	@Column(name = "medicine_reg_no", length = 100)
 	private String medicineRegNumber;
 
-	@Column(name = "medicine_price", nullable = false)
+	@Column(name = "medicine_price", nullable = false, columnDefinition = "int default 0")
 	private float medicinePrice;
 
 	@Column(name = "expiry_date", nullable = false)
 	private Date expiryDate;
 
-	@Column(name = "units")
+	@Column(name = "units", columnDefinition = "int default 0")
 	private int units;
 
-	@Column(name = "qty_per_unit")
+	@Column(name = "qty_per_unit", columnDefinition = "int default 0")
 	private int quantityPerUnit;
 
-	@Column(name = "price_per_unit")
+	@Column(name = "price_per_unit", columnDefinition = "int default 0")
 	private float pricePerUnit;
 
-	@Column(name = "total_qty")
+	@Column(name = "total_qty", columnDefinition = "int default 0")
 	private int totalQuantity;
 
 	@Column(name = "is_prescription_required", length = 1, nullable = false)
 	private String isPrescriptionRequired;
 
-	@Column(name = "discount_percentage")
+	@Column(name = "discount_percentage", columnDefinition = "int default 0")
 	private int discountPercentage;
 
 	@Column(name = "vendor", length = 150)
 	private String vendor;
+
+	@Convert(converter = StringListConverter.class)
+	@Column(name = "used_for")
+	private List<String> usedFor = new ArrayList<>();
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "product_details_id")
@@ -281,6 +290,14 @@ public class Medicine implements Serializable {
 
 	public void setDiscountPercentage(int discountPercentage) {
 		this.discountPercentage = discountPercentage;
+	}
+
+	public List<String> getUsedFor() {
+		return usedFor;
+	}
+
+	public void setUsedFor(List<String> usedFor) {
+		this.usedFor = usedFor;
 	}
 
 }

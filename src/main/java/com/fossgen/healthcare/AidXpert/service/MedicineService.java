@@ -23,13 +23,18 @@ public class MedicineService {
 
 	public void saveMedicine(Medicine medicine) {
 		log.info("Inside saveMedicine() start");
-		if (null != medicine.getExpiryDateString() && !medicine.getExpiryDateString().isBlank()) {
-			medicine.setExpiryDate(AppUtils.convertDateStringToDate(medicine.getExpiryDateString()));
+		if (null != medicine) {
+			if (null != medicine.getExpiryDateString() && !medicine.getExpiryDateString().isBlank()) {
+				medicine.setExpiryDate(AppUtils.convertDateStringToDate(medicine.getExpiryDateString()));
+			}
+			if (medicine.getQuantityPerUnit() > 0 && medicine.getMedicinePrice() > 0) {
+				medicine.setPricePerUnit(medicine.getQuantityPerUnit() * medicine.getMedicinePrice());
+			}
+			medicine.setVersion(AppUtils.VERSION);
+			medicine.setCreatedBy(AppUtils.getName());
+			medicine.setCreatedDate(AppUtils.getTimestamp());
+			medicineRepository.save(medicine);
 		}
-		medicine.setVersion(AppUtils.VERSION);
-		medicine.setCreatedBy(AppUtils.getName());
-		medicine.setCreatedDate(AppUtils.getTimestamp());
-		medicineRepository.save(medicine);
 		log.info("Inside saveMedicine() end");
 	}
 
@@ -38,9 +43,11 @@ public class MedicineService {
 		List<Medicine> medicineList = medicineRepository.findAll();
 		for (int i = 0; i < medicineList.size(); i++) {
 			try {
-				if (null != medicineList.get(i) && null != medicineList.get(i).getImageData()
-						&& ImageUtils.isCompressed(medicineList.get(i).getImageData())) {
+				if (null != medicineList.get(i) && null != medicineList.get(i).getImageData()) {
 					medicineList.get(i).setImageData(ImageUtils.decompressImage(medicineList.get(i).getImageData()));
+				}
+				if (null != medicineList.get(i) && null != medicineList.get(i).getExpiryDate()) {
+					medicineList.get(i).setExpiryDateString(medicineList.get(i).getExpiryDate().toString());
 				}
 			} catch (Exception e) {
 				log.error("Inside getMedicines error::" + e);

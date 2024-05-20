@@ -2,13 +2,18 @@ package com.fossgen.healthcare.AidXpert.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fossgen.healthcare.AidXpert.converter.StringListConverter;
 
 /**
  * @author KUMAR
@@ -26,14 +31,15 @@ public class ProductDetails implements Serializable {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "sku")
+	@Column(name = "sku", length = 20)
 	private String sku;
 
-	@Column(name = "discription", length = 500)
-	private String discription;
+	@Column(name = "description", length = 500)
+	private String description;
 
+	@Convert(converter = StringListConverter.class)
 	@Column(name = "highlights")
-	private String highlights;
+	private List<String> highlights = new ArrayList<>();
 
 	@Column(name = "directions_for_use")
 	private String directionsForUse;
@@ -93,20 +99,12 @@ public class ProductDetails implements Serializable {
 		this.sku = sku;
 	}
 
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
-	}
-
-	public String getHighlights() {
-		return highlights;
-	}
-
-	public void setHighlights(String highlights) {
-		this.highlights = highlights;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getDirectionsForUse() {
@@ -187,6 +185,14 @@ public class ProductDetails implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public List<String> getHighlights() {
+		return highlights;
+	}
+
+	public void setHighlights(List<String> highlights) {
+		this.highlights = highlights;
 	}
 
 }

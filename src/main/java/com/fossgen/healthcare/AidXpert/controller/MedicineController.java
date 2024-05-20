@@ -64,12 +64,11 @@ public class MedicineController {
 		log.info("Inside getMedicineById start");
 		Medicine medicine = medicineService.getMedicineById(id);
 		try {
-			if (null != medicine && null != medicine.getImageData()
-					&& ImageUtils.isCompressed(medicine.getImageData())) {
-				medicine.setImageData(ImageUtils.decompressImage(medicine.getImageData()));
-			}
 			if (null != medicine && null != medicine.getExpiryDate()) {
 				medicine.setExpiryDateString(medicine.getExpiryDate().toString());
+			}
+			if (null != medicine && null != medicine.getImageData()) {
+				medicine.setImageData(ImageUtils.decompressImage(medicine.getImageData()));
 			}
 		} catch (Exception e) {
 			log.error("Inside getMedicineById() error::" + e);
