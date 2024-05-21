@@ -34,6 +34,15 @@ public class ProductDetails implements Serializable {
 	@Column(name = "sku", length = 20)
 	private String sku;
 
+	@Column(name = "pack_size", length = 20)
+	private String packSize;
+	
+	@Column(name = "unit_count", length = 20)
+	private String unitCount;
+	
+	@Column(name = "country", length = 50)
+	private String country;
+
 	@Column(name = "description", length = 500)
 	private String description;
 
@@ -193,6 +202,30 @@ public class ProductDetails implements Serializable {
 
 	public void setHighlights(List<String> highlights) {
 		this.highlights = highlights;
+	}
+
+	public String getPackSize() {
+		return packSize;
+	}
+
+	public void setPackSize(String packSize) {
+		this.packSize = packSize;
+	}
+
+	public String getUnitCount() {
+		return unitCount;
+	}
+
+	public void setUnitCount(String unitCount) {
+		this.unitCount = unitCount;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 }
