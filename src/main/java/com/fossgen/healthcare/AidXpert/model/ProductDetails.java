@@ -31,7 +31,7 @@ public class ProductDetails implements Serializable {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "sku", length = 20)
+	@Column(name = "sku", length = 50, nullable = false)
 	private String sku;
 
 	@Column(name = "pack_size", length = 20)

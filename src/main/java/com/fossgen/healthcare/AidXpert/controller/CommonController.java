@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fossgen.healthcare.AidXpert.Util.FileUtils;
+import com.fossgen.healthcare.AidXpert.Util.ImageUtils;
 import com.fossgen.healthcare.AidXpert.dto.ApiResponse;
 import com.fossgen.healthcare.AidXpert.dto.Staffing;
 import com.fossgen.healthcare.AidXpert.dto.UserQuestion;
@@ -132,7 +133,15 @@ public class CommonController {
 
 	@GetMapping("/getDoctorDetailsById/{id}")
 	public User getDoctorDetailsById(@PathVariable("id") Long id) {
-		return userService.getDoctorById(id);
+		User user = userService.getDoctorById(id);
+		if (null != user && null != user.getImageData()) {
+			try {
+				user.setImageData(ImageUtils.decompressImage(user.getImageData()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
 	}
 
 	@PostMapping("/sendUserQuestion")

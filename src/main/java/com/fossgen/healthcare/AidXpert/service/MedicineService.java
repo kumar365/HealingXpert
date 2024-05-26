@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fossgen.healthcare.AidXpert.Util.AppUtils;
 import com.fossgen.healthcare.AidXpert.Util.ImageUtils;
+import com.fossgen.healthcare.AidXpert.model.CartItems;
 import com.fossgen.healthcare.AidXpert.model.Medicine;
+import com.fossgen.healthcare.AidXpert.repository.CartItemsRepository;
 import com.fossgen.healthcare.AidXpert.repository.MedicineRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,9 @@ public class MedicineService {
 
 	@Autowired
 	MedicineRepository medicineRepository;
+
+	@Autowired
+	CartItemsRepository cartItemsRepository;
 
 	public void saveMedicine(Medicine medicine) {
 		log.info("Inside saveMedicine() start");
@@ -65,5 +70,20 @@ public class MedicineService {
 	public void deleteMedicineById(int id) {
 		log.info("Inside deleteMedicineById() start");
 		medicineRepository.deleteById(id);
+	}
+
+	public void saveCartItems(List<CartItems> cartItemsList, String clientIP) {
+		log.info("Inside saveCartItems() start");
+		for (CartItems cartItems : cartItemsList) {
+			cartItems.setIpAddress(clientIP);
+			cartItems.setCreatedDate(AppUtils.getTimestamp());
+			cartItemsRepository.save(cartItems);
+		}
+
+	}
+
+	public List<CartItems> getCartItemsList(int id) {
+		List<CartItems> items=cartItemsRepository.findAllByProductId(id);
+		return items;
 	}
 }

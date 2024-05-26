@@ -3,6 +3,8 @@ package com.fossgen.healthcare.AidXpert.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fossgen.healthcare.AidXpert.Util.AppUtils;
 import com.fossgen.healthcare.AidXpert.Util.ImageUtils;
+import com.fossgen.healthcare.AidXpert.dto.ApiResponse;
+import com.fossgen.healthcare.AidXpert.model.CartItems;
 import com.fossgen.healthcare.AidXpert.model.Medicine;
 import com.fossgen.healthcare.AidXpert.model.MessageResponse;
 import com.fossgen.healthcare.AidXpert.service.MedicineService;
@@ -82,5 +89,23 @@ public class MedicineController {
 		log.info("Inside delete start");
 		medicineService.deleteMedicineById(id);
 		return new ResponseEntity<String>("Medicine is deleted successfully", HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/saveCartItems")
+	public ResponseEntity<?> saveCartItems(@RequestBody List<CartItems> cartItemsList, HttpServletRequest request) {
+		log.info("Inside saveCartItems()");
+		try {
+			medicineService.saveCartItems(cartItemsList, AppUtils.getClientIP(request));
+		} catch (Exception e) {
+			log.error("Exception Ocurred", e);
+			return new ResponseEntity<>(new ApiResponse(false, "Cart Items already exist!"), HttpStatus.BAD_REQUEST);
+		}
+		return ResponseEntity.ok().body(new ApiResponse(true, "Cart Items saved successfully!"));
+	}
+
+	@GetMapping("/cartItemsList/{id}")
+	public List<CartItems> cartItemsList(@PathVariable("id") int id) {
+		log.info("Inside cartItemsList start");
+		return medicineService.getCartItemsList(id);
 	}
 }
