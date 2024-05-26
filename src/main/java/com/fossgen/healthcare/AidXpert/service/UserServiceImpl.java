@@ -3,6 +3,7 @@ package com.fossgen.healthcare.AidXpert.service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -306,20 +307,25 @@ public class UserServiceImpl implements UserService {
 		List<Object[]> users = userRepository.getUsers();
 		for (Object[] value : users) {
 			User user = new User();
+
 			if (null != value[0]) {
-				user.setDisplayName(value[0].toString());
+				user.setId(Long.valueOf(value[0].toString()));
 			}
 			if (null != value[1]) {
-				user.setEmail(value[1].toString());
+				user.setDisplayName(value[1].toString());
 			}
 			if (null != value[2]) {
-				user.setUserType(value[2].toString());
+				user.setEmail(value[2].toString());
 			}
 			if (null != value[3]) {
-				user.setId(Long.valueOf(value[3].toString()));
+				user.setUserType(value[3].toString());
+			}
+			if (null != value[4]) {
+				user.setPhoneNumber(value[4].toString());
 			}
 			userList.add(user);
 		}
+		userList.sort(Comparator.comparing(User::getId));
 		return userList;
 	}
 
