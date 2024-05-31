@@ -35,7 +35,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Modifying
 	@Query("UPDATE User u SET u.authType = ?2 WHERE u.username = ?1")
 	public void updateAuthenticationType(String username, AuthenticationType authType);
-
+	
+	
+	@Query("SELECT U FROM User U WHERE U.email = ?1")
 	User findByEmail(String email);
 
 	@Query("SELECT U.id,U.username,U.email,U.userType,U.phoneNumber FROM User U")
