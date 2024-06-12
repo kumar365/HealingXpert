@@ -28,4 +28,8 @@ public class AmbulanceService {
 		return ambulanceRepository.findAll();
 	}
 
+	public Ambulance getAmbulanceDetailsById(Long id) {
+		return ambulanceRepository.findById(id).get();
+	}
+
 }

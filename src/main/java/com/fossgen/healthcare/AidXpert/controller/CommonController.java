@@ -93,7 +93,7 @@ public class CommonController {
 		List<State> stateList = commonService.getStates(countryId);
 		return ResponseEntity.status(HttpStatus.OK).body(stateList);
 	}
-	
+
 	@GetMapping(path = "/districts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<City>> getDistricts(@RequestHeader Map<String, String> headers) {
 		log.info("In side getDistricts()");
@@ -213,6 +213,17 @@ public class CommonController {
 		log.info("In side getAmbulances()");
 		List<Ambulance> ambulanceList = ambulanceService.getAmbulances();
 		return ResponseEntity.status(HttpStatus.OK).body(ambulanceList);
+	}
+
+	@GetMapping(path = "/getAmbulanceDetailsById/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Ambulance> getAmbulanceDetailsById(@PathVariable("id") Long id) {
+		log.info("Inside getAmbulanceDetailsById start");
+		Ambulance ambulance = null;
+		if (id > 0) {
+			ambulance = ambulanceService.getAmbulanceDetailsById(id);
+		}
+		log.info("Inside getAmbulanceDetailsById end");
+		return ResponseEntity.status(HttpStatus.OK).body(ambulance);
 	}
 
 	@PostMapping("/sendStaffingData")
