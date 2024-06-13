@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 /**
  * @author KUMAR
@@ -23,18 +26,22 @@ public class TestDetails implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "test_id")
 	private Integer testId;
-	
+
+	@Column(name = "test_name", length = 100, nullable = false)
+	private String testName;
+
 	@Column(name = "test_category", length = 50)
 	private String testCategory;
-	
-	@Column(name = "test_name", length = 100)
-	private String testName;
 
 	@Column(name = "test_code", length = 10)
 	private String testCode;
 
 	@Column(name = "test_cost", nullable = false)
 	private double testCost;
+
+	@Lob
+	@Type(type = "org.hibernate.type.ImageType")
+	private byte[] imageData;
 
 	@Column(name = "lab_name", length = 100)
 	private String labName;
@@ -45,8 +52,8 @@ public class TestDetails implements Serializable {
 	@Column(name = "benefits")
 	private String benefits;
 
-	@Column(name = "discription")
-	private String discription;
+	@Column(name = "description")
+	private String description;
 
 	@Column(name = "sample_requirement", length = 150)
 	private String sampleRequirement;
@@ -122,12 +129,12 @@ public class TestDetails implements Serializable {
 		this.benefits = benefits;
 	}
 
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getSampleRequirement() {
@@ -176,6 +183,14 @@ public class TestDetails implements Serializable {
 
 	public void setTestCategory(String testCategory) {
 		this.testCategory = testCategory;
+	}
+
+	public byte[] getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
 	}
 
 }

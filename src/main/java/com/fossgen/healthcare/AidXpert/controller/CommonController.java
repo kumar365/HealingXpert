@@ -119,7 +119,7 @@ public class CommonController {
 	@GetMapping(path = "/testDetails/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TestDetails> testDetails(@PathVariable("id") Integer id) {
 		log.info("Inside testDetails start");
-		TestDetails testDetails = commonService.getTestDetails(id);
+		TestDetails testDetails = commonService.getTestDetailsById(id);
 		log.info("Inside testDetails end");
 		return ResponseEntity.status(HttpStatus.OK).body(testDetails);
 	}

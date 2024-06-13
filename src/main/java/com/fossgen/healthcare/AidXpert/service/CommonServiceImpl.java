@@ -67,7 +67,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public TestDetails getTestDetails(Integer id) {
+	public TestDetails getTestDetailsById(Integer id) {
 		return testDetailsRepository.getTestDetailsByTestId(id);
 	}
 
@@ -76,4 +76,8 @@ public class CommonServiceImpl implements CommonService {
 		return testDetailsRepository.findAll();
 	}
 
+	@Override
+	public void deleteTestDetailsById(int id) {
+		testDetailsRepository.deleteById(id);
+	}
 }

@@ -21,8 +21,10 @@ public interface CommonService {
 
 	TestDetails saveTestDetails(TestDetails testDetails);
 
-	public TestDetails getTestDetails(Integer id);
+	public TestDetails getTestDetailsById(Integer id);
 
 	List<TestDetails> getTestDetailsList();
+
+	void deleteTestDetailsById(int id);
 
 }

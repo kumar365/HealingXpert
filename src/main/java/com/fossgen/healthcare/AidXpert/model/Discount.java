@@ -33,8 +33,8 @@ public class Discount implements Serializable {
 	@Column(name = "discount_percentage")
 	private double discountPercentage;
 
-	@Column(name = "discription")
-	private String discription;
+	@Column(name = "description")
+	private String description;
 
 	@Column(name = "version", length = 10)
 	private String version;
@@ -68,12 +68,12 @@ public class Discount implements Serializable {
 		this.discountValue = discountValue;
 	}
 
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getVersion() {
