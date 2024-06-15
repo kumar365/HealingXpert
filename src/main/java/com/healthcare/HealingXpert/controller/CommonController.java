@@ -128,6 +128,15 @@ public class CommonController {
 	public ResponseEntity<List<User>> getDoctorList() {
 		log.info("Inside getDoctorList start");
 		List<User> userList = userService.getDoctorList();
+		for (User user : userList) {
+			if (null != user && null != user.getImageData()) {
+				try {
+					user.setImageData(ImageUtils.decompressImage(user.getImageData()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(userList);
 	}
 
