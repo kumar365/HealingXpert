@@ -42,6 +42,8 @@ import com.healthcare.HealingXpert.model.Role;
 import com.healthcare.HealingXpert.model.User;
 import com.healthcare.HealingXpert.repository.AmbulanceRepository;
 import com.healthcare.HealingXpert.repository.DependentRepository;
+import com.healthcare.HealingXpert.repository.DoctorDetailsRepository;
+import com.healthcare.HealingXpert.repository.HospitalRepository;
 import com.healthcare.HealingXpert.repository.MedicalDetailsRepository;
 import com.healthcare.HealingXpert.repository.MedicalRecordsRepository;
 import com.healthcare.HealingXpert.repository.OrdersRepository;
@@ -81,6 +83,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private AmbulanceRepository ambulanceRepository;
+
+	@Autowired
+	private DoctorDetailsRepository doctorDetailsRepository;
+
+	@Autowired
+	private HospitalRepository hospitalRepository;
 
 	private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 
@@ -184,6 +192,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateUser(User user) {
+		if (null != user.getDoctorDetails()) {
+			if (null != user.getDoctorDetails().getHospital()) {
+				hospitalRepository.save(user.getDoctorDetails().getHospital());
+			}
+			doctorDetailsRepository.save(user.getDoctorDetails());
+		}
 		userRepository.save(user);
 	}
 

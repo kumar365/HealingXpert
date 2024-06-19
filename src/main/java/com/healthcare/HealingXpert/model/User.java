@@ -22,6 +22,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -100,9 +101,9 @@ public class User implements Serializable {
 	@JoinColumn(name = "city")
 	private City city;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "hospital")
-	private Hospital hospital;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "doctor_details_id")
+	private DoctorDetails doctorDetails;
 
 	@Column(name = "profile_image_name")
 	private String profileImageName;
@@ -158,12 +159,6 @@ public class User implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Dependent> dependents = new HashSet<Dependent>(0);
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "doctorUser")
-	private Set<DoctorSpecialization> doctorSpecializations = new HashSet<DoctorSpecialization>(0);
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "doctorUser")
-	private Set<Qualification> qualifications = new HashSet<Qualification>(0);
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -504,30 +499,6 @@ public class User implements Serializable {
 		this.dependents = dependents;
 	}
 
-	public Set<DoctorSpecialization> getDoctorSpecializations() {
-		return doctorSpecializations;
-	}
-
-	public void setDoctorSpecializations(Set<DoctorSpecialization> doctorSpecializations) {
-		this.doctorSpecializations = doctorSpecializations;
-	}
-
-	public Set<Qualification> getQualifications() {
-		return qualifications;
-	}
-
-	public void setQualifications(Set<Qualification> qualifications) {
-		this.qualifications = qualifications;
-	}
-
-	public Hospital getHospital() {
-		return hospital;
-	}
-
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
-	}
-
 	public byte[] getImageData() {
 		return imageData;
 	}
@@ -542,6 +513,14 @@ public class User implements Serializable {
 
 	public void setRefId(Long refId) {
 		this.refId = refId;
+	}
+
+	public DoctorDetails getDoctorDetails() {
+		return doctorDetails;
+	}
+
+	public void setDoctorDetails(DoctorDetails doctorDetails) {
+		this.doctorDetails = doctorDetails;
 	}
 
 }

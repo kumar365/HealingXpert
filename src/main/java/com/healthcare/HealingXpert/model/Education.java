@@ -2,16 +2,12 @@ package com.healthcare.HealingXpert.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -50,9 +46,9 @@ public class Education implements Serializable {
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "education")
-	private Set<DoctorEducation> doctorEducations = new HashSet<DoctorEducation>(0);
+//
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "education")
+//	private Set<DoctorEducation> doctorEducations = new HashSet<DoctorEducation>(0);
 
 	public int getId() {
 		return id;
@@ -100,14 +96,6 @@ public class Education implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
-	}
-
-	public Set<DoctorEducation> getDoctorEducations() {
-		return doctorEducations;
-	}
-
-	public void setDoctorEducations(Set<DoctorEducation> doctorEducations) {
-		this.doctorEducations = doctorEducations;
 	}
 
 	public String getAbbreviation() {
