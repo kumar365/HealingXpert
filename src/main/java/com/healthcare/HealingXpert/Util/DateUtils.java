@@ -19,4 +19,8 @@ public class DateUtils {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		return timestamp;
 	}
+
+	public static String yearDifference(String fromYear, String toYear) {
+		return String.valueOf(Integer.valueOf(toYear) - Integer.valueOf(fromYear));
+	}
 }

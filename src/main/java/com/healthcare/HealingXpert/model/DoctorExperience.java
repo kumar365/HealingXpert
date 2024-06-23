@@ -11,12 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author KUMAR
  */
 @Entity
-@Table(name = "experience")
-public class Experience implements Serializable {
+@Table(name = "doctor_experience")
+public class DoctorExperience implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,8 +27,9 @@ public class Experience implements Serializable {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "doctor_id", nullable = false)
-	private User doctorUser;
+	@JoinColumn(name = "doctor_details_id", insertable = false, updatable = false)
+	@JsonIgnoreProperties("doctorExperiences")
+	private DoctorDetails doctorDetails;
 
 	@Column(name = "hospital_name", length = 100, nullable = false)
 	private String hospitalName;
@@ -81,6 +84,22 @@ public class Experience implements Serializable {
 
 	public void setDesignation(String designation) {
 		this.designation = designation;
+	}
+
+	public String getExperienceData() {
+		return experienceData;
+	}
+
+	public void setExperienceData(String experienceData) {
+		this.experienceData = experienceData;
+	}
+
+	public DoctorDetails getDoctorDetails() {
+		return doctorDetails;
+	}
+
+	public void setDoctorDetails(DoctorDetails doctorDetails) {
+		this.doctorDetails = doctorDetails;
 	}
 
 }

@@ -35,6 +35,8 @@ import com.healthcare.HealingXpert.exception.OAuth2AuthenticationProcessingExcep
 import com.healthcare.HealingXpert.exception.UserAlreadyExistAuthenticationException;
 import com.healthcare.HealingXpert.model.Ambulance;
 import com.healthcare.HealingXpert.model.Dependent;
+import com.healthcare.HealingXpert.model.DoctorEducation;
+import com.healthcare.HealingXpert.model.DoctorExperience;
 import com.healthcare.HealingXpert.model.MedicalDetails;
 import com.healthcare.HealingXpert.model.MedicalRecords;
 import com.healthcare.HealingXpert.model.Orders;
@@ -42,8 +44,7 @@ import com.healthcare.HealingXpert.model.Role;
 import com.healthcare.HealingXpert.model.User;
 import com.healthcare.HealingXpert.repository.AmbulanceRepository;
 import com.healthcare.HealingXpert.repository.DependentRepository;
-import com.healthcare.HealingXpert.repository.DoctorDetailsRepository;
-import com.healthcare.HealingXpert.repository.HospitalRepository;
+import com.healthcare.HealingXpert.repository.DoctorEducationRepository;
 import com.healthcare.HealingXpert.repository.MedicalDetailsRepository;
 import com.healthcare.HealingXpert.repository.MedicalRecordsRepository;
 import com.healthcare.HealingXpert.repository.OrdersRepository;
@@ -85,10 +86,7 @@ public class UserServiceImpl implements UserService {
 	private AmbulanceRepository ambulanceRepository;
 
 	@Autowired
-	private DoctorDetailsRepository doctorDetailsRepository;
-
-	@Autowired
-	private HospitalRepository hospitalRepository;
+	DoctorEducationRepository doctorEducationRepository;
 
 	private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 
@@ -193,10 +191,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(User user) {
 		if (null != user.getDoctorDetails()) {
-			if (null != user.getDoctorDetails().getHospital()) {
-				hospitalRepository.save(user.getDoctorDetails().getHospital());
+			if (null != user.getDoctorDetails().getDoctorEducations()) {
+				for (DoctorEducation doctorEducation : user.getDoctorDetails().getDoctorEducations()) {
+					doctorEducation.setDoctorDetails(user.getDoctorDetails());
+				}
 			}
-			doctorDetailsRepository.save(user.getDoctorDetails());
+			if (null != user.getDoctorDetails().getDoctorExperiences()) {
+				for (DoctorExperience doctorExperience : user.getDoctorDetails().getDoctorExperiences()) {
+					doctorExperience.setDoctorDetails(user.getDoctorDetails());
+					doctorExperience.setExperienceData(DateUtils.yearDifference(doctorExperience.getFromYear(),doctorExperience.getToYear()));
+				}
+			}
 		}
 		userRepository.save(user);
 	}

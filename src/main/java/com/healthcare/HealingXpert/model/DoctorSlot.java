@@ -59,9 +59,7 @@ public class DoctorSlot implements Serializable {
 	@Column(name = "day_week_text", length = 100)
 	private String dayWeekText;
 
-	@Column(name = "price")
-	private double price;
-
+	@Column(name = "version", length = 20)
 	private String version;
 
 	@Column(name = "ip_address", length = 50)
@@ -72,6 +70,9 @@ public class DoctorSlot implements Serializable {
 
 	@Column(name = "created_date")
 	private Timestamp createdDate;
+
+	@Column(name = "is_booked", columnDefinition = "default false")
+	private boolean isBooked;
 
 	public DoctorSlot() {
 		super();
@@ -147,14 +148,6 @@ public class DoctorSlot implements Serializable {
 
 	public void setDayWeekText(String dayWeekText) {
 		this.dayWeekText = dayWeekText;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
 	}
 
 	public String getVersion() {

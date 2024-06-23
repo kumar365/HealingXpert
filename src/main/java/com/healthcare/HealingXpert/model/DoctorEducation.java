@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author KUMAR
  */
@@ -27,12 +29,12 @@ public class DoctorEducation implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "doctor_id", nullable = false)
-	private User doctorUser;
+	@JoinColumn(name = "doctor_details_id", insertable = false, updatable = false)
+	@JsonIgnoreProperties("doctorEducations")
+	private DoctorDetails doctorDetails;
 
-	@ManyToOne
-	@JoinColumn(name = "education_id", nullable = false)
-	private Education education;
+	@Column(name = "degree_name", length = 100, nullable = false)
+	private String degreeName;
 
 	@Column(name = "university", length = 100)
 	private String university;
@@ -42,6 +44,9 @@ public class DoctorEducation implements Serializable {
 
 	@Column(name = "to_year", length = 5)
 	private String toYear;
+
+	@Column(name = "year_of_completion", length = 5)
+	private String yearOfCompletion;
 
 	@Column(name = "address", length = 100)
 	private String address;
@@ -71,22 +76,6 @@ public class DoctorEducation implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public User getDoctorUser() {
-		return doctorUser;
-	}
-
-	public void setDoctorUser(User doctorUser) {
-		this.doctorUser = doctorUser;
-	}
-
-	public Education getEducation() {
-		return education;
-	}
-
-	public void setEducation(Education education) {
-		this.education = education;
 	}
 
 	public String getUniversity() {
@@ -159,6 +148,30 @@ public class DoctorEducation implements Serializable {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getDegreeName() {
+		return degreeName;
+	}
+
+	public void setDegreeName(String degreeName) {
+		this.degreeName = degreeName;
+	}
+
+	public DoctorDetails getDoctorDetails() {
+		return doctorDetails;
+	}
+
+	public void setDoctorDetails(DoctorDetails doctorDetails) {
+		this.doctorDetails = doctorDetails;
+	}
+
+	public String getYearOfCompletion() {
+		return yearOfCompletion;
+	}
+
+	public void setYearOfCompletion(String yearOfCompletion) {
+		this.yearOfCompletion = yearOfCompletion;
 	}
 
 }
