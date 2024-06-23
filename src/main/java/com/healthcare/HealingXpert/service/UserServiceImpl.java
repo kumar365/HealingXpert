@@ -35,7 +35,6 @@ import com.healthcare.HealingXpert.exception.OAuth2AuthenticationProcessingExcep
 import com.healthcare.HealingXpert.exception.UserAlreadyExistAuthenticationException;
 import com.healthcare.HealingXpert.model.Ambulance;
 import com.healthcare.HealingXpert.model.Dependent;
-import com.healthcare.HealingXpert.model.DoctorEducation;
 import com.healthcare.HealingXpert.model.DoctorExperience;
 import com.healthcare.HealingXpert.model.MedicalDetails;
 import com.healthcare.HealingXpert.model.MedicalRecords;
@@ -191,15 +190,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(User user) {
 		if (null != user.getDoctorDetails()) {
-			if (null != user.getDoctorDetails().getDoctorEducations()) {
-				for (DoctorEducation doctorEducation : user.getDoctorDetails().getDoctorEducations()) {
-					doctorEducation.setDoctorDetails(user.getDoctorDetails());
-				}
-			}
 			if (null != user.getDoctorDetails().getDoctorExperiences()) {
 				for (DoctorExperience doctorExperience : user.getDoctorDetails().getDoctorExperiences()) {
-					doctorExperience.setDoctorDetails(user.getDoctorDetails());
-					doctorExperience.setExperienceData(DateUtils.yearDifference(doctorExperience.getFromYear(),doctorExperience.getToYear()));
+					doctorExperience.setExperienceData(
+							DateUtils.yearDifference(doctorExperience.getFromYear(), doctorExperience.getToYear()));
 				}
 			}
 		}
