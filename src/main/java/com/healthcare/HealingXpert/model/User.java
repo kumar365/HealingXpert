@@ -28,7 +28,10 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.Type;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.View;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.healthcare.HealingXpert.enums.AuthenticationType;
 
 /**
@@ -103,6 +106,7 @@ public class User implements Serializable {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "doctor_details_id")
+	@JsonView(View.class)
 	private DoctorDetails doctorDetails;
 
 	@Column(name = "profile_image_name")
@@ -157,7 +161,9 @@ public class User implements Serializable {
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime tokenCreationDate;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	@JsonIgnoreProperties("user")
 	private Set<Dependent> dependents = new HashSet<Dependent>(0);
 
 	@ManyToMany(fetch = FetchType.LAZY)

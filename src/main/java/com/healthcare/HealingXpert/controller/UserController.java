@@ -115,7 +115,6 @@ public class UserController {
 	@GetMapping("/getUserById/{id}")
 	public User getUserById(@PathVariable("id") Long id) {
 		User user = userService.findUserById(id);
-		System.out.println("getDoctorEducations().size()::"+user.getDoctorDetails().getDoctorEducations().size());
 		if (null != user && null != user.getImageData()) {
 			try {
 				user.setImageData(ImageUtils.decompressImage(user.getImageData()));
