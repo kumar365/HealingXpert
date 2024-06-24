@@ -29,20 +29,20 @@ public class Example {
 	public static void generateOTP(String phoneNumber) {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 		Service service = Service.creator("My First Verify Service").create();
-		System.out.println(service.getSid());
+		//System.out.println(service.getSid());
 		Verification verification = Verification.creator(service.getSid(), phoneNumber, "sms").create();
-		System.out.println(verification.getStatus());
+		//System.out.println(verification.getStatus());
 	}
 
 	public static void verifyUserOTP(String phoneNumber, String otp) throws Exception {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 		Service service = Service.creator("My First Verify Service").create();
-		System.out.println(service.getSid());
+		//System.out.println(service.getSid());
 		try {
 			VerificationCheck verificationCheck = VerificationCheck.creator(service.getSid()).setTo(phoneNumber)
 					.setCode(otp).create();
 
-			System.out.println(verificationCheck.getStatus());
+			//System.out.println(verificationCheck.getStatus());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,20 +51,20 @@ public class Example {
 	public static void generateOTPToEmail(String email) {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 		Service service = Service.creator("My First Verify Service").create();
-		System.out.println(service.getSid());
+		//System.out.println(service.getSid());
 		Verification verification = Verification.creator(service.getSid(), email, "email").create();
-		System.out.println(verification.getStatus());
+		//System.out.println(verification.getStatus());
 	}
 
 	public static void verifyUserOTPEmail(String email, String otp) throws Exception {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 		Service service = Service.creator("My First Verify Service").create();
-		System.out.println(service.getSid());
+		//System.out.println(service.getSid());
 		try {
 			VerificationCheck verificationCheck = VerificationCheck.creator(service.getSid()).setTo(email).setCode(otp)
 					.create();
 
-			System.out.println(verificationCheck.getStatus());
+			//System.out.println(verificationCheck.getStatus());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

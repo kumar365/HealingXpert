@@ -130,12 +130,9 @@ public class UserController {
 		String fileName = "";
 		try {
 			if (null != file) {
-				// MultipartFile file = multipartFile;
 				byte[] bytes = file.getBytes();
 				fileName = file.getOriginalFilename();
-				System.out.println("fileName::" + fileName);
 				filePath = uploadFilesFolderPath + fileName;
-				System.out.println("filePath::" + filePath);
 				Path path = Paths.get(filePath);
 				Files.write(path, bytes);
 			} else {

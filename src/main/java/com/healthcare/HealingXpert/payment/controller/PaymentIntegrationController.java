@@ -47,7 +47,6 @@ public class PaymentIntegrationController {
 			@RequestParam("razorpay_signature") String razorpaySignature, @PathVariable Float amount,
 			@PathVariable Integer contactCount, @PathVariable String companyName, @PathVariable String currency,
 			@PathVariable String description, RedirectAttributes redirectAttributes) {
-		System.out.println("Save all data, which on success we get!");
 		return "redirect:/payment";
 	}
 }
