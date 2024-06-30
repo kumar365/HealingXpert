@@ -84,6 +84,12 @@ public class DoctorDetails implements Serializable {
 	@JoinColumn(name = "doctor_details_id")
 	@JsonIgnoreProperties("doctorDetails")
 	private List<DoctorRegistration> doctorRegistrations;
+	
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "doctor_details_id")
+	@JsonIgnoreProperties("doctorDetails")
+	private List<DoctorSlot> doctorSlots;
 
 	public DoctorDetails() {
 		super();
@@ -207,6 +213,14 @@ public class DoctorDetails implements Serializable {
 
 	public void setDoctorDetailsId(Long doctorDetailsId) {
 		this.doctorDetailsId = doctorDetailsId;
+	}
+
+	public List<DoctorSlot> getDoctorSlots() {
+		return doctorSlots;
+	}
+
+	public void setDoctorSlots(List<DoctorSlot> doctorSlots) {
+		this.doctorSlots = doctorSlots;
 	}
 
 }

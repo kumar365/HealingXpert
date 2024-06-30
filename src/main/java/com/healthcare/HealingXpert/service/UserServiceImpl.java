@@ -1,5 +1,6 @@
 package com.healthcare.HealingXpert.service;
 
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import com.healthcare.HealingXpert.exception.UserAlreadyExistAuthenticationExcep
 import com.healthcare.HealingXpert.model.Ambulance;
 import com.healthcare.HealingXpert.model.Dependent;
 import com.healthcare.HealingXpert.model.DoctorExperience;
+import com.healthcare.HealingXpert.model.DoctorSlot;
 import com.healthcare.HealingXpert.model.MedicalDetails;
 import com.healthcare.HealingXpert.model.MedicalRecords;
 import com.healthcare.HealingXpert.model.Orders;
@@ -194,6 +196,13 @@ public class UserServiceImpl implements UserService {
 				for (DoctorExperience doctorExperience : user.getDoctorDetails().getDoctorExperiences()) {
 					doctorExperience.setExperienceData(
 							DateUtils.yearDifference(doctorExperience.getFromYear(), doctorExperience.getToYear()));
+				}
+			}
+			if (null != user.getDoctorDetails().getDoctorSlots()) {
+				for (DoctorSlot doctorSlot : user.getDoctorDetails().getDoctorSlots()) {
+					doctorSlot.setDoctorDetails(user.getDoctorDetails());
+					doctorSlot.setSlotStart(Timestamp.valueOf("2024-07-01 09:00:00"));
+					doctorSlot.setSlotEnd(Timestamp.valueOf("2024-07-01 19:00:00"));
 				}
 			}
 		}

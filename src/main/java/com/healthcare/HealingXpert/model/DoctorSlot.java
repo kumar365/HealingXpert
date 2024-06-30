@@ -3,7 +3,9 @@ package com.healthcare.HealingXpert.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author KUMAR
@@ -28,11 +33,21 @@ public class DoctorSlot implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "doctor_id", nullable = false)
-	private User doctorUser;
+	@JoinColumn(name = "doctor_details_id", insertable = false, updatable = false)
+	@JsonIgnoreProperties("doctorSlots")
+	private DoctorDetails doctorDetails;
 
 	@Column(name = "day_week", nullable = false)
 	private int dayWeek;
+
+	@Column(name = "slot_date", nullable = false)
+	private Date slotDate;
+
+	@Column(name = "day_name", nullable = false, length = 15)
+	private String dayName;
+
+	@Column(name = "slot_duration_mnts")
+	private int slotDuration;
 
 	@Column(name = "slot_start", nullable = false)
 	private Timestamp slotStart;
@@ -40,8 +55,10 @@ public class DoctorSlot implements Serializable {
 	@Column(name = "slot_end", nullable = false)
 	private Timestamp slotEnd;
 
-	@Column(name = "slot_date", nullable = false)
-	private Date slotDate;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "doctor_slot_id")
+	@JsonIgnoreProperties("doctorSlot")
+	private List<Slot> slots;
 
 	@Column(name = "break_start")
 	private Timestamp breakStart;
@@ -49,15 +66,14 @@ public class DoctorSlot implements Serializable {
 	@Column(name = "break_end")
 	private Timestamp breakEnd;
 
-	@Column(name = "status", nullable = false, length = 10)
+	@Column(name = "status", nullable = false, length = 25)
 	private String status;
-
-	@ManyToOne
-	@JoinColumn(name = "patient_id", nullable = false)
-	private User patientUser;
 
 	@Column(name = "day_week_text", length = 100)
 	private String dayWeekText;
+
+	@Column(name = "is_booked", columnDefinition = "default false")
+	private boolean isBooked;
 
 	@Column(name = "version", length = 20)
 	private String version;
@@ -71,9 +87,6 @@ public class DoctorSlot implements Serializable {
 	@Column(name = "created_date")
 	private Timestamp createdDate;
 
-	@Column(name = "is_booked", columnDefinition = "default false")
-	private boolean isBooked;
-
 	public DoctorSlot() {
 		super();
 	}
@@ -84,14 +97,6 @@ public class DoctorSlot implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public User getDoctorUser() {
-		return doctorUser;
-	}
-
-	public void setDoctorUser(User doctorUser) {
-		this.doctorUser = doctorUser;
 	}
 
 	public int getDayWeek() {
@@ -132,14 +137,6 @@ public class DoctorSlot implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public User getPatientUser() {
-		return patientUser;
-	}
-
-	public void setPatientUser(User patientUser) {
-		this.patientUser = patientUser;
 	}
 
 	public String getDayWeekText() {
@@ -197,4 +194,45 @@ public class DoctorSlot implements Serializable {
 	public void setBreakEnd(Timestamp breakEnd) {
 		this.breakEnd = breakEnd;
 	}
+
+	public boolean isBooked() {
+		return isBooked;
+	}
+
+	public void setBooked(boolean isBooked) {
+		this.isBooked = isBooked;
+	}
+
+	public DoctorDetails getDoctorDetails() {
+		return doctorDetails;
+	}
+
+	public void setDoctorDetails(DoctorDetails doctorDetails) {
+		this.doctorDetails = doctorDetails;
+	}
+
+	public List<Slot> getSlots() {
+		return slots;
+	}
+
+	public void setSlots(List<Slot> slots) {
+		this.slots = slots;
+	}
+
+	public String getDayName() {
+		return dayName;
+	}
+
+	public void setDayName(String dayName) {
+		this.dayName = dayName;
+	}
+
+	public int getSlotDuration() {
+		return slotDuration;
+	}
+
+	public void setSlotDuration(int slotDuration) {
+		this.slotDuration = slotDuration;
+	}
+
 }
