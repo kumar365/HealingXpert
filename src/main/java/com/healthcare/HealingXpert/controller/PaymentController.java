@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthcare.HealingXpert.Util.AppUtils;
+import com.healthcare.HealingXpert.Util.ImageUtils;
 import com.healthcare.HealingXpert.dto.ApiResponse;
 import com.healthcare.HealingXpert.exception.DependentAlreadyExistException;
 import com.healthcare.HealingXpert.model.Bill;
@@ -56,6 +57,16 @@ public class PaymentController {
 			@PathVariable("id") Long id) {
 		log.info("Inside getInvoices()");
 		List<Invoice> invoices = paymentService.findInvoicesByDoctorId(id);
+		for (int i = 0; i < invoices.size(); i++) {
+			if (null != invoices.get(i) && null != invoices.get(i).getPatientUser()
+					&& null != invoices.get(i).getPatientUser().getImageData()) {
+				try {
+					invoices.get(i).getPatientUser()
+							.setImageData(ImageUtils.decompressImage(invoices.get(i).getPatientUser().getImageData()));
+				} catch (Exception e) {
+				}
+			}
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(invoices);
 	}
 
