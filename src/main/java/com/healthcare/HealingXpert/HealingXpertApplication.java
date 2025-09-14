@@ -15,10 +15,8 @@ import org.springframework.web.client.RestTemplate;
 public class HealingXpertApplication {
 
 	public static void main(String[] args) {
-		//SpringApplication.run(AidXpertApplication.class, args);
-		new SpringApplicationBuilder(HealingXpertApplication.class)
-        .profiles("dev")
-        .run(args);
+		// SpringApplication.run(HealingXpertApplication.class, args);
+		new SpringApplicationBuilder(HealingXpertApplication.class).profiles("dev").run(args);
 	}
 
 	/*
